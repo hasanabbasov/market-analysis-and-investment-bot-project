@@ -7,14 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="senior" />
+        <module name="SeniorProject" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="senior" target="19" />
+      <module name="SeniorProject" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SeniorProject" options="-parameters" />
       <module name="senior" options="-parameters" />
     </option>
   </component>

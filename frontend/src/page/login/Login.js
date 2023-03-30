@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import Button from '@mui/joy/Button';
+import Link from '@mui/joy/Link';
+import {Typography} from "@mui/joy";
+import { useNavigate } from 'react-router-dom';
+import "./login.css"
+
+
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            const response = await fetch(`http://localhost:8080/api/users/login`, {
+            const response = await fetch(`/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -22,6 +33,7 @@ const Login = () => {
             }
             const data = await response.json();
             console.log("Giriş başarılı!", data);
+            navigate('/');
         } catch (err) {
             setError(err.message);
         } finally {
@@ -31,31 +43,41 @@ const Login = () => {
 
     return (
         <form onSubmit={handleLogin}>
-            <div>
-                <input
+            <div className="login-card-background"><FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input
+                    // html input attribute
+                    name="email"
                     type="email"
-                    placeholder="Email"
-                    value={email}
+                    placeholder="johndoe@email.com"
                     onChange={(e) => setEmail(e.target.value)}
                 />
-            </div>
-            <div>
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            {isLoading ? (
-                <p>Giriş yapılıyor...</p>
-            ) : error ? (
-                <p>Hata: {error}</p>
-            ) : (
-                <button type="submit">Giriş Yap</button>
-            )}
+            </FormControl>
+                <FormControl>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                        name="password"
+                        type="password"
+                        style={{color:"white"}}
+                        placeholder="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </FormControl>
+                <Button sx={{mt: 1 /* margin top */}} type="submit">
+                    Log in
+                </Button>
+                <Typography
+                    endDecorator={<Link href="/register">Sign up</Link>}
+                    fontSize="sm"
+                    sx={{alignSelf: 'center'}}
+                >
+                    Don't have an account?
+                </Typography></div>
         </form>
     );
 };
 
+
+
 export default Login;
+

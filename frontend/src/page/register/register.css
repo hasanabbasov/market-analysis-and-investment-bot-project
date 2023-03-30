@@ -1,0 +1,45 @@
+.register-card-background {
+    min-width: 400px;
+    min-height: 480px;
+    background: #242a2f;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 90px 40px 0 40px ;
+    border-radius: 14px;
+}
+
+form {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+label#\:r1\:-label {
+    color: white;
+}
+
+label#\:r3\:-label {
+    color: white;
+    padding: 15px 0 0 0;
+}
+
+p.MuiTypography-root.MuiTypography-body1.css-9i4mro-JoyTypography-root {
+    color: white;
+    padding: 15px 0 0 0;
+}
+
+label#\:r5\:-label {
+    color: white;
+    padding: 15px 0 0 0;
+}
+
+label#\:r7\:-label {
+    color: white;
+    padding: 15px 0 0 0;
+}
+input#\:r7\: {
+    color: black;
+}

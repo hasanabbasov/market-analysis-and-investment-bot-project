@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Input from "@mui/joy/Input";
+import Button from "@mui/joy/Button";
+import {Typography} from "@mui/joy";
+import Link from "@mui/joy/Link";
+import "./register.css"
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const user = {
-            name: name,
-            surname: surname,
+            firstname: name,
+            lastname: surname,
             email: email,
             password: password,
         };
-        fetch(`/api/users/register`, {
+        fetch(`users/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -24,6 +33,7 @@ function Register() {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Success:", data);
+                navigate('/login');
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -32,39 +42,57 @@ function Register() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <label>Name:</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Surname:</label>
-                <input
-                    type="text"
-                    value={surname}
-                    onChange={(e) => setSurname(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Email:</label>
-                <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="text"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <button type="submit">Create User</button>
+            <div className="register-card-background">
+                <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                        // html input attribute
+                        name="firstname"
+                        type="text"
+                        placeholder="Hasan"
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Surname</FormLabel>
+                    <Input
+                        // html input attribute
+                        name="lastname"
+                        type="text"
+                        placeholder="Abasov"
+                        onChange={(e) => setSurname(e.target.value)}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                        // html input attribute
+                        name="email"
+                        type="email"
+                        placeholder="hasan.absov@email.com"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                        name="password"
+                        type="password"
+                        style={{color: "white"}}
+                        placeholder="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </FormControl>
+                <Button sx={{mt: 1 /* margin top */}} type="submit">
+                    Register
+                </Button>
+                <Typography
+                    endDecorator={<Link href="/login">Log in</Link>}
+                    fontSize="sm"
+                    sx={{alignSelf: 'center'}}
+                >
+                    if you have an account
+                </Typography></div>
         </form>
     );
 }

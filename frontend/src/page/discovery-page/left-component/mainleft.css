@@ -1,5 +1,114 @@
-.main-left-background {
-    /*max-width: 30%;*/
-    background: cornflowerblue;
-    min-height: 100%;
+/*.main-left-background {*/
+/*    !*max-width: 30%;*!*/
+/*    background: cornflowerblue;*/
+/*    min-height: 100%;*/
+/*}*/
+
+/*.main-left-card-background {*/
+/*    background: darkblue;*/
+/*    border-width: 1px;*/
+/*    border-color: black;*/
+/*    box-shadow: black;*/
+/*    border-radius: 14px;*/
+/*    margin: 25px;*/
+/*    flex-flow: column;*/
+/*    display: flex;*/
+/*}*/
+
+/*.main-left-card-header-photo {*/
+/*    height: 100px;*/
+/*    width: 100%;*/
+/*    border-top-left-radius: 14px;*/
+/*    border-top-right-radius: 14px;*/
+/*}*/
+
+/*.main-left-card-avatar {*/
+
+/*    width: 75px;*/
+/*    height: 75px;*/
+/*    border-radius: 50%;*/
+/*    overflow: hidden;*/
+/*}*/
+/*.main-left-card-avatar img {*/
+/*    width: 80%;*/
+/*    height: 100%;*/
+/*    object-fit: cover;*/
+/*}*/
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+body{
+    background-color:#545454;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+}
+
+.container{
+    height: 100vh;
+}
+
+.card{
+
+    width: 380px;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    height: 370px;
+}
+
+.upper{
+
+    height: 100px;
+
+}
+
+.upper img{
+
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+
+.user{
+    position: relative;
+}
+
+.profile img{
+
+
+    height: 80px;
+    width: 80px;
+    margin-top:2px;
+
+
+}
+
+.profile{
+
+    position: absolute;
+    top:-50px;
+    left: 38%;
+    height: 90px;
+    width: 90px;
+    border:3px solid #fff;
+
+    border-radius: 50%;
+
+}
+
+.follow{
+
+    border-radius: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 35px;
+}
+
+.stats span{
+
+    font-size: 29px;
 }

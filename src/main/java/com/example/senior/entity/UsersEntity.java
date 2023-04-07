@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users" , uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users" , uniqueConstraints = @UniqueConstraint(columnNames = "nick"))
 @AllArgsConstructor
 @Builder
 @Getter
@@ -15,7 +15,10 @@ public class UsersEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Long userId;
+
+    @Column(length = 300, name = "nick", nullable = false)
+    private String userName;
 
     @Column(length = 300, name = "name", nullable = false)
     private String firstname;

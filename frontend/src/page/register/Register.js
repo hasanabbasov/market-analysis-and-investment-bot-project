@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [name, setName] = useState("");
+    const [nick, setNick] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,6 +19,7 @@ function Register() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const user = {
+            userName:nick,
             firstname: name,
             lastname: surname,
             email: email,
@@ -30,10 +32,13 @@ function Register() {
             },
             body: JSON.stringify(user),
         })
-            .then((response) => response.json())
+            .then((response) => {
+                response.json()
+                console.log("successR",response.statusText)
+            })
             .then((data) => {
                 console.log("Success:", data);
-                navigate('/login');
+                // navigate('/login');
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -43,6 +48,16 @@ function Register() {
     return (
         <form onSubmit={handleSubmit}>
             <div className="register-card-background">
+                <FormControl>
+                    <FormLabel>Nick</FormLabel>
+                    <Input
+                        // html input attribute
+                        name="Nick"
+                        type="text"
+                        placeholder="trader76"
+                        onChange={(e) => setNick(e.target.value)}
+                    />
+                </FormControl>
                 <FormControl>
                     <FormLabel>Name</FormLabel>
                     <Input

@@ -11,7 +11,7 @@ export default function App() {
   return (
       <Router>
           <Routes>
-          <Route path="/" element={<Main/>}/>
+          <Route path="/main" element={<Main/>}/>
           <Route path="/discovery" element={<DiscoveryPage/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/register" element={<Register/>}/>

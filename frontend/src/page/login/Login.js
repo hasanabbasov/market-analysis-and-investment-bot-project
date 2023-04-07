@@ -11,46 +11,48 @@ import "./login.css"
 
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [userName, setNick] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleLogin =  (e) => {
         e.preventDefault();
         setIsLoading(true);
-        try {
-            const response = await fetch(`/users/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
-            if (!response.ok) {
-                throw new Error("Giriş yapılamadı");
-            }
-            const data = await response.json();
-            console.log("Giriş başarılı!", data);
-            navigate('/');
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+        fetch(`/users/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userName: userName,
+                password: password,
+            }),
+        })
+            .then((res) => {
+                return res.json(); // sonucu değişkene atayın
+            })
+            .then((result) => {
+                console.log("success", result); // sonucu konsola yazdırın
+                navigate('/main');
+            })
+            .catch((err) =>
+                console.log("hmmmm",err))
+    }
+
+
 
     return (
         <form onSubmit={handleLogin}>
             <div className="login-card-background"><FormControl>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Nick</FormLabel>
                 <Input
                     // html input attribute
-                    name="email"
-                    type="email"
-                    placeholder="johndoe@email.com"
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="nick"
+                    type="text"
+                    placeholder="traderOnline"
+                    onChange={(e) => setNick(e.target.value)}
                 />
             </FormControl>
                 <FormControl>

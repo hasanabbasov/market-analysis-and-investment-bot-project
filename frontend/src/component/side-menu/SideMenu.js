@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { Link } from "react-router-dom";
 import "./sidemenu.css"
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -37,8 +38,16 @@ const SideMenu = ({size, onToggle}) =>{
                     </div>
                     <Divider variant="middle"/>
                     <div className="side-menu-button">
-                        <button>Dashboard</button>
-                        <button>Calendar</button>
+                        <button>
+                            <Link to="/dashboard">
+                                Dashboard
+                            </Link>
+                        </button>
+                        <button>
+                            <Link to="/chart">
+                            Charts
+                            </Link>
+                        </button>
                         <button>History</button>
                         <button>My Charts</button>
                         <button>My Charts</button>

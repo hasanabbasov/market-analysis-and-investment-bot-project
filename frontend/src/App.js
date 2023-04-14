@@ -11,6 +11,7 @@ import Chart from './page/charts/Chart'
 import Header from './component/header/Header'
 import Footer from './component/footer/Footer'
 import BuySell from './page/charts/BuyAndSell/BuySell'
+import Modal from './page/charts/ModalChart/ModalForChart'
 import Grid from "@mui/material/Grid";
 import BalanceCard from "./page/main/balance-card/BalanceCard";
 import {useState} from "react";
@@ -46,6 +47,7 @@ export default function App() {
                                     <Route path="/profile" element={<Profile/>}/>
                                     <Route path="/register" element={<Register/>}/>
                                     <Route path="/login" element={<Login/>}/>
+                                    <Route path="/modal" element={<Modal/>}/>
                                 </Routes>
                             </Grid>
                         </>

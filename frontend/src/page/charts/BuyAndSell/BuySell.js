@@ -5,21 +5,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const BuySell = () => {
-    const [symbols, setSymbols] = useState([]);
-    const [symb,setSymb] = useState('');
+const BuySell = ({symb}) => {
+    // const [symbols, setSymbols] = useState([]);
+    // const [symbol,setSymb] = useState(symb);
     const [amount, setAmount] = useState('');
 
-    console.log("symbols",symbols)
-    useEffect(() => {
-        fetch("http://127.0.0.1:5000/usdt_symbols")
-            .then((response) => response.json())
-            .then((data) => {
-                setSymbols(data);
-                console.log("symbols2",symbols);
-                console.log("data",data);
-            });
-    }, []);
+    // console.log("symbols",symbols)
+    // useEffect(() => {
+    //     fetch("http://127.0.0.1:5000/usdt_symbols")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setSymbols(data);
+    //             console.log("symbols2",symbols);
+    //             console.log("data",data);
+    //         });
+    // }, []);
 
     const handleSubmit = (e, type) => {
         e.preventDefault();
@@ -38,20 +38,16 @@ const BuySell = () => {
             .catch((error) => console.error(error));
     };
 
-
-    function buyCoin() {
-
-    }
-
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
+        <form onSubmit={handleSubmit} style={{height:"50px"}}>
+            <div style={{display:"flex", flexWrap:"nowrap"}}>
                 <label htmlFor="symbol">Symbol:</label>
-                <select id="symbol" value={symb} onChange={(e) => setSymb(e.target.value)}>
-                    {symbols.map((symbol) => (
-                        <option value={symbol} key={symbol}>{symbol}</option>
-                    ))}
-                </select>
+                {/*<select id="symbol" value={symbol} onChange={(e) => setSymb(e.target.value)}>*/}
+                {/*    {symbols.map((symbol) => (*/}
+                {/*        <option value={symbol} key={symbol}>{symbol}</option>*/}
+                {/*    ))}*/}
+                {/*</select>*/}
+                <p>{symb}</p>
             </div>
             <div>
                 <label htmlFor="amount">Amount:</label>

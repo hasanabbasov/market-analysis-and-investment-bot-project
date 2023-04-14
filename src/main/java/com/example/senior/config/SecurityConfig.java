@@ -75,7 +75,7 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(handler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance")
+                .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/comments")
                 .permitAll()

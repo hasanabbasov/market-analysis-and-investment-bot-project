@@ -15,8 +15,8 @@ const ModalForChart = ({symb, symbols, setSymb, setSymbol,interval,setInterval, 
 
     return (
         <div>
-            <Button type="primary" onClick={showModal}>
-                Open ModalForChart
+            <Button onClick={showModal} style={{background:'#2C3E50', color:'white'}}>
+                Bir Chart Secin
             </Button>
             <Modal title="Lutfen gormek istediginiz Chart'i olusturun" open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(!isModalOpen)} width={1000} height={1000}>
 

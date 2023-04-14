@@ -45,16 +45,16 @@ const BalanceCard = () => {
     return (
         <div className="balance-card-background">
             <div className='balance-total-balance'>
-                <h2>Total Balance</h2>
-                <div>{totalWallet}</div>
+                <p className='balance-card-title-p'>Total Balance:</p>
+                <p>{totalWallet}</p>
             </div>
-            <div>
-                <h2>Spot total</h2>
-                <div>{Number(spotInfo.usdt_balance)}</div>
+            <div className='balance-total-balance'>
+                <p className='balance-card-title-p'>Spot total:</p>
+                <p>{Number(spotInfo.usdt_balance)}</p>
             </div>
-            <div>
-                <h2>Future total</h2>
-                <div>{Number(futureInfo.totalWalletBalance)}</div>
+            <div className='balance-total-balance'>
+                <p className='balance-card-title-p'>Future total:</p>
+                <p>{Number(futureInfo.totalWalletBalance)}</p>
             </div>
 
         </div>

@@ -41,7 +41,7 @@ const ActiveInvestPieChart = (data) => {
 
     return (
         <div className='active-invest-pie-chart-background'>
-            <div style={{padding: '20px', width: '350px'}}>
+            <div style={{padding: '20px'}}>
                 <Pie data={pieData} options={option}/>
             </div>
         </div>

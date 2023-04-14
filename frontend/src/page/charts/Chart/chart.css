@@ -1,11 +1,12 @@
-.balance-card-background {
+.chart-card-background {
     background: #F8F9FA;
-    max-width: 400px;
-    min-width: 300px;
-    max-height: 300px;
-    min-height: 250px;
-    padding: 10px;
     border-radius: 14px;
     border: 1px solid #2C3E50; /* Koyu siyah kalın çizgi */
     box-shadow: 0 4px 6px rgba(2, 56, 98, 0.9);
+
+}
+
+.chart-card-title {
+    padding: 15px;
+    font-weight: bold;
 }

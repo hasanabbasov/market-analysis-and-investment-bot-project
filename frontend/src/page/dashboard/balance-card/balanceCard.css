@@ -1,0 +1,20 @@
+.balance-card-background {
+    background: #F8F9FA;
+    padding: 10px;
+    border-radius: 14px;
+    border: 1px solid #2C3E50; /* Koyu siyah kalın çizgi */
+    box-shadow: 0 4px 6px rgba(2, 56, 98, 0.9);
+}
+
+.balance-total-balance {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: 35px;
+}
+
+.balance-card-title-p {
+    padding-right: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}

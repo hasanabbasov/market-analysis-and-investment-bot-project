@@ -1,8 +1,8 @@
 import React, { useEffect,useState } from "react";
 // import LightweightCharts from "lightweight-charts";
 import * as LightweightCharts from 'lightweight-charts';
-import ModalForChart from "./ModalChart/ModalForChart";
-import BuySell from "./BuyAndSell/BuySell";
+import ModalForChart from "../ModalChart/ModalForChart";
+import BuySell from "../BuyAndSell/BuySell";
 import './chart.css'
 
 function Chart() {
@@ -47,8 +47,8 @@ function Chart() {
 
         if (activeChart) {
             const chart = LightweightCharts.createChart(document.getElementById("chart"), {
-                width: 600,
-                height: 300,
+                width: 1100,
+                height: 580,
                 layout: {
                     background: {
                         type: "solid",
@@ -140,14 +140,13 @@ function Chart() {
 
     },[altiTarih, interval, symb, tarih, activeChart]);
 
-    console.log('symb',symb)
-    console.log('interval',interval)
-    console.log('activeChart             : ',activeChart)
+    // console.log('symb',symb)
+    // console.log('interval',interval)
+    // console.log('activeChart             : ',activeChart)
 
     return (
-        <div>
-
-            <div>
+        <div style={{paddingRight:'35px'}}>
+            <div >
                 <ModalForChart symb={symb}
                                symbols={symbols}
                                setSymb={(value) => setSymb(value)}
@@ -166,18 +165,13 @@ function Chart() {
 
             { activeChart &&
                 <div className="chart-card-background">
+                    <div className='chart-card-title'>{symb}</div>
                     <div id="chart"></div>
                     <div>
                         <BuySell symb={symb}/>
                     </div>
                 </div>
             }
-
-
-
-            <div>
-                {/*<BuySell/>*/}
-            </div>
 
         </div>
     );

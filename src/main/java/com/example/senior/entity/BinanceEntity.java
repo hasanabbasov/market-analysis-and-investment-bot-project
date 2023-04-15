@@ -14,6 +14,7 @@ import javax.persistence.*;
 @ToString
 public class BinanceEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(length = 600, name = "api-key")
     private String apiKey;

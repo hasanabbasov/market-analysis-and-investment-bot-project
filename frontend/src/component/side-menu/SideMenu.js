@@ -15,7 +15,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 const SideMenu = ({size, onToggle}) =>{
 
     const [icon, setIcon] = useState(false);
-    const userName = localStorage.getItem("currentUserName");
+    const userName = localStorage.getItem("currentUserId");
 
 
     console.log("test" , localStorage.getItem("currentUserName"))

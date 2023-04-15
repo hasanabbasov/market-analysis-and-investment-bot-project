@@ -9,8 +9,6 @@ import Login from '../../frontend/src/page/login/Login'
 import Chart from './page/charts/index'
 import Header from './component/header/Header'
 import Footer from './component/footer/Footer'
-import BuySell from './page/charts/BuyAndSell/BuySell'
-import Modal from './page/charts/ModalChart/ModalForChart'
 import OpenPage from './page/open-page/OpenPage'
 import BinanceModal from './component/binanceModal/BinanceModal'
 

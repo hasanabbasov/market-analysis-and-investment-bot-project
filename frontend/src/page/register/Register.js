@@ -7,6 +7,7 @@ import {Typography} from "@mui/joy";
 import Link from "@mui/joy/Link";
 import "./register.css"
 import { useNavigate } from 'react-router-dom';
+import BackgroundLogo from "../../styles/background.jpeg";
 
 function Register() {
     const [name, setName] = useState("");
@@ -46,6 +47,8 @@ function Register() {
     };
 
     return (
+        <div className="background-image">
+            <img src={BackgroundLogo} alt="Background" className="background-image__logo" />
         <form onSubmit={handleSubmit}>
             <div className="register-card-background">
                 <FormControl>
@@ -109,6 +112,7 @@ function Register() {
                     if you have an account
                 </Typography></div>
         </form>
+        </div>
     );
 }
 

@@ -15,7 +15,10 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 const SideMenu = ({size, onToggle}) =>{
 
     const [icon, setIcon] = useState(false);
+    const userName = localStorage.getItem("currentUserName");
 
+
+    console.log("test" , localStorage.getItem("currentUserName"))
     const handleIcon = () =>{
         setIcon(!icon)
         onToggle(!size)
@@ -26,19 +29,19 @@ const SideMenu = ({size, onToggle}) =>{
             <div className="side-container">
                 <div className="d-grid">
                     <div className="side-menu-icon" onClick={handleIcon}>
-                        <MenuIcon/>
+                        <MenuOpenIcon style={{color:"white"}}/>
                     </div>
                     <div className="side-menu-profile">
                         <div className="side-menu-avatar" >
                             <a href='/profile'><Avatar alt="Remy Sharp" sx={{width: 84, height: 84}}/></a>
                         </div>
                         <div className="side-menu-user-title">
-                            Hasan Abasov
+                            {userName}
                         </div>
                     </div>
                     <Divider variant="middle"/>
                     <div className="side-menu-button">
-                        <button>
+                        <button className="side-menu-button-background">
                             <Link to="/dashboard">
                                 Dashboard
                             </Link>
@@ -49,29 +52,30 @@ const SideMenu = ({size, onToggle}) =>{
                             </Link>
                         </button>
                         <button>History</button>
-                        <button>My Charts</button>
-                        <button>My Charts</button>
-                        <button>My Charts</button>
+                        <button>Analiz</button>
+                        <button>Invest Bot</button>
+                        <button>News</button>
+
                     </div>
                 </div>
             </div>}
             { icon &&
                 <div className="side-sm-container">
                     <div className="side-sm-menu-icon" onClick={handleIcon}>
-                        <MenuOpenIcon/>
+                        <MenuIcon style={{color:"white"}}/>
                     </div>
                     <div>
-                        <IconButton>
-                            <AccountCircleIcon/>
+                        <IconButton style={{paddingTop:"40px"}}>
+                            <AccountCircleIcon style={{color:"white"}}/>
                         </IconButton>
-                        <IconButton>
-                            <DashboardIcon/>
+                        <IconButton style={{paddingTop:"20px"}}>
+                            <DashboardIcon style={{color:"white"}}/>
                         </IconButton>
-                        <IconButton>
-                            <ManageHistoryIcon/>
+                        <IconButton style={{paddingTop:"20px"}}>
+                            <ManageHistoryIcon style={{color:"white"}}/>
                         </IconButton>
-                        <IconButton>
-                            <TimelineIcon/>
+                        <IconButton style={{paddingTop:"20px"}}>
+                            <TimelineIcon style={{color:"white"}}/>
                         </IconButton>
 
                     </div>

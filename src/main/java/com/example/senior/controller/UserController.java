@@ -76,6 +76,7 @@ public class UserController {
         authResponse.setAccessToken(jwtToken);
 //        authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
         authResponse.setUserId(user.getUserId());
+        authResponse.setUserName(user.getUserName());
         return authResponse;
     }
 

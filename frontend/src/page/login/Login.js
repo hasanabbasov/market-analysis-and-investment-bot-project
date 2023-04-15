@@ -9,6 +9,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 import "./login.css"
+import BackgroundLogo from "../../styles/background.jpeg";
 
 
 
@@ -34,8 +35,11 @@ const Login = () => {
                 return res.json(); // sonucu değişkene atayın
             })
             .then((result) => {
-                console.log("success", result); // sonucu konsola yazdırın
-                navigate('/main');
+                console.log("success", result.userId); // sonucu konsola yazdırın
+                localStorage.setItem("tokenKey", result.accessToken);
+                localStorage.setItem("currentUserId", result.userId);
+                localStorage.setItem("currentUserName", result.userName)
+                navigate('/dashboard');
             })
             .catch((err) => {
                 setError(true);
@@ -61,6 +65,8 @@ const Login = () => {
 
     return (
         <>
+            <div className="background-image">
+                <img src={BackgroundLogo} alt="Background" className="background-image__logo" />
             <div>
                 <form onSubmit={handleLogin}>
                     <div className="login-card-background"><FormControl>
@@ -103,6 +109,7 @@ const Login = () => {
              <div>
 
              </div>
+            </div>
         </>
     );
 };

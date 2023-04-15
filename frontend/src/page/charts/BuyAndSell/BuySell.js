@@ -35,7 +35,7 @@ const BuySell = ({symb}) => {
             </div>
             <div style={{paddingLeft:'50px'}}>
                 <label htmlFor="amount" style={{fontWeight:'bold', paddingRight:'5px'}}>Amount:</label>
-                <input type="text" id="amount" value={amount} style={{fontWeight:'bold'}} onChange={(e) => setAmount(e.target.value)} />
+                <input type="text" id="amount" value={amount} style={{fontWeight:'bold', height:'20px'}} onChange={(e) => setAmount(e.target.value)} />
             </div>
             <div style={{paddingRight:'10px',paddingLeft:'10px'}}>
                 <button type="submit" onClick={(e) => handleSubmit(e, "buy")} className='buy-and-sell-button'>

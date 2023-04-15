@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import SideMenu from '../../component/side-menu/SideMenu'
-import BalanceCard from './balance-card/BalanceCard'
+import SideMenu from '../../../component/side-menu/SideMenu'
+import BalanceCard from '../balance-card/BalanceCard'
 import './main.css'
 import Grid from '@mui/material/Grid';
-import ActiveInvestCard from "./active-invest-card/ActiveInvestCard";
-import ActiveInvestPieChart from "./active-invest-pie-chart/ActiveInvestPieChart";
+import ActiveInvestCard from "../active-invest-card/ActiveInvestCard";
+import ActiveInvestPieChart from "../active-invest-pie-chart/ActiveInvestPieChart";
+import LineChartBalanceHistory from "../line-chart-balance-history/LineChartBalanceHistory";
 
 const Main = () => {
 
@@ -21,15 +22,16 @@ const Main = () => {
     }, [])
 
     return (
-        <div>
+        <div style={{paddingTop:'15px'}}>
             <Grid container spacing={2}>
-                <Grid item xs={8}>
+                <Grid item xs={6}>
                     <BalanceCard/>
                     <ActiveInvestCard data={data}/>
 
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} style={{paddingRight:'15px'}}>
                     <ActiveInvestPieChart data={data}/>
+                    <LineChartBalanceHistory/>
                 </Grid>
             </Grid>
         </div>

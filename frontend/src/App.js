@@ -11,21 +11,23 @@ import Header from './component/header/Header'
 import Footer from './component/footer/Footer'
 import BuySell from './page/charts/BuyAndSell/BuySell'
 import Modal from './page/charts/ModalChart/ModalForChart'
+import OpenPage from './page/open-page/OpenPage'
+import BinanceModal from './component/binanceModal/BinanceModal'
 
 export default function App() {
     return (
         <>
             <Header/>
+            <BinanceModal/>
             <Router>
                 <Routes>
-                    <Route path="/chart" element={<Chart/>}/>
-                    <Route path="/dashboard" element={<Main/>}/>
-                    <Route path="/buy" element={<BuySell/>}/>
-                    <Route path="/discovery" element={<DiscoveryPage/>}/>
-                    <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/" element={<OpenPage/>}/>
+                    {localStorage.getItem("currentUserName") != null ?  <Route path="/chart" element={<Chart/>}/> : <Route path="/login" element={<Login/>}/> }
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/dashboard" element={<Main/>}/> : <Route path="/login" element={<Login/>}/> }
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/discovery" element={<DiscoveryPage/>}/> : <Route path="/login" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/profile" element={<Profile/>}/> : <Route path="/login" element={<Login/>}/>}
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/modal" element={<Modal/>}/>
                 </Routes>
             </Router>
             <Footer/>

@@ -3,7 +3,7 @@ import {Button, Modal} from "antd";
 import {useState} from "react";
 
 const BinanceModal = () => {
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const userid = localStorage.getItem("currentUserId")

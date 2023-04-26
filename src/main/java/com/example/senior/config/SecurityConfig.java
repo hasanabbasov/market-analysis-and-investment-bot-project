@@ -52,7 +52,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
+//        config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
@@ -77,9 +77,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/comments")
+                .antMatchers(HttpMethod.GET, "/post/getPost")
                 .permitAll()
-                .antMatchers("/users/**")
+                .antMatchers("/users/**","/post/getPost")
                 .permitAll()
                 .anyRequest().authenticated();
 

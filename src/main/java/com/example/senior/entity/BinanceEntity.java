@@ -16,8 +16,8 @@ public class BinanceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    @Column(length = 600, name = "api-key")
+    @Column(length = 600, name = "api_key")
     private String apiKey;
-    @Column(length = 600, name = "secruty-key")
+    @Column(length = 600, name = "secruty_key")
     private String secrutyKey;
 }

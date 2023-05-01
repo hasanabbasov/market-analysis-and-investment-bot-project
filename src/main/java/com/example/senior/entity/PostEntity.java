@@ -22,13 +22,15 @@ public class PostEntity {
     private Long userId;
     @Column(length = 300, name = "nick", nullable = false)
     private String nick;
-    @Column(length = 300, name = "image_url", nullable = false)
+    @Lob
+    @Column(length = 300, name = "image_url")
     private String imageUrl;
-    @Column(length = 300, name = "description", nullable = false)
+    @Column(length = 300, name = "description")
     private String description;
-    @Column(length = 300, name = "post_img_url", nullable = false)
+    @Lob
+    @Column(length = 300, name = "post_img_url")
     private String postImgUrl;
-    @Column(length = 300, name = "likes", nullable = false)
+    @Column(length = 300, name = "likes")
     private int likes;
     @Column(length = 300, name = "date_time", nullable = false)
     private Timestamp dateTime;

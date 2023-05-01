@@ -1,17 +1,51 @@
 .header-background {
-    background: #2C3E50;
-    height: 55px;
-    width: 100%;
+    min-height: 100px;
+    background:#F8F9FA ;
+}
+
+.navbar__main {
+    border-bottom: 1px solid #D8DBDE;
+}
+.navbar__logo {
+    margin: 8px 10px 8px 16px ;
+}
+.navbar__leftbar {
     display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
+}
+.navbar__search {
+    height: 40px;
+    width: 190px;
+    border-radius: 25px;
+    border: 0px;
+    background-color: #EFF2F5;
+    font-size: 16px;
+    padding-left: 30px;
+    margin-top: 8px;
 }
 
-.header-list {
-    padding-right: 50px;
+.navbar__container {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 60px;
 }
-
-button {
-    font-size: 15px;
-    background: #F8F9FA;
+.navbar__tabs {
+    width: 120px;
+    height: 45px;
+}
+.navbar__tabs.active {
+    border-bottom: 3px solid #1B77F2;
+}
+.navbar__righttab {
+    display: flex;
+    margin-left: 40px;
+}
+.navbar_rightimg {
+    margin-top: 15px;
+    margin-right: 10px;
+    max-width: 30px;
+    max-height: 30px;
+}
+.navbar__profilename{
+    margin-top: 20px;
+    font-weight: 600;
 }

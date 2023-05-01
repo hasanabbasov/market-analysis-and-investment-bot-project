@@ -49,6 +49,10 @@ button {
 .side-menu-button-background {
     width: 100px;
 }
+/*.side-menu-button-background.active {*/
+/*    width: 100px;*/
+/*    background: blue;*/
+/*}*/
 
 
 /****************************************/

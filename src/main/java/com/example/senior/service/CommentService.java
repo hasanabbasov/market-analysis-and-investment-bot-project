@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CommentService {
@@ -24,7 +21,7 @@ public class CommentService {
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
 
-        comment.setTimestamp(dateTime);
+        comment.setDateTime(dateTime);
         return commentRepo.save(comment);
     }
 

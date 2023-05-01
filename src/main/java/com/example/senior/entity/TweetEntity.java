@@ -6,29 +6,25 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "tweet")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class CommentEntity {
-
+public class TweetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentID;
-    @Column(name = "post_id", nullable = true)
-    private Long postId;
-    @Column(name = "tweet_id", nullable = true)
     private Long tweetId;
     @Column(name = "user_id", nullable = false)
     private String userId;
-    @Column(name = "comment", nullable = false)
-    private String comment;
     @Column(name = "nick", nullable = false)
     private String nick;
-    @Column(name = "dateTime", nullable = false)
+    @Column(length = 300, name = "likes")
+    private int likes;
+    @Column(length = 300, name = "tweet")
+    private String tweetText;
+    @Column(name = "timestamp", nullable = false)
     private Timestamp dateTime;
-
 }

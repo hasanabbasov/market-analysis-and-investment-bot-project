@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/post")
 public class PostController {
@@ -14,22 +14,19 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @GetMapping("/save")
+    @PostMapping("/save")
     public List<PostEntity> savePost(@RequestBody PostEntity post) {
-        List<PostEntity> result = postService.savePost(post);
-        return result;
+        return postService.savePost(post);
     }
 
     @GetMapping("/getPost")
     public List<PostEntity> getAllPost() {
-        List<PostEntity> result = postService.allPost();
-        return result;
+        return postService.allPost();
     }
 
     @DeleteMapping("/delete/{postId}")
     public List<PostEntity> deletePost(@PathVariable("postId") Long postId) {
-        List<PostEntity> result = postService.deletePost(postId);
-        return result;
+        return postService.deletePost(postId);
     }
 
 }

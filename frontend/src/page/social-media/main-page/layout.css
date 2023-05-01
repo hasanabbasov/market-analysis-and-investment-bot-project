@@ -1,0 +1,31 @@
+.mainpage__uploadicon {
+    height: 80px;
+    width: 80px;
+}
+.mainpage__divider {
+    height: 0px;
+    width: 220px;
+    border: 1px solid #dbdbdb;
+    margin-top: 40px;
+}
+.mainpage_container {
+    text-align: center;
+    margin: 0px 10px 0px -20px;
+    display :flex ;
+    justify-content: center ;
+    background: #F8F9FA !important;
+}
+.fileupload > input {
+    display: none;
+}
+.upload_text {
+    text-align: center;
+    margin-left: -25px;
+}
+
+.middleContainer {
+    margin-left: 50px !important;
+    overflow-y: scroll;
+    height: 100vh;
+    max-width: 600px !important;
+}

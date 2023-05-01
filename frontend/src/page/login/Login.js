@@ -39,7 +39,7 @@ const Login = () => {
                 localStorage.setItem("tokenKey", result.accessToken);
                 localStorage.setItem("currentUserId", result.userId);
                 localStorage.setItem("currentUserName", result.userName)
-                navigate('/dashboard');
+                navigate('/');
             })
             .catch((err) => {
                 setError(true);

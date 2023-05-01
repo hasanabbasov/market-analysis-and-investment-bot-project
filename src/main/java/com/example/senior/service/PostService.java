@@ -26,8 +26,7 @@ public class PostService {
     }
 
     public List<PostEntity> allPost() {
-        List<PostEntity> postRepositoryAll = postRepository.findAll();
-        return postRepositoryAll;
+        return postRepository.findAll();
     }
 
     public List<PostEntity> deletePost(Long postId) {

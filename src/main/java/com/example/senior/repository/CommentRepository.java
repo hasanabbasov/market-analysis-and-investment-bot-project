@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
+//    List<CommentEntity> findAllById(Long postId);
+
 //    List<CommentEntity> findAllById(Long postID);
 }

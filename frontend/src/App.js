@@ -30,22 +30,21 @@ export default function App() {
 
     return (
         <>
-            <Header/>
-            <BinanceModal/>
             <Router>
+                <Header/>
+                <BinanceModal/>
                 <Routes>
                     <Route path="/" element={<OpenPage/>}/>
                     {localStorage.getItem("currentUserName") != null ?  <Route path="/chart" element={<Chart/>}/> : <Route path="/login" element={<Login/>}/> }
-                    {localStorage.getItem("currentUserName") != null ?  <Route path="/social-media" element={<BinanceModal/>}/> : <Route path="/login" element={<Login/>}/> }
-                    {localStorage.getItem("currentUserName") != null ? <Route path="/dashboard" element={<Main/>}/> : <Route path="/login" element={<Login/>}/> }
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/" element={<Main/>}/> : <Route path="/login" element={<Login/>}/> }
                     {localStorage.getItem("currentUserName") != null ? <Route path="/discovery" element={<DiscoveryPage/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/profile" element={<Profile/>}/> : <Route path="/login" element={<Login/>}/>}
-                    {localStorage.getItem("currentUserName") != null ? <Route path="/profile" element={<SocialMedia/>}/> : <Route path="/social-media" element={<Login/>}/>}
-                    <Route path="/register" element={<Register/>}/>
-                    <Route path="/login" element={<Login/>}/>
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/social-media" element={<SocialMedia/>}/> : <Route path="/login" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") === null ? <Route path="/register" element={<Register/>}/> : <Route path="/" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") === null ? <Route path="/login" element={<Login/>}/> : <Route path="/" element={<Login/>}/>}
                 </Routes>
             </Router>
-            <Footer/>
+            {/*<Footer/>*/}
         </>
     );
 }

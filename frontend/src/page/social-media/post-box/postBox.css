@@ -103,3 +103,20 @@
     display: flex;
     justify-content: space-around;
 }
+
+.post-comment-box-background {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+
+.test {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-left: 20px;
+    background: rgba(239, 242, 245, 0.56);
+    border-radius: 14px;
+}

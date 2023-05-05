@@ -25,4 +25,10 @@ public class CommentController {
         return commentService.getAllComment(postID);
 
     }
+
+    @GetMapping("/getAllCommentsTweets/{tweetID}")
+    public List<CommentEntity> getAllCommentsToTweet(@PathVariable("tweetID") Long tweetID){
+        return commentService.getAllCommentToTweet(tweetID);
+
+    }
 }

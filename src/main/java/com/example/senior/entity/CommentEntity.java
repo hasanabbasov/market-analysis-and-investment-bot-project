@@ -24,7 +24,7 @@ public class CommentEntity {
     private Long tweetId;
     @Column(name = "user_id", nullable = false)
     private String userId;
-    @Column(name = "comment", nullable = false)
+    @Column(length = 2500,name = "comment", nullable = false)
     private String comment;
     @Column(name = "nick", nullable = false)
     private String nick;

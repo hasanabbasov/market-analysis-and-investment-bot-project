@@ -42,7 +42,7 @@ const SideMenu = ({size, onToggle}) =>{
                     <Divider variant="middle"/>
                     <div className="side-menu-button">
                         <button className="side-menu-button-background">
-                            <Link to="/">
+                            <Link to="/dashboard">
                                 Dashboard
                             </Link>
                         </button>

@@ -77,7 +77,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post","/post/save","/tweet/save","/comment/save")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}")
+                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**")
                 .permitAll()
                 .antMatchers("/users/**","/post/getPost")
                 .permitAll()

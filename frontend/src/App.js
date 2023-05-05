@@ -36,12 +36,12 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<OpenPage/>}/>
                     {localStorage.getItem("currentUserName") != null ?  <Route path="/chart" element={<Chart/>}/> : <Route path="/login" element={<Login/>}/> }
-                    {localStorage.getItem("currentUserName") != null ? <Route path="/" element={<Main/>}/> : <Route path="/login" element={<Login/>}/> }
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/dashboard" element={<Main/>}/> : <Route path="/login" element={<Login/>}/> }
                     {localStorage.getItem("currentUserName") != null ? <Route path="/discovery" element={<DiscoveryPage/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/profile" element={<Profile/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/social-media" element={<SocialMedia/>}/> : <Route path="/login" element={<Login/>}/>}
-                    {localStorage.getItem("currentUserName") === null ? <Route path="/register" element={<Register/>}/> : <Route path="/" element={<Login/>}/>}
-                    {localStorage.getItem("currentUserName") === null ? <Route path="/login" element={<Login/>}/> : <Route path="/" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") === null ? <Route path="/register" element={<Register/>}/> : <Route path="/dashboard" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") === null ? <Route path="/login" element={<Login/>}/> : <Route path="/dashboard" element={<Login/>}/>}
                 </Routes>
             </Router>
             {/*<Footer/>*/}

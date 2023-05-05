@@ -1,4 +1,5 @@
 import React ,{useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './postBox.css'
 import { Paper, Avatar } from '@material-ui/core'
 import likePhoto from '../../../styles/like.png'
@@ -8,10 +9,16 @@ import sharebutton from "../../../styles/share.png";
 import SendIcon from "@mui/icons-material/Send";
 
 
-const Post = ({nick, description, like, photo,tweet, postId,tweetId}) => {
+const Post = ({nick, description, like, photo,tweet, postId,tweetId,postComment}) => {
 
     const [comment, setComment] = useState();
+    const [showCommentBox, setShowCommentBox] = useState(false);
     const userId = localStorage.getItem("currentUserId");
+
+    // console.log("tweetCommentData",tweetCommentData)
+    // console.log("postCommentDataVAlla",postCommentData)
+    console.log("postComment",postComment)
+    console.log("showCommentBox",showCommentBox)
 
 
     const sendCommentToDatabase = async () =>{
@@ -79,7 +86,7 @@ const Post = ({nick, description, like, photo,tweet, postId,tweetId}) => {
                         </div>
                     </div>
 
-                    <div className='post_tab'>
+                    <div className='post_tab' onClick={() => setShowCommentBox(!showCommentBox)} style={{cursor:'pointer'}}>
                         <div className='post_tabfirst'>
                             <img className='post_tabimg' src={commentbutton}/>
                         </div>
@@ -97,6 +104,24 @@ const Post = ({nick, description, like, photo,tweet, postId,tweetId}) => {
                         </div>
                     </div>
                 </div>
+                { showCommentBox && <div className='post-comment-box-background'>
+                    <div>
+                        {postComment ? postComment?.map(({ comment, userId }, index) => (
+                            <>
+                                <div className='' style={{display: 'flex', paddingBottom: '15px', paddingTop:'15px'}}>
+                                    <div style={{width: '20%', display: 'flex', justifyContent: 'center'}}>
+                                        <Avatar/>
+                                    </div>
+                                    <div className='test'>
+                                        <div style={{width:'100%' , fontWeight:"bold", paddingTop:'5px'}}>{userId}</div>
+                                        <div style={{paddingTop:'15px' , paddingBottom:'5px'}} key={index}>{comment}</div>
+                                    </div>
+                                </div>
+                                <div ></div>
+                            </>
+                        )) : <div>Comment yok</div>}
+                    </div>
+                </div>}
                 <div>
                     <div className='upload_top'>
                         <div className='post-comment-avatar-background'>
@@ -109,6 +134,7 @@ const Post = ({nick, description, like, photo,tweet, postId,tweetId}) => {
                             <SendIcon/>
                         </div>
                     </div>
+
                 </div>
             </Paper>
         </div>

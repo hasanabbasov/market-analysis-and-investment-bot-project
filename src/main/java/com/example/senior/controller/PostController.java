@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/post")
@@ -27,6 +29,11 @@ public class PostController {
     @DeleteMapping("/delete/{postId}")
     public List<PostEntity> deletePost(@PathVariable("postId") Long postId) {
         return postService.deletePost(postId);
+    }
+
+    @PutMapping("/update/{postId}")
+    public PostEntity updateLikeCount(@PathVariable("postId") Long postId) {
+        return postService.updateIncrementLikeCount(postId);
     }
 
 }

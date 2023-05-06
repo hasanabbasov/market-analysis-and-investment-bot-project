@@ -15,16 +15,17 @@ import SocialMedia from './page/social-media/index'
 import {useEffect} from "react";
 
 export default function App() {
-
+    const token = localStorage.getItem("tokenKey");
+    const userid = localStorage.getItem("currentUserId")
     useEffect(() => {
         console.log("Hello")
 
-        const token = localStorage.getItem("tokenKey");
 
-        fetch('http://localhost:8080/post/getPost')
-            .then((response) => response.json())
-            .then((res) => console.log("data",res))
-            .catch((error) => console.error("Error: ", error));
+
+            fetch(`http://localhost:8080/getData/${userid}`)
+                .then((response) => response.json())
+                .then((res) => console.log("binnanceGelen",res))
+                .catch((error) => console.error("Error: " ,error))
     },[])
 
 

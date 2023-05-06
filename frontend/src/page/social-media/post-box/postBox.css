@@ -60,6 +60,7 @@
     margin-left: 100px;
     margin-top: 10px;
     justify-content: space-evenly;
+    cursor: pointer;
 }
 .post_tab {
     display: flex;

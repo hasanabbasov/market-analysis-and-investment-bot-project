@@ -28,6 +28,13 @@
     color: blue;
     cursor: pointer;
 }
+
+.upload-send-icon-disable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(63, 63, 63, 0.58);
+}
 .upload_bottom {
     border-top: 1px solid #E3E6EA;
     display: flex;

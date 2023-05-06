@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -32,5 +33,15 @@ public class PostService {
     public List<PostEntity> deletePost(Long postId) {
         postRepository.deleteById(postId);
         return allPost();
+    }
+
+    public PostEntity updateIncrementLikeCount(Long postId) {
+        Optional<PostEntity> postOptional = postRepository.findById(postId);
+        if (postOptional.isPresent()) {
+            PostEntity post = postOptional.get();
+            post.setLikes(post.getLikes() + 1);
+            return postRepository.save(post);
+        }
+        return null;
     }
 }

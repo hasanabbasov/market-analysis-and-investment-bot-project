@@ -75,11 +75,11 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(handler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post","/post/save","/tweet/save","/comment/save")
+                .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post","/post/save","/tweet/save","/comment/save", "/post/update/{postId}", "/binance/sendData","/binance/update/{userId}")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**")
+                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**","/binance/getData/{id}")
                 .permitAll()
-                .antMatchers("/users/**","/post/getPost")
+                .antMatchers("/users/**","/post/getPost", "/post/**", "/tweet/**", "/binance/**")
                 .permitAll()
                 .anyRequest().authenticated();
 

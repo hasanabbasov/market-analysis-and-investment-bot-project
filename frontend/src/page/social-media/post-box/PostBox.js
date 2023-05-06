@@ -25,18 +25,38 @@ const PostBox = ({refreshData}) => {
         }, {});
     };
 
+    const groupCommentsByTweetId = (comments) => {
+        return comments.reduce((acc, comment) => {
+            const tweetId = comment.tweetId;
+            if (!acc[tweetId]) {
+                acc[tweetId] = [];
+            }
+            acc[tweetId].push(comment);
+            return acc;
+        }, {});
+    };
+
 
     useEffect(() => {
-        if (postCommentData.length > 0) {
-            // Yorumları postId'ye göre gruplandırın
-            const groupedComments = groupCommentsByPostId(postCommentData);
+        if (Array.isArray(postCommentData) && Array.isArray(tweetCommentData) && postCommentData.length > 0 || tweetCommentData.length > 0) {
+            // Yorumları postId ve tweetId'ye göre gruplandırın
+            const groupedPostComments = groupCommentsByPostId(postCommentData);
+            const groupedTweetComments = groupCommentsByTweetId(tweetCommentData);
 
-            // Grupları ana veri dizisindeki uygun gönderiyle birleştirin
+            // Grupları ana veri dizisindeki uygun gönderi ve tweet'lerle birleştirin
             const newData = [...tweetData, ...postData].map((item) => {
-                if (item.postId && groupedComments[item.postId]) {
+                if (item.postId && groupedPostComments[item.postId]) {
                     return {
                         ...item,
-                        comments: groupedComments[item.postId].map((comment) => ({
+                        comments: groupedPostComments[item.postId].map((comment) => ({
+                            comment: comment.comment,
+                            userId: comment.userId,
+                        })),
+                    };
+                } else if (item.tweetId && groupedTweetComments[item.tweetId]) {
+                    return {
+                        ...item,
+                        comments: groupedTweetComments[item.tweetId].map((comment) => ({
                             comment: comment.comment,
                             userId: comment.userId,
                         })),
@@ -49,7 +69,8 @@ const PostBox = ({refreshData}) => {
 
             setData(newData); // newData'yı ana veri dizisi olarak ayarlayın
         }
-    }, [postCommentData, tweetData, postData]);
+    }, [postCommentData, tweetData, postData, tweetCommentData]);
+
 
 
 
@@ -116,6 +137,7 @@ const PostBox = ({refreshData}) => {
     console.log("tweetCommentData",tweetCommentData)
     console.log("postData",postData)
     // console.log("test",test)
+    // const groupedTweetComments = groupCommentsByTweetId(tweetCommentData);
 
     return (
         <div>

@@ -1,5 +1,6 @@
 package com.example.senior.controller;
 
+import com.example.senior.entity.PostEntity;
 import com.example.senior.entity.TweetEntity;
 import com.example.senior.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class TweetController {
     @DeleteMapping("/delete/{tweetId}")
     public List<TweetEntity> deleteTweet(@PathVariable("tweetId") Long tweeId){
         return tweetService.deleteTweet(tweeId);
+    }
+
+    @PutMapping("/update/{tweetId}")
+    public TweetEntity updateLikeCount(@PathVariable("tweetId") Long tweetId) {
+        return tweetService.updateIncrementLikeCount(tweetId);
     }
 
 }

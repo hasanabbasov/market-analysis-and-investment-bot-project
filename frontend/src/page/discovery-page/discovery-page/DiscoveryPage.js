@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './DiscoveryPage.css'
 
 const DiscoveryPage = () => {
@@ -8,9 +8,7 @@ const DiscoveryPage = () => {
 
     const handleTransfer = async () => {
         try {
-            const result = await fetch(`http://127.0.0.1:5000/transferSpotToFuture/${asset}/${amount}`, {
-                method: 'POST',
-            });
+            const result = await fetch(`http://127.0.0.1:5000/futures_income_history`);
             const data = await result.json();
             setResponse(data);
         } catch (error) {
@@ -18,6 +16,23 @@ const DiscoveryPage = () => {
             setResponse({ error: 'Transfer işlemi sırasında bir hata oluştu.' });
         }
     };
+
+    useEffect(() =>{
+        fetch('http://localhost:5000/start_bot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    })
 
     return (
         <div>

@@ -12,6 +12,9 @@ import Footer from './component/footer/Footer'
 import OpenPage from './page/open-page/OpenPage'
 import BinanceModal from './component/binanceModal/BinanceModal'
 import SocialMedia from './page/social-media/index'
+import InvestBotPage from './page/invest-bot/index'
+import AnalysisPage from './page/analysis/index'
+import HistoryPage from './page/history/index'
 import {useEffect} from "react";
 
 export default function App() {
@@ -40,6 +43,9 @@ export default function App() {
                     <Route path="/" element={<OpenPage/>}/>
                     {localStorage.getItem("currentUserName") != null ?  <Route path="/chart" element={<Chart/>}/> : <Route path="/login" element={<Login/>}/> }
                     {localStorage.getItem("currentUserName") != null ? <Route path="/dashboard" element={<Main/>}/> : <Route path="/login" element={<Login/>}/> }
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/history" element={<HistoryPage/>}/> : <Route path="/login" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/analysis" element={<AnalysisPage/>}/> : <Route path="/login" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/bot" element={<InvestBotPage/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/discovery" element={<DiscoveryPage/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/profile" element={<Profile/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/social-media" element={<SocialMedia/>}/> : <Route path="/login" element={<Login/>}/>}

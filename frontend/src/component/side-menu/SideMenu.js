@@ -15,7 +15,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 const SideMenu = ({size, onToggle}) =>{
 
     const [icon, setIcon] = useState(false);
-    const userName = localStorage.getItem("currentUserId");
+    const userName = localStorage.getItem("currentUserName");
     const navigate = useNavigate();
 
     console.log("test" , localStorage.getItem("currentUserName"))
@@ -29,7 +29,7 @@ const SideMenu = ({size, onToggle}) =>{
             <div className="side-container">
                 <div className="d-grid">
                     <div className="side-menu-icon" onClick={handleIcon}>
-                        <MenuOpenIcon style={{color:"white"}}/>
+                        <MenuOpenIcon style={{color:"white", cursor:'pointer'}}/>
                     </div>
                     <div className="side-menu-profile">
                         <div className="side-menu-avatar" >
@@ -47,8 +47,8 @@ const SideMenu = ({size, onToggle}) =>{
                         <button className="side-menu-button-background" onClick={() => navigate("/chart")}>
                             Charts
                         </button>
-                        <button className="side-menu-button-background" onClick={() => navigate("/History")}>History</button>
-                        <button className="side-menu-button-background" onClick={() => navigate("/Analiz")}>Analiz</button>
+                        <button className="side-menu-button-background" onClick={() => navigate("/history")}>History</button>
+                        <button className="side-menu-button-background" onClick={() => navigate("/analysis")}>Analiz</button>
                         <button className="side-menu-button-background" onClick={() => navigate("/bot")}>Invest Bot</button>
                         <button className="side-menu-button-background" onClick={() => navigate("/news")}>News</button>
 

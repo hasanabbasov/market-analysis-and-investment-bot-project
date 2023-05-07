@@ -1,8 +1,7 @@
-import React from 'react';
-import {useState} from "react";
+import React, {useState} from 'react';
 import Grid from "@mui/material/Grid";
 import SideMenu from "../../component/side-menu/SideMenu";
-import Main from "./dashboard/Main"
+import Main from "../invest-bot/invest-background/InvestBackground";
 
 const Index = () => {
     const [sizes, setSize] = useState(false)
@@ -19,23 +18,27 @@ const Index = () => {
         }
     };
 
-    const DashboardBackground = (sizes) => {
+    const InvestBotBackground = (sizes) => {
         switch (sizes) {
             case false:
                 return (
-                    <Grid item xs={9.5} ><Main/>
+                    <Grid item xs={9.5}>
+                        <Main/>
                     </Grid>
                 );
             default:
-                return (<Grid item xs={11.5}><Main/></Grid>);
+                return (<Grid item xs={11.5}>
+                    <Main/>
+                </Grid>);
         }
     }
+
     return (
         <div>
-            <div style={{background: "#EFEFEF"}} >
+            <div style={{background: "#EFEFEF"}}>
                 <Grid container spacing={2}>
                     <>{SideMenuBackground(sizes)}</>
-                    <>{DashboardBackground(sizes)}</>
+                    <>{InvestBotBackground(sizes)}</>
                 </Grid>
             </div>
         </div>

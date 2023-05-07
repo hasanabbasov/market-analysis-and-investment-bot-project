@@ -1,8 +1,6 @@
-import React from 'react';
-import {useState} from "react";
+import React, {useState} from 'react';
 import Grid from "@mui/material/Grid";
 import SideMenu from "../../component/side-menu/SideMenu";
-import Main from "./dashboard/Main"
 
 const Index = () => {
     const [sizes, setSize] = useState(false)
@@ -19,15 +17,17 @@ const Index = () => {
         }
     };
 
-    const DashboardBackground = (sizes) => {
+    const AnalysisBackground = (sizes) => {
         switch (sizes) {
             case false:
                 return (
-                    <Grid item xs={9.5} ><Main/>
+                    <Grid item xs={9.5} >
                     </Grid>
                 );
             default:
-                return (<Grid item xs={11.5}><Main/></Grid>);
+                return (<Grid item xs={11.5}>
+
+                </Grid>);
         }
     }
     return (
@@ -35,7 +35,7 @@ const Index = () => {
             <div style={{background: "#EFEFEF"}} >
                 <Grid container spacing={2}>
                     <>{SideMenuBackground(sizes)}</>
-                    <>{DashboardBackground(sizes)}</>
+                    <>{AnalysisBackground(sizes)}</>
                 </Grid>
             </div>
         </div>

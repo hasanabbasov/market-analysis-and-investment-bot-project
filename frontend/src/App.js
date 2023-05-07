@@ -17,14 +17,16 @@ import {useEffect} from "react";
 export default function App() {
     const token = localStorage.getItem("tokenKey");
     const userid = localStorage.getItem("currentUserId")
+
     useEffect(() => {
         console.log("Hello")
-
-
-
-            fetch(`http://localhost:8080/getData/${userid}`)
+            fetch(`http://localhost:8080/binance/getData/${userid}`)
                 .then((response) => response.json())
-                .then((res) => console.log("binnanceGelen",res))
+                .then((res) => {
+                    localStorage.setItem("apiKey", res.apiKey);
+                    localStorage.setItem("secrutyKey", res.secrutyKey);
+                    console.log("binnanceGelen", res)
+                })
                 .catch((error) => console.error("Error: " ,error))
     },[])
 

@@ -40,6 +40,7 @@ const Login = () => {
                 localStorage.setItem("currentUserId", result.userId);
                 localStorage.setItem("currentUserName", result.userName)
                 navigate('/dashboard');
+                window.reload()
             })
             .catch((err) => {
                 setError(true);

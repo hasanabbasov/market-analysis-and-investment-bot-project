@@ -3,6 +3,15 @@
     background:#F8F9FA ;
 }
 
+.header-background-social-media {
+    min-height: 70px;
+    background:#F8F9FA ;
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 50px;
+    align-items: center;
+}
+
 .navbar__main {
     border-bottom: 1px solid #D8DBDE;
 }
@@ -48,4 +57,15 @@
 .navbar__profilename{
     margin-top: 20px;
     font-weight: 600;
+}
+
+.social-media-botton {
+    background: #2C3E50;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+    cursor: pointer;
 }

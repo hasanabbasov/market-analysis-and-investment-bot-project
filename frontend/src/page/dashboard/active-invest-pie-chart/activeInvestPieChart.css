@@ -3,4 +3,9 @@
     border: 1px solid #2C3E50; /* Koyu siyah kalın çizgi */
     background: #F8F9FA;
     box-shadow: 0 4px 6px rgba(2, 56, 98, 0.9);
+    width: 400px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

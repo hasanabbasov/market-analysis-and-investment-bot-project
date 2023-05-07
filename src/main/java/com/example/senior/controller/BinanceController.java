@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/binance")
@@ -28,9 +31,10 @@ public class BinanceController {
         return binanceRepository.save(data);
     }
 
-    @GetMapping("/getData/{id}")
-    public BinanceEntity getData(@PathVariable Long id) {
-        return binanceRepository.findById(id).orElse(null);
+    @GetMapping("/getData/{userId}")
+    public ResponseEntity<BinanceEntity> getDataByUserId(@PathVariable("userId") Long userId) {
+        Optional<BinanceEntity> binanceEntity = binanceService.findByUserId(userId);
+        return binanceEntity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/update")

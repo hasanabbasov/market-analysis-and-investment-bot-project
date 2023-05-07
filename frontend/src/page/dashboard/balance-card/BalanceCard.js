@@ -46,15 +46,15 @@ const BalanceCard = () => {
         <div className="balance-card-background">
             <div className='balance-total-balance'>
                 <p className='balance-card-title-p'>Total Balance:</p>
-                <p>{totalWallet}</p>
+                <p>{totalWallet} $</p>
             </div>
             <div className='balance-total-balance'>
                 <p className='balance-card-title-p'>Spot total:</p>
-                <p>{Number(spotInfo.usdt_balance)}</p>
+                <p>{Number(spotInfo.usdt_balance)} $</p>
             </div>
             <div className='balance-total-balance'>
                 <p className='balance-card-title-p'>Future total:</p>
-                <p>{Number(futureInfo.totalWalletBalance)}</p>
+                <p>{Number(futureInfo.totalWalletBalance)} $</p>
             </div>
 
         </div>

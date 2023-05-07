@@ -17,6 +17,13 @@ function Chart() {
     const [intervalNames] = useState(['5 Minute', '15 Minute']);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeChart, setActiveChart] = useState(false);
+    localStorage.setItem("symb", symb);
+    localStorage.setItem("interval", interval);
+
+    const activeSymb = localStorage.getItem("symb")
+    const activeInterval = localStorage.getItem("interval")
+
+
 
     const bugun = new Date();
     // Ayın adını almak için bir dizi tanımlayın
@@ -37,6 +44,9 @@ function Chart() {
     const altiTarih = `${altiTarihOnce.getDate()} ${altiTarihAdi}, ${altiTarihOnce.getFullYear()}`;
 
     useEffect(() => {
+        if (activeSymb && activeInterval){
+            setActiveChart(true)
+        }
         fetch("http://127.0.0.1:5000/usdt_symbols")
             .then((response) => response.json())
             .then((data) => {
@@ -84,11 +94,16 @@ function Chart() {
                 wickUpColor: "rgb(4,190,42)",
             });
 
+
+
+
+
+
             const dataToChart = {
                 date: tarih,
                 lastDate: altiTarih,
-                symbol: symb,
-                interval: interval
+                symbol: activeSymb,
+                interval: activeInterval
             };
 
 
@@ -119,6 +134,7 @@ function Chart() {
             );
 
             exampleSocket.onmessage = (event) => {
+
                 const messageDate = JSON.parse(event.data)
                 const handleStick = messageDate.k
                 // console.log("",messageDate)

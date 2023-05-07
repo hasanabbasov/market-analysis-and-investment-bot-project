@@ -28,4 +28,8 @@ public class BinanceService {
     public void saveOrUpdate(BinanceEntity binanceEntity) {
         binanceRepository.save(binanceEntity);
     }
+
+    public Optional<BinanceEntity> findByUserId(Long userId) {
+        return Optional.ofNullable(binanceRepository.findByUserId(userId));
+    }
 }

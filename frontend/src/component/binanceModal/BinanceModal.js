@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Modal} from "antd";
 import {useState} from "react";
 import './binance.css'
@@ -9,8 +9,12 @@ const BinanceModal = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
     const count = 1;
+    const apiKey = localStorage.getItem("apiKey");
+    console.log("apiKey",apiKey)
     const userid = localStorage.getItem("currentUserId")
+
 
     const handleSubmit = (e) => {
         console.log("name", name)
@@ -58,28 +62,29 @@ const BinanceModal = () => {
     const handleCancel = () => setIsModalOpen(false);
     return (
         <div>
-            <Modal open={isModalOpen}
-                   onCancel={handleCancel}
-                   onOk={handleOk} width={1000} height={1000}>
+            { !apiKey && location.pathname !== '/' && <Modal open={isModalOpen}
+                    onCancel={handleCancel}
+                    onOk={handleOk} width={1000} height={1000}>
                 <h1>Lutfen Devam Etmek icin Binance Secret key ve Api key'lerini girin</h1>
-                <h3>Binance hesabinizi baglamak istemezseniz sadece sosial medyadan devem etmek icin butona tiklayin</h3>
-                <form onSubmit={handleSubmit} style={{maxHeight: '200px',flexDirection:'column', paddingTop:'80px'}}>
-                    <div style={{width:'100%'}}>
-                        <label style={{display:'flex', alignItems:'center'}}>
-                            <h2 style={{paddingRight:'50px', width:'130px'}}>Secret Key:</h2>
+                <h3>Binance hesabinizi baglamak istemezseniz sadece sosial medyadan devem etmek icin butona
+                    tiklayin</h3>
+                <form onSubmit={handleSubmit} style={{maxHeight: '200px', flexDirection: 'column', paddingTop: '80px'}}>
+                    <div style={{width: '100%'}}>
+                        <label style={{display: 'flex', alignItems: 'center'}}>
+                            <h2 style={{paddingRight: '50px', width: '130px'}}>Secret Key:</h2>
                             <input
-                                style={{width:'70%'}}
+                                style={{width: '70%'}}
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </label>
                     </div>
-                    <div style={{width:'100%'}}>
-                        <label style={{display:'flex', alignItems:'center',justifyContent:'space-evenly'}}>
-                            <h2 style={{paddingRight:'40px', width:'130px'}}>Api key:</h2>
+                    <div style={{width: '100%'}}>
+                        <label style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                            <h2 style={{paddingRight: '40px', width: '130px'}}>Api key:</h2>
                             <input
-                                style={{width:'70%'}}
+                                style={{width: '70%'}}
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -89,7 +94,7 @@ const BinanceModal = () => {
                     </div>
 
                 </form>
-            </Modal>
+            </Modal>}
         </div>
     );
 };

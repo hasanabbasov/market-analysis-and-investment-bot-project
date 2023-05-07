@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BinanceRepository extends JpaRepository<BinanceEntity, Long> {
+    BinanceEntity findByUserId(Long userId);
+
 }

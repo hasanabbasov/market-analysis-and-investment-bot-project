@@ -30,7 +30,7 @@ const Main = () => {
 
                 </Grid>
                 <Grid item xs={6} style={{paddingRight:'15px'}}>
-                    <ActiveInvestPieChart data={data}/>
+                    { data && <ActiveInvestPieChart data={data}/>}
                     <LineChartBalanceHistory/>
                 </Grid>
             </Grid>

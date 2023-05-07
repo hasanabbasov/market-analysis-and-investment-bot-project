@@ -46,7 +46,6 @@ public class UserController {
 
     @GetMapping("/id")
     public UsersEntity getUserId(@PathVariable(value = "id") Long userId){
-
         return userRepository.findById(userId).get();
     }
 

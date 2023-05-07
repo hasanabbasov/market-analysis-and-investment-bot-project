@@ -47,7 +47,25 @@ button {
 }
 
 .side-menu-button-background {
-    width: 100px;
+    background: #fcfcfc;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: black;
+    cursor: pointer;
+}
+
+.side-menu-button-background:hover {
+    background: #a9a9a9;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #313131;
+    cursor: pointer;
 }
 /*.side-menu-button-background.active {*/
 /*    width: 100px;*/

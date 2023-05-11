@@ -20,7 +20,7 @@ public class StatusEntity {
     private Long statusId;
     @Column(length = 300, name = "user_id", nullable = false)
     private Long userId;
-    @Column(name = "status_image_url", nullable = false)
+    @Column( length = 9000, name = "status_image_url")
     private String statusImageUrl;
     @Column(name = "upload_time", nullable = false)
     private Timestamp uploadTime;

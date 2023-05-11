@@ -16,7 +16,7 @@ public class StatusController {
     StatusService statusService;
 
     @PostMapping("/save")
-    public StatusEntity saveStatus(@RequestBody StatusEntity status) {
+    public List<StatusEntity> saveStatus(@RequestBody StatusEntity status) {
         return statusService.saveStatus(status);
     }
 

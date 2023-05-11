@@ -1,0 +1,48 @@
+.invest-bot-page-background {
+    padding-right: 25px;
+    padding-top: 15px;
+}
+
+.invest-bot-page-button-background {
+    background: #2C3E50;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.invest-bot-page-button-background:hover {
+    background: #384a60;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #bdbdbd;
+    cursor: pointer;
+}
+
+.invest-bot-page-stop-button-background {
+    background: #fc4b4b;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.invest-bot-page-stop-button-background:hover{
+    background: #ff7d7d;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #bdbdbd;
+    cursor: pointer;
+}

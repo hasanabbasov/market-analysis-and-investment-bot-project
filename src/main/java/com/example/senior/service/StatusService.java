@@ -15,13 +15,14 @@ public class StatusService {
     @Autowired
     StatusRepository statusRepo;
 
-    public StatusEntity saveStatus(StatusEntity status) {
+    public List<StatusEntity> saveStatus(StatusEntity status) {
 
         Date date=new Date();
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
         status.setUploadTime(dateTime);
-        return statusRepo.save(status);
+        statusRepo.save(status);
+        return getAllStatus();
     }
 
     public List<StatusEntity> getAllStatus(){

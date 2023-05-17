@@ -4,7 +4,9 @@ import {Paper} from '@material-ui/core'
 import './invest.css'
 
 const InvestBackground = () => {
+    const [loading, setLoading] = useState(false)
     const [showButton, setShowButton] = useState(true);
+    const [positions, setPositions] = useState([]); // Pozisyonları tutacak yeni state
 
     const startBot = () => {
         fetch('http://localhost:5000/start_bot', {
@@ -34,12 +36,33 @@ const InvestBackground = () => {
             .then((response) => response.json())
             .then((data) => {
                 setShowButton(true)
+                setPositions([]); // Bot durdurulduğunda pozisyonları sıfırla
+                setLoading(false)
                 console.log('Success:', data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
+
+    // Botun durumu değiştiğinde pozisyonları güncelle
+    useEffect(() => {
+        if (!showButton) {
+            const intervalId = setInterval(() => {
+                fetch('http://localhost:5000/futures_positions')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setPositions(data);
+                        setLoading(true)
+                    });
+            }, 10000); // Her saniye pozisyonları güncelle
+
+            // Cleanup function
+            return () => clearInterval(intervalId);
+        }
+    }, [showButton]); // Botun durumuna bağlı olarak güncelle
+
+    console.log("positions",positions)
 
     return (
         <div className='invest-bot-page-background'>
@@ -56,7 +79,7 @@ const InvestBackground = () => {
                     <button className='invest-bot-page-stop-button-background' onClick={stopBot}>
                         Botu Durdur!
                     </button>
-                    <Table/>
+                    <Table positions={positions} loading={loading}/>
                 </div>
             }
         </div>

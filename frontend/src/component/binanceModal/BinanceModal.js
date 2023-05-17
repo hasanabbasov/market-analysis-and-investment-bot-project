@@ -10,7 +10,6 @@ const BinanceModal = () => {
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
-    const count = 1;
     const apiKey = localStorage.getItem("apiKey");
     console.log("apiKey",apiKey)
     const userid = localStorage.getItem("currentUserId")
@@ -62,9 +61,9 @@ const BinanceModal = () => {
     const handleCancel = () => setIsModalOpen(false);
     return (
         <div>
-            { !apiKey && location.pathname !== '/' && <Modal open={isModalOpen}
-                    onCancel={handleCancel}
-                    onOk={handleOk} width={1000} height={1000}>
+            { (!apiKey || false) && <Modal open={isModalOpen}
+                                                                        onCancel={handleCancel}
+                                                                        onOk={handleOk} width={1000} height={1000}>
                 <h1>Lutfen Devam Etmek icin Binance Secret key ve Api key'lerini girin</h1>
                 <h3>Binance hesabinizi baglamak istemezseniz sadece sosial medyadan devem etmek icin butona
                     tiklayin</h3>

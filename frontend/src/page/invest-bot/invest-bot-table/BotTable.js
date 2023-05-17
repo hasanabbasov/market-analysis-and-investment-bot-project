@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Loading from "../../../component/loading/Loading";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,43 +30,35 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+const BotTable = ({ positions, loading}) => { // props ismi yerine daha anlamlı bir isim olan positions kullanıldı.
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+    console.log("positions",positions)
+    console.log("loading",loading)
 
-const BotTable = () => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                        <StyledTableCell align="right">Calories</StyledTableCell>
-                        <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                        <StyledTableCell>Symbol</StyledTableCell>
+                        <StyledTableCell align="right">Size</StyledTableCell>
+                        <StyledTableCell align="right">Entry Price</StyledTableCell>
+                        <StyledTableCell align="right">Mark Price</StyledTableCell>
+                        <StyledTableCell align="right">Unrealized PNL (ROE%)</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
+                    {loading ? positions.map((position) => (
+                        <StyledTableRow key={position.Symbol}>
                             <StyledTableCell component="th" scope="row">
-                                {row.name}
+                                {position.Symbol}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                            <StyledTableCell align="right">{position.Size}</StyledTableCell>
+                            <StyledTableCell align="right">{position['Entry Price']}</StyledTableCell>
+                            <StyledTableCell align="right">{position['Mark Price']}</StyledTableCell>
+                            <StyledTableCell align="right">{position['Unrealized PNL (ROE%)']}</StyledTableCell>
                         </StyledTableRow>
-                    ))}
+                    )) :  <Loading/>}
                 </TableBody>
             </Table>
         </TableContainer>

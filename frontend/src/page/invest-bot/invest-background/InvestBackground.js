@@ -15,21 +15,11 @@ const InvestBackground = () => {
     const [intervalNames] = useState(['1 Minute','5 Minute', '15 Minute']);
     const [symbols, setSymbols] = useState([]);
     const [symb,setSymb] = useState('BTCUSDT');
-    const [interval, setIntervalTime] = useState('KLINE_INTERVAL_5MINUTE');
+    const [interval, setIntervalTime] = useState('KLINE_INTERVAL_1MINUTE');
     const [botResponse, setBotResponse] = useState('');
 
-    // console.log("symb",symb)
-    // console.log("interval",interval)
-    // console.log("botResponse",botResponse)
 
-    const botEntity = {
-        asset: symb,
-        interval: interval,
-        start: showButton
-    }
-
-    // console.log("botEntity",botEntity)
-
+    //Burada ilk basta bot bilgilerimizi aliyoruz, botun calisib calismadigini kontrol etmek icin
     useEffect(() => {
         fetch('/bot/getBot').then((response) => response.json())
             .then((res) => {
@@ -37,6 +27,7 @@ const InvestBackground = () => {
                 setShowButton(res[0].start)
             }).catch(console.error)
     },[])
+
 
     const startBot = async () => {
         if (botResponse?.start === false) {
@@ -85,6 +76,7 @@ const InvestBackground = () => {
         }
     }
 
+     //Burada botumuzu baslatmak icin interbal ve asset bilgilerimizi guncelliyoruz, ve botun basladigini bildiriyoruz
      const updateBotEntity = async () => {
         const id = 1
         try {
@@ -109,7 +101,7 @@ const InvestBackground = () => {
 
 
 
-
+    //Her deyisiklikten sonra yeniden botun calisib calismadigi bilgilerini guncellemek icin
     const getBotResponse = () => {
         fetch('/bot/getBot').then((response) => response.json())
             .then((res) => {
@@ -122,8 +114,8 @@ const InvestBackground = () => {
 
     const postBotStartRequest = () => {
         getBotResponse()
-
-        fetch('http://localhost:5000/start_bot', {
+        // http://127.0.0.1:5000/chart-history?date=${dataToChart.date}&lastDate=${dataToChart.lastDate}&symbol=${dataToChart.symbol}&interval=${dataToChart.interval}
+        fetch(`http://localhost:5000/start_bot?symbol=${symb}&interval=${interval}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

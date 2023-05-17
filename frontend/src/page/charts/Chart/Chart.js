@@ -57,8 +57,8 @@ function Chart() {
 
         if (activeChart) {
             const chart = LightweightCharts.createChart(document.getElementById("chart"), {
-                width: 1100,
-                height: 580,
+                width: window.innerWidth * 0.77,
+                height: window.innerHeight * 0.7,
                 layout: {
                     background: {
                         type: "solid",

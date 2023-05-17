@@ -75,11 +75,11 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(handler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post","/post/save","/tweet/save","/comment/save", "/post/update/{postId}", "/binance/sendData", "/binance/update/{userId}", "/status/save")
+                .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post","/post/save","/tweet/save","/comment/save", "/post/update/{postId}", "/binance/sendData", "/binance/update/{userId}", "/status/save","/bot/save")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**","/binance/getData/{id}", "/status/getAllStatus")
+                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**","/binance/getData/{id}", "/status/getAllStatus","/bot/getBot")
                 .permitAll()
-                .antMatchers("/users/**","/post/getPost", "/post/**", "/tweet/**", "/binance/**")
+                .antMatchers("/users/**","/post/getPost", "/post/**", "/tweet/**", "/binance/**","/bot/**")
                 .permitAll()
                 .anyRequest().authenticated();
 

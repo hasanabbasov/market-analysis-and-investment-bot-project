@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Main from './page/dashboard/index'
 import DiscoveryPage from '../../frontend/src/page/discovery-page/Main'
-import Profile from '../../frontend/src/page/profile/Profile'
+import Profile from './page/social-media/profile/Profile'
 import Register from '../../frontend/src/page/register/Register'
 import Login from '../../frontend/src/page/login/Login'
 import Chart from './page/charts/index'
@@ -47,7 +47,7 @@ export default function App() {
                     {localStorage.getItem("currentUserName") != null ? <Route path="/analysis" element={<AnalysisPage/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/bot" element={<InvestBotPage/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/discovery" element={<DiscoveryPage/>}/> : <Route path="/login" element={<Login/>}/>}
-                    {localStorage.getItem("currentUserName") != null ? <Route path="/profile" element={<Profile/>}/> : <Route path="/login" element={<Login/>}/>}
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/profile/:userId" element={<Profile/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ? <Route path="/social-media" element={<SocialMedia/>}/> : <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") === null ? <Route path="/register" element={<Register/>}/> : <Route path="/dashboard" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") === null ? <Route path="/login" element={<Login/>}/> : <Route path="/dashboard" element={<Login/>}/>}

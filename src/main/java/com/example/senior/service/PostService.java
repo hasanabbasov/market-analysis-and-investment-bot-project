@@ -1,6 +1,8 @@
 package com.example.senior.service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.senior.entity.PostEntity;
+import com.example.senior.entity.TweetEntity;
 import com.example.senior.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +45,10 @@ public class PostService {
             return postRepository.save(post);
         }
         return null;
+    }
+
+    @Transactional
+    public List<PostEntity> allPostWithId(Long userId) {
+        return postRepository.findByUserId(userId);
     }
 }

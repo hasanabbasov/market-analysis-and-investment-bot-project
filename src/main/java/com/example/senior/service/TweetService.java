@@ -30,6 +30,10 @@ public class TweetService {
         return tweetRepository.findAll();
     }
 
+    public List<TweetEntity> allTweetWithId(Long userId){
+        return tweetRepository.findByUserId(userId);
+    }
+
     public List<TweetEntity> deleteTweet(Long tweeId) {
         tweetRepository.deleteById(tweeId);
         return allTweet();

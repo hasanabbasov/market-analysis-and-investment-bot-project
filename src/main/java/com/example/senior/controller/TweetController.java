@@ -25,6 +25,11 @@ public class TweetController {
         return tweetService.allTweet();
     }
 
+    @GetMapping("/allTweet/{userId}")
+    public List<TweetEntity> getAllTweetWithId(@PathVariable("userId") Long userId) {
+        return tweetService.allTweetWithId(userId);
+    }
+
     @DeleteMapping("/delete/{tweetId}")
     public List<TweetEntity> deleteTweet(@PathVariable("tweetId") Long tweeId){
         return tweetService.deleteTweet(tweeId);

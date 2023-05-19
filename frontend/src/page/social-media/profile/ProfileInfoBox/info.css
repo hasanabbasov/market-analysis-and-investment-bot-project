@@ -1,0 +1,20 @@
+.info-box-title-background {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 20px;
+    align-items: center;
+}
+
+.info-box-answer {
+    padding-left: 5px;
+}
+
+.info-box-title {
+    min-width: 20%;
+}
+
+.info-box-input {
+    min-width: 70%;
+    padding: 0 10px 0 10px;
+    min-height: 10px;
+}

@@ -42,21 +42,21 @@ const InvestBackground = () => {
         postBotStopRequest();
     }
 
-    const postBotEntity = () =>{
-        fetch('/bot/save',{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                asset: symb,
-                interval: interval,
-                start: showButton
-            }),
-        }).then((response) => response.json())
-            .then((res) => setBotResponse(res))
-            .catch((error) => console.error("Error: ", error))
-    }
+    // const postBotEntity = () =>{
+    //     fetch('/bot/save',{
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             asset: symb,
+    //             interval: interval,
+    //             start: showButton
+    //         }),
+    //     }).then((response) => response.json())
+    //         .then((res) => setBotResponse(res))
+    //         .catch((error) => console.error("Error: ", error))
+    // }
 
     const deleteBotEntity = async () => {
 

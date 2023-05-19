@@ -65,8 +65,6 @@ const PostBox = ({refreshData}) => {
                     return item;
                 }
             });
-            console.log("newData", newData);
-
             setData(newData); // newData'yı ana veri dizisi olarak ayarlayın
         }
     }, [postCommentData, tweetData, postData, tweetCommentData]);
@@ -132,12 +130,6 @@ const PostBox = ({refreshData}) => {
         fetchData();
         // fetchCommentData()
     }, [refreshData]);
-    // console.log("commentData",commentData)
-    // console.log("postCommentData",postCommentData)
-    console.log("tweetCommentData",tweetCommentData)
-    console.log("postData",postData)
-    // console.log("test",test)
-    // const groupedTweetComments = groupCommentsByTweetId(tweetCommentData);
 
     return (
         <div>

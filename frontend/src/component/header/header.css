@@ -1,11 +1,11 @@
 .header-background {
-    min-height: 100px;
-    background:#F8F9FA ;
+    min-height: 55px;
+    background: #2C3E50;
 }
 
 .header-background-social-media {
     min-height: 70px;
-    background:#F8F9FA ;
+    background: #2C3E50;
     display: flex;
     flex-direction: row-reverse;
     padding-right: 50px;
@@ -15,9 +15,12 @@
 .navbar__main {
     border-bottom: 1px solid #D8DBDE;
 }
-.navbar__logo {
+
+.header-app-logo {
     margin: 8px 10px 8px 16px ;
+    cursor: pointer;
 }
+
 .navbar__leftbar {
     display: flex;
 }
@@ -41,18 +44,30 @@
     width: 120px;
     height: 45px;
 }
+
+.back-to-social-media-icon {
+    padding-top: 13px;
+    width: 35px;
+    height: 45px;
+    color: white;
+}
+
+
 .navbar__tabs.active {
     border-bottom: 3px solid #1B77F2;
 }
 .navbar__righttab {
     display: flex;
     margin-left: 40px;
+    justify-content: center;
+    align-items: center;
 }
-.navbar_rightimg {
+.header-profile-page {
     margin-top: 15px;
     margin-right: 10px;
     max-width: 30px;
     max-height: 30px;
+    cursor: pointer;
 }
 .navbar__profilename{
     margin-top: 20px;
@@ -60,12 +75,17 @@
 }
 
 .social-media-botton {
-    background: #2C3E50;
+    background: white;
     border-color: black;
     border-radius: 14px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding-left: 25px;
     padding-right: 25px;
-    color: white;
+    color: black;
     cursor: pointer;
+}
+
+.back-to-social-media {
+    color: white;
+
 }

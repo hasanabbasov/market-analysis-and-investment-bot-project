@@ -18,7 +18,7 @@ public class TweetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tweetId;
     @Column(name = "user_id", nullable = false)
-    private String userId;
+    private Long userId;
     @Column(name = "nick", nullable = false)
     private String nick;
     @Column(length = 300, name = "likes")

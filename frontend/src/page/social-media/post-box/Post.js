@@ -17,10 +17,6 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
     const userId = localStorage.getItem("currentUserId");
     const isCommentEmpty = comment.trim() === '';
 
-    // console.log("tweetCommentData",tweetCommentData)
-    // console.log("postCommentDataVAlla",postCommentData)
-    console.log("postComment", postComment)
-    console.log("showCommentBox", showCommentBox)
 
 
     const sendCommentToDatabase = async () => {
@@ -49,8 +45,6 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
         } catch (error) {
             console.error('Comment paylaşılırken hata oluştu:', error);
         }
-
-        console.log("commentEntity", commentEntity)
     }
 
     const sendLikeToDatabase = () => {
@@ -78,8 +72,6 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                 .then((data) => console.log(data))
                 .catch((error) => console.error(error));
         }
-        console.log("postId",postId)
-        console.log("tweetId",tweetId)
     }
 
     return (

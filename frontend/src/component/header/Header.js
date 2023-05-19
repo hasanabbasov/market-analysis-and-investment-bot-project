@@ -3,7 +3,7 @@ import './header.css';
 import {useLocation} from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import fblogo from "../../styles/logo.png";
+import appLogo from "../../styles/LogoWeb.png";
 import home from "../../styles/home.svg";
 import page from "../../styles/pages.svg";
 import watch from "../../styles/watch.svg";
@@ -26,12 +26,13 @@ const Header = () => {
         console.log("params", location.pathname)
 
         const userName = localStorage.getItem("currentUserName");
+        const userId = localStorage.getItem("currentUserId");
         const navigateToSocialMedia = () => navigate('/social-media');
         const navigateToLogin = () => navigate('/login')
 
         return (
             <>
-                    { (userName != null && location.pathname !== '/social-media') &&
+                    { (userName != null && location.pathname !== '/social-media' && location.pathname !== `/profile/${userId}`) &&
                     <div className="header-background-social-media">
 
                                 <div className=''>
@@ -58,9 +59,9 @@ const Header = () => {
                                     <Grid container className="navbar__main">
                                             <Grid item xs={3}>
                                                     <div className="navbar__leftbar">
-                                                            <img className="navbar__logo" src={fblogo} width="40px"/>
+                                                            <img className="header-app-logo" src={appLogo} width="40px" onClick={() => navigate("/dashboard")}/>
                                                             <input className="navbar__search" type="text"
-                                                                   placeholder="Search Facebook"/>
+                                                                   placeholder="Search Social Media"/>
                                                     </div>
                                             </Grid>
                                             <Grid item xs={6}>
@@ -85,7 +86,7 @@ const Header = () => {
                                             <Grid item xs={3}>
                                                     <div className="navbar__right">
                                                             <div className="navbar__righttab">
-                                                                    <Avatar className="navbar_rightimg"/>
+                                                                    <Avatar className="header-profile-page" onClick={() => navigate(`/profile/${userId}`)}/>
                                                                     <div
                                                                         className="navbar__profilename">{userName}</div>
                                                             </div>
@@ -93,6 +94,34 @@ const Header = () => {
                                             </Grid>
                                     </Grid>
                     </div>}
+
+                    { ( location.pathname === `/profile/${userId}` && userName != null) &&
+                        <div className="header-background">
+                                <Grid container className="navbar__main">
+                                        <Grid item xs={3}>
+                                                <div className="navbar__leftbar">
+                                                        <img className="header-app-logo" src={appLogo} width="40px" onClick={() => navigate("/dashboard")}/>
+                                                </div>
+                                        </Grid>
+                                        <Grid item xs={6}>
+
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                                <div className="navbar__right">
+                                                        <div className="navbar__righttab">
+                                                                <div className="back-to-social-media-icon">
+                                                                        <img src={page} height="35px" width="35px"/>
+                                                                </div>
+                                                               <div className='back-to-social-media' onClick={() => navigate("/social-media")}>
+                                                                       Back to Main Page
+                                                               </div>
+                                                        </div>
+                                                </div>
+                                        </Grid>
+                                </Grid>
+                        </div>
+
+                    }
             </>
         );
 }

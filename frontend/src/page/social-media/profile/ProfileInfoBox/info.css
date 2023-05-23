@@ -11,10 +11,28 @@
 
 .info-box-title {
     min-width: 20%;
+    font-weight: bold;
 }
 
 .info-box-input {
     min-width: 70%;
     padding: 0 10px 0 10px;
     min-height: 10px;
+}
+
+.info-box-button {
+    background: #2C3E50;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.info-box-background-display {
+    display: flex;
+    justify-content: end;
+    padding-right: 45px;
 }

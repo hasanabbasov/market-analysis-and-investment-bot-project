@@ -5,12 +5,14 @@ import Grid from '@material-ui/core/Grid';
 import InfoBox from "./ProfileInfoBox/InfoBox";
 import ProfileRightSide from "./ProfileRightSide";
 import Tap from "./Tap";
+import "./Profile.css"
 import Resizer from "react-image-file-resizer";
 
 const Profile = () => {
     const [show, setShow] = useState('home');
     const [user, setUser] = useState('');
     const [profile, setProfile] = useState('');
+    const [editButton, setEditButton] = useState(false);
     const {userId} = useParams();
     const [profilePhoto, setProfilePhoto] = useState('');
     const [backgroundPhoto, setBackgroundPhoto] = useState('');
@@ -32,11 +34,14 @@ const Profile = () => {
             reader.onerror = (error) => reject(error);
         });
 
+    // const profilePhotoBase64 =  toBase64(profilePhoto);
+    // const backgroundPhotoBase64 =  toBase64(backgroundPhoto);
+
     const savePhotos = async () => {
         const profilePhotoBase64 = await toBase64(profilePhoto);
         const backgroundPhotoBase64 = await toBase64(backgroundPhoto);
 
-        fetch(`/profile/save`, {
+        fetch(`/profile/save/${user.userId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +61,7 @@ const Profile = () => {
                 setProfile(data);
             })
             .catch(console.error);
-    },[])
+    },[editButton,userId])
 
 
 
@@ -73,13 +78,13 @@ const Profile = () => {
                 width: '90%', padding: '20px', minHeight: '300px', display: 'flex', justifyContent: 'center'
                 , flexDirection: 'column', alignItems: 'center'
             }}>
-                {!profile && <input type='file' style={{width: '100%', height: '100%', cursor: 'pointer'}}
+                {editButton && <input type='file' style={{width: '100%', height: '100%', cursor: 'pointer'}}
                         onChange={(e) => setBackgroundPhoto(e.target.files[0])}/>
                 }
                 <Paper style={{width: '90%', minHeight: '150px'}}>
                     <img src={profile?.backgroundImageUrl} style={{width: '100%', height: '252px',}}/>
                     <Avatar style={{width: '170px', height: '170px', position: 'absolute', marginTop: '-60px', marginLeft:'50px'}}>
-                        {!profile ? <input type='file' style={{opacity: 0, width: '100%', height: '100%', cursor: 'pointer'}}
+                        {editButton ? <input type='file' style={{opacity: 0, width: '100%', height: '100%', cursor: 'pointer'}}
                                 onChange={(e) => setProfilePhoto(e.target.files[0])}/> :
                         <img src={profile?.profileImageUrl} style={{width: '90%', height: '90%'}}/>
                         }
@@ -88,17 +93,21 @@ const Profile = () => {
                     <div style={{position: 'absolute', marginTop: '30px', paddingLeft: '245px',fontWeight:'bold'}}>{user?.userName}</div>
                 </Paper>
 
-                {!profile && <button onClick={savePhotos}>Send</button>}
+                {editButton &&
+                    <div style={{paddingLeft:"80%"}}>
+                        <button className="info-photo-box-button" onClick={savePhotos}>Save Photo</button>
+                    </div>
+                }
 
-                <Paper style={{width: '100%', height: '50px', marginTop: '120px'}}>
-                    <Tap setShow={(value) => setShow(value)}/>
+                <Paper className="profile-tap-background" style={{width: '100%', height: '50px', marginTop: '120px' , background:"rgb(210,211,213)"}}>
+                    <Tap show={show} setShow={(value) => setShow(value)}/>
                 </Paper>
             </Paper>
 
             <div style={{width: '92%', padding:'20px'}}>
                 <Grid container>
                     <Grid item xs={4}>
-                        <InfoBox/>
+                        <InfoBox user={user} profile={profile} editButton={editButton} setEditButton={(value)=> setEditButton(value)} />
                     </Grid>
                     <Grid item xs={8} style={{paddingLeft:'30px'}}>
                         <ProfileRightSide show={show}/>

@@ -2,61 +2,68 @@ import React, {useState} from 'react';
 import {Paper} from '@material-ui/core'
 import './info.css'
 
-const InfoBox = () => {
+const InfoBox = ({user, profile, editButton, setEditButton}) => {
+    console.log("infoBox: ", user)
+    console.log("profile",profile)
+
     const infoBoxTitle = [
-        'Education',
-        'Tweetr',
-        'Facebook',
-        'Info',
-        'Lives in'
+        'education',
+        'twitter',
+        'facebook',
+        'info',
+        'live'
     ]
-    const [editButton, setEditButton] = useState(false);
+    // const [editButton, setEditButton] = useState(false);
     const [formValues, setFormValues] = useState({});
+    console.log("formValues",formValues)
 
     const handleChange = (title, value) => {
-        setFormValues(prevState => ({...prevState, [title]: value}));
+        setFormValues(prevState => ({...prevState, [title]: value, userId: user?.userId, nick: user?.userName}));
     }
+
+
 
     const handleSubmit = async () => {
         console.log("formValues", formValues)
-        // try {
-        //     const response = await fetch('/save/info', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(formValues),
-        //     });
-        //
-        //     const data = await response.json();
-        //     console.log(data);
-        // } catch (error) {
-        //     console.error("Error:", error);
-        // }
+        try {
+            const response = await fetch(`/profile/save/${user.userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formValues),
+            });
+
+            const data = await response.json();
+            console.log(data);
+            setEditButton(!editButton)
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
     return (
         <div>
             <Paper>
-                {editButton ? <>
+                {!editButton ? <>
                         <div className='info-box-title-background'>
                             <div className='info-box-title'>Education:</div>
-                            <div className='info-box-answer'>Akdeniz</div>
+                            <div className='info-box-answer'>{profile?.education}</div>
                         </div>
                         <div className='info-box-title-background'>
                             <div className='info-box-title'>Tweetr:</div>
-                            <div className='info-box-answer'>Akdeniz</div>
+                            <div className='info-box-answer'>{profile?.twitter}</div>
                         </div>
                         <div className='info-box-title-background'>
                             <div className='info-box-title'>Facebook:</div>
-                            <div className='info-box-answer'>Akdeniz</div>
+                            <div className='info-box-answer'>{profile?.facebook}</div>
                         </div>
                         <div className='info-box-title-background'>
                             <div className='info-box-title'>Info:</div>
-                            <div className='info-box-answer'>Akdeniz</div>
+                            <div className='info-box-answer'>{profile.info}</div>
                         </div>
                         <div className='info-box-title-background'>
                             <div className='info-box-title'>Lives in:</div>
-                            <div className='info-box-answer'>Turkiye</div>
+                            <div className='info-box-answer'>{profile?.live}</div>
                         </div>
                     </> :
                     infoBoxTitle.map((value) => (
@@ -72,15 +79,15 @@ const InfoBox = () => {
                     ))
 
                 }
-                <div>
-                    {editButton ? <button onClick={() => setEditButton(!editButton)}>
+                <div className="info-box-background-display">
+                    {!editButton ? <button className="info-box-button" onClick={() => setEditButton(!editButton)}>
                             Edit Info!
                         </button> :
                         <>
-                            <button onClick={() => setEditButton(!editButton)}>
+                            <button className="info-box-button" onClick={() => setEditButton(!editButton)}>
                                 Close Edit!
                             </button>
-                            <button onClick={handleSubmit}>Send</button>
+                            <button className="info-box-button" onClick={handleSubmit}>Send</button>
                         </>
                     }
                 </div>

@@ -10,7 +10,7 @@ import LineChartBalanceHistory from "../line-chart-balance-history/LineChartBala
 const Main = () => {
 
     const [data, setData] = useState();
-    console.log("yeter", data)
+    console.log("data active invest card: ", data)
 
     useEffect(() => {
         fetch('http://127.0.0.1:5000/active_invest')

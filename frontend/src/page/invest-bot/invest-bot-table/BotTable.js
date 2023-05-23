@@ -38,7 +38,7 @@ const BotTable = ({ positions, loading}) => { // props ismi yerine daha anlamlı
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
+                <TableHead >
                     <TableRow>
                         <StyledTableCell>Symbol</StyledTableCell>
                         <StyledTableCell align="right">Size</StyledTableCell>
@@ -59,6 +59,10 @@ const BotTable = ({ positions, loading}) => { // props ismi yerine daha anlamlı
                             <StyledTableCell align="right">{position['Unrealized PNL (ROE%)']}</StyledTableCell>
                         </StyledTableRow>
                     )) :  <Loading/>}
+
+                    {loading && positions.length === 0 && <div className="bot-table-no-invest">
+                        Bu kullanicinin aktive Trade'i yoktur
+                    </div>}
                 </TableBody>
             </Table>
         </TableContainer>

@@ -1,10 +1,7 @@
 import React from 'react';
-import './activeInvestCard.css'
-import { Table } from 'antd';
+import {Table} from "antd";
 
-
-const ActiveInvestCard = (data) => {
-
+const ActiveInvest = (data) => {
     const columns = [
         {
             title: 'Name',
@@ -94,4 +91,4 @@ const ActiveInvestCard = (data) => {
     );
 };
 
-export default ActiveInvestCard;
+export default ActiveInvest;

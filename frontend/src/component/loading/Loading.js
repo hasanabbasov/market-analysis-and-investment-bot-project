@@ -55,13 +55,26 @@ const useStyles = makeStyles({
     },
 });
 
-export default function CustomizedProgressBars() {
+const CustomizedProgressBars = ({value}) => {
     const classes = useStyles();
+    console.log("value",value)
 
     return (
-        <div className={classes.root} style={{paddingLeft:'85%', display:'flex', flexWrap:'nowrap', alignItems:'center'}}>
-            <h1 style={{whiteSpace:'nowrap', paddingRight:'50px'}}>Yatırım Yapılıyor</h1>
-            <FacebookCircularProgress />
-        </div>
+        <>
+            {value === "bot" &&
+                <div className={classes.root}
+                  style={{paddingLeft: '85%', display: 'flex', flexWrap: 'nowrap', alignItems: 'center'}}>
+                <h1 style={{whiteSpace: 'nowrap', paddingRight: '50px'}}>Yatırım Yapılıyor</h1>
+                <FacebookCircularProgress/>
+            </div>}
+            { value === "analysis" &&
+                <div className={classes.root}
+                style={{paddingLeft: '40%', display: 'flex', flexWrap: 'nowrap', alignItems: 'center'}}>
+                <h1 style={{whiteSpace: 'nowrap'}}>Analysis Yapılıyor</h1>
+                <FacebookCircularProgress/>
+                </div>
+            }
+        </>
     );
 }
+export default CustomizedProgressBars

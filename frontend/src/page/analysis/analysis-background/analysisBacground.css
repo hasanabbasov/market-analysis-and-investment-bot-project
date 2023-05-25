@@ -1,0 +1,38 @@
+.analysis-page-background {
+    padding-right: 25px;
+    padding-top: 15px;
+}
+
+.analysis-page-button-refresh-background {
+    background: #42984c;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.analysis-page-button-background {
+    background: #2C3E50;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.analysis-page-stop-button-background {
+    background: #ff7d7d;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+}

@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import React, {useState,useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import "./sidemenu.css"
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -15,14 +15,25 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 const SideMenu = ({size, onToggle}) =>{
 
     const [icon, setIcon] = useState(false);
+    const [profile, setProfile] = useState('');
     const userName = localStorage.getItem("currentUserName");
+    const userId = localStorage.getItem("currentUserId");
     const navigate = useNavigate();
+    console.log("profile",profile)
 
-    console.log("test" , localStorage.getItem("currentUserName"))
     const handleIcon = () =>{
         setIcon(!icon)
         onToggle(!size)
     }
+
+    useEffect(() =>{
+        fetch(`/profile/get/${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setProfile(data);
+            })
+            .catch(console.error);
+    },[userId])
 
     return(
         <>{ !icon &&
@@ -33,7 +44,7 @@ const SideMenu = ({size, onToggle}) =>{
                     </div>
                     <div className="side-menu-profile">
                         <div className="side-menu-avatar" >
-                            <a href='/profile'><Avatar alt="Remy Sharp" sx={{width: 84, height: 84}}/></a>
+                            <Avatar onClick={() => navigate(`/profile/${userId}`)} src={profile.profileImageUrl} alt="Remy Sharp" sx={{width: 84, height: 84}}/>
                         </div>
                         <div className="side-menu-user-title">
                             {userName}
@@ -42,15 +53,15 @@ const SideMenu = ({size, onToggle}) =>{
                     <Divider variant="middle"/>
                     <div className="side-menu-button">
                         <button className="side-menu-button-background" onClick={() => navigate("/dashboard")}>
-                                Dashboard
+                                Information
                         </button>
                         <button className="side-menu-button-background" onClick={() => navigate("/chart")}>
                             Charts
                         </button>
-                        <button className="side-menu-button-background" onClick={() => navigate("/history")}>History</button>
+                        {/*<button className="side-menu-button-background" onClick={() => navigate("/history")}>History</button>*/}
                         <button className="side-menu-button-background" onClick={() => navigate("/analysis")}>Analiz</button>
                         <button className="side-menu-button-background" onClick={() => navigate("/bot")}>Invest Bot</button>
-                        <button className="side-menu-button-background" onClick={() => navigate("/news")}>News</button>
+                        {/*<button className="side-menu-button-background" onClick={() => navigate("/news")}>News</button>*/}
 
                     </div>
                 </div>

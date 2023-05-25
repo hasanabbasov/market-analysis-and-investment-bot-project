@@ -19,6 +19,7 @@
 .side-menu-avatar {
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .side-menu-user-title {

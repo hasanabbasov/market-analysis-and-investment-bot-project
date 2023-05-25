@@ -58,7 +58,7 @@ const BotTable = ({ positions, loading}) => { // props ismi yerine daha anlamlı
                             <StyledTableCell align="right">{position['Mark Price']}</StyledTableCell>
                             <StyledTableCell align="right">{position['Unrealized PNL (ROE%)']}</StyledTableCell>
                         </StyledTableRow>
-                    )) :  <Loading/>}
+                    )) :  <Loading value={"bot"}/>}
 
                     {loading && positions.length === 0 && <div className="bot-table-no-invest">
                         Bu kullanicinin aktive Trade'i yoktur

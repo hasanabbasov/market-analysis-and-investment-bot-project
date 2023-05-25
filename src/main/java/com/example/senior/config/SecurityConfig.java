@@ -77,9 +77,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/like","http://127.0.0.1:5000/balance", "http://127.0.0.1:5000/chart-history/post","/post/save","/tweet/save","/comment/save", "/post/update/{postId}", "/binance/sendData", "/binance/update/{userId}", "/status/save","/bot/save")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**","/binance/getData/{id}", "/status/getAllStatus","/bot/getBot")
+                .antMatchers(HttpMethod.GET, "/post/getPost", "/tweet/allTweet","/comment/getAllComments/{postId}", "/comment/**","/binance/getData/{id}", "/status/getAllStatus","/bot/getBot","/analysis/getAnalysis/{userId}")
                 .permitAll()
-                .antMatchers("/users/**","/post/getPost", "/post/**", "/tweet/**", "/binance/**","/bot/**","/profile/**")
+                .antMatchers("/users/**","/post/getPost", "/post/**", "/tweet/**", "/binance/**","/bot/**","/profile/**", "/analysis/**")
                 .permitAll()
                 .anyRequest().authenticated();
 

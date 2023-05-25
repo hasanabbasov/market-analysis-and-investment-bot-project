@@ -6,15 +6,15 @@ import './invest.css'
 const InvestBackground = () => {
     const [loading, setLoading] = useState(false)
     const [showButton, setShowButton] = useState('');
-    const [positions,   setPositions] = useState([]); // Pozisyonları tutacak yeni state
+    const [positions, setPositions] = useState([]); // Pozisyonları tutacak yeni state
     const [intervalValues] = useState([
         'KLINE_INTERVAL_1MINUTE',
         'KLINE_INTERVAL_5MINUTE',
         'KLINE_INTERVAL_15MINUTE',
     ]);
-    const [intervalNames] = useState(['1 Minute','5 Minute', '15 Minute']);
+    const [intervalNames] = useState(['1 Minute', '5 Minute', '15 Minute']);
     const [symbols, setSymbols] = useState([]);
-    const [symb,setSymb] = useState('BTCUSDT');
+    const [symb, setSymb] = useState('BTCUSDT');
     const [interval, setIntervalTime] = useState('KLINE_INTERVAL_1MINUTE');
     const [botResponse, setBotResponse] = useState('');
 
@@ -26,7 +26,7 @@ const InvestBackground = () => {
                 setBotResponse(res[0])
                 setShowButton(res[0].start)
             }).catch(console.error)
-    },[])
+    }, [])
 
 
     const startBot = async () => {
@@ -76,8 +76,8 @@ const InvestBackground = () => {
         }
     }
 
-     //Burada botumuzu baslatmak icin interbal ve asset bilgilerimizi guncelliyoruz, ve botun basladigini bildiriyoruz
-     const updateBotEntity = async () => {
+    //Burada botumuzu baslatmak icin interbal ve asset bilgilerimizi guncelliyoruz, ve botun basladigini bildiriyoruz
+    const updateBotEntity = async () => {
         const id = 1
         try {
             const response = await fetch(`/bot/updateVariable/${id}`, {
@@ -100,16 +100,14 @@ const InvestBackground = () => {
     }
 
 
-
     //Her deyisiklikten sonra yeniden botun calisib calismadigi bilgilerini guncellemek icin
     const getBotResponse = () => {
         fetch('/bot/getBot').then((response) => response.json())
             .then((res) => {
-                console.log("deyisen: " , res)
+                console.log("deyisen: ", res)
                 setShowButton(res[0].start)
             }).catch(console.error)
     }
-
 
 
     const postBotStartRequest = () => {
@@ -152,14 +150,13 @@ const InvestBackground = () => {
 
     }
 
-    useEffect(() =>{
-        fetch("http://127.0.0.1:5000/usdt_symbols")
-            .then((response) => response.json())
-            .then((data) => {
-                setSymbols(data);
-            });
-    },[])
-
+        useEffect(() => {
+            fetch("http://127.0.0.1:5000/usdt_symbols")
+                .then((response) => response.json())
+                .then((data) => {
+                    setSymbols(data);
+                });
+        }, [])
 
 
     useEffect(() => {
@@ -179,26 +176,25 @@ const InvestBackground = () => {
     }, [showButton]); // Botun durumuna bağlı olarak güncelle
 
 
-
     return (
         <div className='invest-bot-page-background'>
             <Paper style={{padding: '20px'}}>
                 <h1>Bu bir yatirim Botudur</h1>
                 <h2>İlk başta İnterval ve Symbol seçin</h2>
-                { !showButton ? <div>
-                    <select id="symbol" value={symb} onChange={(e) => setSymb(e.target.value)}>
-                        {symbols.map((symbol) => (
-                            <option value={symbol} key={symbol}>{symbol}</option>
-                        ))}
-                    </select>
-                    <select value={interval} onChange={(e) => setIntervalTime(e.target.value)}>
-                        {intervalValues.map((value, index) => (
-                            <option key={index} value={value}>
-                                {intervalNames[index]}
-                            </option>
-                        ))}
-                    </select>
-                </div> :
+                {!showButton ? <div>
+                        <select id="symbol" value={symb} onChange={(e) => setSymb(e.target.value)}>
+                            {symbols.map((symbol) => (
+                                <option value={symbol} key={symbol}>{symbol}</option>
+                            ))}
+                        </select>
+                        <select value={interval} onChange={(e) => setIntervalTime(e.target.value)}>
+                            {intervalValues.map((value, index) => (
+                                <option key={index} value={value}>
+                                    {intervalNames[index]}
+                                </option>
+                            ))}
+                        </select>
+                    </div> :
                     <h1>Tabloda aktiv yapılan yatırımlar gözüküyor</h1>
                 }
             </Paper>

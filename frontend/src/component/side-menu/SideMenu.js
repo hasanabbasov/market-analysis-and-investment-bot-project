@@ -19,7 +19,7 @@ const SideMenu = ({size, onToggle}) =>{
     const userName = localStorage.getItem("currentUserName");
     const userId = localStorage.getItem("currentUserId");
     const navigate = useNavigate();
-    console.log("profile",profile)
+    // console.log("profile",profile)
 
     const handleIcon = () =>{
         setIcon(!icon)

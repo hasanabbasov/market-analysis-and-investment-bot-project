@@ -35,11 +35,11 @@ function Register() {
         })
             .then((response) => {
                 response.json()
-                console.log("successR",response.statusText)
+                // console.log("successR",response.statusText)
             })
             .then((data) => {
                 console.log("Success:", data);
-                // navigate('/login');
+                navigate('/login');
             })
             .catch((error) => {
                 console.error("Error:", error);

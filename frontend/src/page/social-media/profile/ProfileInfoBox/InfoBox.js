@@ -3,8 +3,9 @@ import {Paper} from '@material-ui/core'
 import './info.css'
 
 const InfoBox = ({user, profile, editButton, setEditButton}) => {
-    console.log("infoBox: ", user)
-    console.log("profile",profile)
+    // console.log("infoBox: ", user)
+    // console.log("profile",profile)
+    const userid = localStorage.getItem("currentUserId")
 
     const infoBoxTitle = [
         'education',
@@ -15,7 +16,7 @@ const InfoBox = ({user, profile, editButton, setEditButton}) => {
     ]
     // const [editButton, setEditButton] = useState(false);
     const [formValues, setFormValues] = useState({});
-    console.log("formValues",formValues)
+    // console.log("formValues",formValues)
 
     const handleChange = (title, value) => {
         setFormValues(prevState => ({...prevState, [title]: value, userId: user?.userId, nick: user?.userName}));
@@ -26,7 +27,7 @@ const InfoBox = ({user, profile, editButton, setEditButton}) => {
     const handleSubmit = async () => {
         console.log("formValues", formValues)
         try {
-            const response = await fetch(`/profile/save/${user.userId}`, {
+            const response = await fetch(`/profile/save/${userid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +36,7 @@ const InfoBox = ({user, profile, editButton, setEditButton}) => {
             });
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             setEditButton(!editButton)
         } catch (error) {
             console.error("Error:", error);

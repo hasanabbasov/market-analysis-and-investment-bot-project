@@ -84,7 +84,7 @@ const ActiveInvestCard = (data) => {
 
     const tableData = transformData(data.data)
     const onChange = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
+        // console.log('params', pagination, filters, sorter, extra);
     };
 
     return (

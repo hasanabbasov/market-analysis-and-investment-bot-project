@@ -8,13 +8,13 @@ import FutureInvest from "./FutureInvest";
 const Wallet = () => {
     const [show, setShow] = useState('active');
     const [data, setData] = useState();
-    console.log("data active invest card: ", data)
+    // console.log("data active invest card: ", data)
 
     useEffect(() => {
         fetch('http://127.0.0.1:5000/active_invest')
             .then((response) => response.json())
             .then((res) => {
-                console.log("res", res)
+                // console.log("res", res)
                 setData(res)
             })
     }, [])

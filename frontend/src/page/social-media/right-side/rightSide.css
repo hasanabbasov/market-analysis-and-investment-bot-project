@@ -12,4 +12,22 @@
     margin-left: 80px;
     padding-top: 25px;
     display: flex;
+    position: relative;
+}
+
+
+.imageLayout_imglay:hover .popup {
+    display: block;
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    z-index: 1;
 }

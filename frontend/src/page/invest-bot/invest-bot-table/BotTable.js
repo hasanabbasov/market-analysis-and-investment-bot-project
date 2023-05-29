@@ -32,8 +32,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const BotTable = ({ positions, loading}) => { // props ismi yerine daha anlamlı bir isim olan positions kullanıldı.
 
-    console.log("positions",positions)
-    console.log("loading",loading)
+    // console.log("positions",positions)
+    // console.log("loading",loading)
 
     return (
         <TableContainer component={Paper}>

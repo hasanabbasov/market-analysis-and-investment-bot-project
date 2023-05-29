@@ -4,20 +4,21 @@ import {Button, Modal} from "antd";
 import {useState} from "react";
 import './binance.css'
 
-const BinanceModal = () => {
+const BinanceModal = ({apikey}) => {
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const apiKey = localStorage.getItem("apiKey");
-    console.log("apiKey",apiKey)
+    // console.log("apiKey",apiKey)
+    // console.log("apikey",apikey)
     const userid = localStorage.getItem("currentUserId")
 
 
     const handleSubmit = (e) => {
-        console.log("name", name)
-        console.log("email", email)
+        // console.log("name", name)
+        // console.log("email", email)
 
         e.preventDefault();
         fetch('/binance/sendData', {
@@ -25,10 +26,13 @@ const BinanceModal = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({userId: userid, apiKey: email, secrutyKey: name}),
+            body: JSON.stringify({userId: userid, apiKey:email , secrutyKey:name}),
         })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                // console.log(data)
+                setIsModalOpen(false)
+            })
             .catch((error) => console.log(error));
     };
 
@@ -61,11 +65,11 @@ const BinanceModal = () => {
     const handleCancel = () => setIsModalOpen(false);
     return (
         <div>
-            { (!apiKey || false) && <Modal open={isModalOpen}
+            { (apiKey === undefined) && <Modal open={isModalOpen}
                                                                         onCancel={handleCancel}
                                                                         onOk={handleOk} width={1000} height={1000}>
                 <h1>Lutfen Devam Etmek icin Binance Secret key ve Api key'lerini girin</h1>
-                <h3>Binance hesabinizi baglamak istemezseniz sadece sosial medyadan devem etmek icin butona
+                <h3>Binance hesabinizi baglamak istemezseniz sadece sosial medyadan devem etmek icin ok butonuna
                     tiklayin</h3>
                 <form onSubmit={handleSubmit} style={{maxHeight: '200px', flexDirection: 'column', paddingTop: '80px'}}>
                     <div style={{width: '100%'}}>

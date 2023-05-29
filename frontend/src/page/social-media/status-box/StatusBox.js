@@ -11,7 +11,7 @@ const StatusBox = () => {
     const [showStoryPhoto, setSehowStoryPhoto] = useState(null);
     const userId = localStorage.getItem("currentUserId");
 
-    console.log("storyInfo",storyInfo)
+    // console.log("storyInfo",storyInfo)
 
     const fetchStatuses = () => {
         fetch('/status/getAllStatus')
@@ -43,7 +43,7 @@ const StatusBox = () => {
             statusImageUrl: storyPhoto,
         }
 
-        console.log("StoryEntity",StoryEntity)
+        // console.log("StoryEntity",StoryEntity)
 
         if (storyPhoto) {
             fetch(`/status/save`, {

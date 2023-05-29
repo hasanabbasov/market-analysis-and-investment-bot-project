@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 import './postBox.css'
 import {Paper, Avatar} from '@material-ui/core'
 import likePhoto from '../../../styles/like.png'
 import likebutton from "../../../styles/likebutton.png";
 import commentbutton from "../../../styles/comment.png";
 import sharebutton from "../../../styles/share.png";
+import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import SendIcon from "@mui/icons-material/Send";
 
 
@@ -17,6 +19,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
     const userId = localStorage.getItem("currentUserId");
     const isCommentEmpty = comment.trim() === '';
 
+    // console.log("tweet",tweet)
 
 
     const sendCommentToDatabase = async () => {
@@ -77,39 +80,46 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
     return (
         <div>
             <Paper className='post_container'>
-                <div className='post_header'>
-                    <div className='post_header_img'>
-                        <Avatar className='post_img'/>
-                    </div>
-                    <div className='post_header_text'>
-                        {nick}
-                    </div>
-                </div>
+                <Grid container spacing={2} style={{display:"flex", alignItems:'center'}}>
+                    {/*TODO*/}
+                    <Grid item xs={9}  className='post_header'>
+                        <div className='post_header_img'>
+                            <Avatar className='post_img'/>
+                        </div>
+                        <div className='post_header_text'>
+                            {nick}
+                        </div>
+                    </Grid>
+                    <Grid item xs={3} className="post-box-follow-botton">
+                        <span style={{paddingRight:"5px", fontSize:"15px"}}>Follow</span>
+                        <FollowTheSignsIcon style={{fontSize:"20px"}}/>
+                    </Grid>
+                </Grid>
                 <div className='post_description'>
                     {description ? description : tweet}
                 </div>
                 <div className='post_image'>
-                    <img src={photo} width='600px'/>
+                    <img src={photo} width='600px' alt={""}/>
                 </div>
                 <div className='post_likeCountContainer'>
                     <div className='post_like'>
-                        <img className='post_img' src={likePhoto}/>
+                        <img className='post_img' src={likePhoto} alt={""}/>
                     </div>
                     <div className='post_likecount'>
                         {like}
                     </div>
                 </div>
-                <div className='post_likeShare' >
+                <div className='post_likeShare'>
                     {liked ? <div className='post_tab' onClick={sendLikeToDatabase}>
                         <div className='post_tabfirst'>
-                            <img className='post_tabimg' src={likebutton}/>
+                            <img className='post_tabimg' src={likebutton} alt={""}/>
                         </div>
                         <div className='post_tabtext'>
                             Like
                         </div>
-                    </div> :  <div className='post_tab' onClick={sendLikeToDatabase}>
+                    </div> : <div className='post_tab' onClick={sendLikeToDatabase}>
                         <div className='post_tabfirst'>
-                            <img className='post_tabimg' src={likePhoto}/>
+                            <img className='post_tabimg' src={likePhoto} alt={""}/>
                         </div>
                         <div className='post_tabtext'>
                             Like
@@ -117,11 +127,10 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                     </div>}
 
 
-
                     <div className='post_tab' onClick={() => setShowCommentBox(!showCommentBox)}
                          style={{cursor: 'pointer'}}>
                         <div className='post_tabfirst'>
-                            <img className='post_tabimg' src={commentbutton}/>
+                            <img className='post_tabimg' src={commentbutton} alt={""}/>
                         </div>
                         <div className='post_tabtext'>
                             Comment
@@ -130,7 +139,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
 
                     <div className='post_tab'>
                         <div className='post_tabfirst'>
-                            <img className='post_tabimg' src={sharebutton}/>
+                            <img className='post_tabimg' src={sharebutton} alt={""}/>
                         </div>
                         <div className='post_tabtext'>
                             Share

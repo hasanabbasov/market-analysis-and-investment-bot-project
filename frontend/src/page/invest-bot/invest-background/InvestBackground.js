@@ -104,7 +104,7 @@ const InvestBackground = () => {
     const getBotResponse = () => {
         fetch('/bot/getBot').then((response) => response.json())
             .then((res) => {
-                console.log("deyisen: ", res)
+                // console.log("deyisen: ", res)
                 setShowButton(res[0].start)
             }).catch(console.error)
     }

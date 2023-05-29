@@ -93,7 +93,7 @@ const SharePost = ({ refreshData,onRefresh}) => {
                 <input type="text" className="upload_textbox" onChange={(evet) => setText(evet.target.value)}
                        placeholder="What's on your mind"/>
                 <img src={image}/>
-                <input type="button" value="Post" onClick={uploadToDataBase} className="upload_button"/>
+                <input type="button" value="Share Post" onClick={uploadToDataBase} className="upload_button"/>
             </Dialog>
             <Paper className='upload_container'>
                 <div className='upload_top'>

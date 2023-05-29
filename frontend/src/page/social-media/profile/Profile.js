@@ -17,7 +17,7 @@ const Profile = () => {
     const [profilePhoto, setProfilePhoto] = useState('');
     const [backgroundPhoto, setBackgroundPhoto] = useState('');
     console.log("profilePhoto",profilePhoto)
-    console.log("backgroundPhoto",backgroundPhoto)
+    // console.log("backgroundPhoto",backgroundPhoto)
 
     useEffect(() => {
         fetch(`/users/${userId}`)

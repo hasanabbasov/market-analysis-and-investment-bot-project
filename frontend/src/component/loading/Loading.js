@@ -57,7 +57,7 @@ const useStyles = makeStyles({
 
 const CustomizedProgressBars = ({value}) => {
     const classes = useStyles();
-    console.log("value",value)
+    // console.log("value",value)
 
     return (
         <>
@@ -72,6 +72,14 @@ const CustomizedProgressBars = ({value}) => {
                 style={{paddingLeft: '40%', display: 'flex', flexWrap: 'nowrap', alignItems: 'center'}}>
                 <h1 style={{whiteSpace: 'nowrap'}}>Analysis Yapılıyor</h1>
                 <FacebookCircularProgress/>
+                </div>
+            }
+            { value === "social" &&
+                <div className={classes.root}
+                style={{paddingLeft: '25%', display: 'flex', flexWrap: 'nowrap', alignItems: 'center'}}>
+                <h1 style={{whiteSpace: 'nowrap', minHeight: '500px'}}>Paylaşımlar yükleniyor
+                    <FacebookCircularProgress/></h1>
+
                 </div>
             }
         </>

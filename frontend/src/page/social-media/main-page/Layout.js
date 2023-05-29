@@ -8,7 +8,7 @@ import RightSide from "../right-side/RightSide";
 
 const Layout = () => {
     const [refreshData, setRefreshData] = useState(false);
-    console.log("refreshData",refreshData)
+    // console.log("refreshData",refreshData)
     return (
         <div className='mainpage_container' style={{background:'#F8F9FA'}}>
             <Grid container>

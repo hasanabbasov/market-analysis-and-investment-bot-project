@@ -1,5 +1,6 @@
 package com.example.senior.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,5 +43,11 @@ public class ProfileEntity {
 
     @Column(length = 300, name = "info", nullable = true)
     private String info;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "user_id") // User ile join yapmak için
+    @JsonIgnore
+    private UsersEntity user;
 
 }

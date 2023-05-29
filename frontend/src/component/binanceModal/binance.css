@@ -7,4 +7,5 @@ input {
 .binance-submit-button {
     background: #2C3E50;
     color: white;
+    cursor: pointer
 }

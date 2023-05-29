@@ -1,10 +1,13 @@
 package com.example.senior.controller;
 
+import com.example.senior.entity.ProfileEntity;
 import com.example.senior.entity.UsersEntity;
+import com.example.senior.repository.ProfileRepository;
 import com.example.senior.repository.UserRepository;
 import com.example.senior.responses.AuthResponse;
 import com.example.senior.security.JwtTokenProvider;
 import com.example.senior.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +30,9 @@ public class UserController {
 
     private PasswordEncoder passwordEncoder;
     private UserService userService;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 //    private RefreshTokenService refreshTokenService;
 
 
@@ -93,9 +99,56 @@ public class UserController {
         user.setLastname(registerRequest.getLastname());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+
+//        ProfileEntity profile = new ProfileEntity();
+//        profile.setUserId(user.getUserId()); // UserID'yi atayın
+//        profile.setNick(registerRequest.getUserName());
+//        profile.setUser(user); // User ilişkisini ayarlayın
+//
+//        user.setProfile(profile); // User ile Profile arasındaki ilişkiyi ayarlayın
+
+        ProfileEntity profile = new ProfileEntity();
+        profile.setUserId(user.getUserId()); // UserID'yi atayın
+        profile.setNick(registerRequest.getUserName());
+        profile.setUser(user); // User ilişkisini ayarlayın
+
+        user.setProfile(profile); // User ile Profile arasındaki ilişkiyi ayarlayın
+
         userService.saveOneUser(user);
+        profileRepository.save(profile); // Profili kaydedin
         authResponse.setMessage("User successfully registered.");
+//        // Profil oluştur
+//        ProfileEntity profile = new ProfileEntity();
+//        profile.setUser(user);
+//        profile.setNick(registerRequest.getUserName());
+//        profileRepository.save(profile);
+
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/{userId}/follow/{followedId}")
+    public ResponseEntity<Void> follow(@PathVariable Long userId, @PathVariable Long followedId) {
+        userService.addFollowed(userId, followedId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{userId}/unfollow/{followedId}")
+    public ResponseEntity<Void> unfollow(@PathVariable Long userId, @PathVariable Long followedId) {
+        userService.removeFollowed(userId, followedId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{userId}/following")
+    public ResponseEntity<List<UsersEntity>> getFollowing(@PathVariable Long userId) {
+        List<UsersEntity> following = userService.getFollowing(userId);
+        return ResponseEntity.ok(following);
+    }
+
+    @GetMapping("/{userId}/followers")
+    public ResponseEntity<List<UsersEntity>> getFollowers(@PathVariable Long userId) {
+        List<UsersEntity> followers = userService.getFollowers(userId);
+        return ResponseEntity.ok(followers);
     }
 
 

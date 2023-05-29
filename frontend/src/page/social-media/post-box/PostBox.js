@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import './postBox.css'
-import Post from "./Post";
+import React, { useEffect, useState } from 'react';
+import './postBox.css';
+import Post from './Post';
+import Loading from "../../../component/loading/Loading";
 
-const PostBox = ({refreshData}) => {
-
-
-    const [postData, setPostData] = useState('');
-    const [tweetData, setTweetData] = useState('');
-    const [postCommentData, setPostCommentData] = useState('');
-    const [tweetCommentData, setTweetCommentData] = useState('');
-    const [test, setTest] = useState('');
-    // const data = [...tweetData, ...postData];
+const PostBox = ({ refreshData }) => {
+    const [postData, setPostData] = useState([]);
+    const [tweetData, setTweetData] = useState([]);
+    const [postCommentData, setPostCommentData] = useState([]);
+    const [tweetCommentData, setTweetCommentData] = useState([]);
     const [data, setData] = useState([]);
 
-    // Bu fonksiyon, yorumları postId'ye göre gruplandırır
+    // console.log("postData",postData)
+    // console.log("tweetData",tweetData)
+    // console.log("postCommentData",postCommentData)
+    // console.log("tweetCommentData",tweetCommentData)
+    // console.log("data",data)
+
     const groupCommentsByPostId = (comments) => {
         return comments.reduce((acc, comment) => {
             const postId = comment.postId;
@@ -36,14 +38,67 @@ const PostBox = ({refreshData}) => {
         }, {});
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const postResponse = await fetch('/post/getPost');
+                const postResult = await postResponse.json();
+                setPostData(postResult);
+
+                const tweetResponse = await fetch('http://localhost:8080/tweet/allTweet');
+                const tweetResult = await tweetResponse.json();
+                setTweetData(tweetResult);
+            } catch (error) {
+                console.error('Error: ', error);
+            }
+        };
+
+        fetchData();
+    }, [refreshData]);
 
     useEffect(() => {
-        if (Array.isArray(postCommentData) && Array.isArray(tweetCommentData) && postCommentData.length > 0 || tweetCommentData.length > 0) {
-            // Yorumları postId ve tweetId'ye göre gruplandırın
+        if (postData.length > 0) {
+            Promise.all(
+                postData.map((post) => {
+                    const postId = post.postId;
+                    return fetch(`http://localhost:8080/comment/getAllComments/${postId}`)
+                        .then((response) => response.json())
+                        .catch((error) => {
+                            console.error('Error: ', error);
+                            return [];
+                        });
+                })
+            ).then((allComments) => {
+                const filteredComments = allComments.flat().filter((comment) => comment != null);
+                setPostCommentData(filteredComments);
+            });
+        }
+    }, [postData]);
+
+    useEffect(() => {
+        if (tweetData.length > 0) {
+            Promise.all(
+                tweetData.map((tweet) => {
+                    const tweetId = tweet.tweetId;
+                    return fetch(`http://localhost:8080/comment/getAllCommentsTweets/${tweetId}`)
+                        .then((response) => response.json())
+                        .catch((error) => {
+                            console.error('Error: ', error);
+                            return [];
+                        });
+                })
+            ).then((allComments) => {
+                const filteredComments = allComments.flat().filter((comment) => comment != null);
+                setTweetCommentData(filteredComments);
+            });
+        }
+    }, [tweetData]);
+
+    useEffect(() => {
+        if (Array.isArray(postCommentData) && Array.isArray(tweetCommentData) && (postCommentData.length > 0 || tweetCommentData.length > 0)) {
             const groupedPostComments = groupCommentsByPostId(postCommentData);
             const groupedTweetComments = groupCommentsByTweetId(tweetCommentData);
 
-            // Grupları ana veri dizisindeki uygun gönderi ve tweet'lerle birleştirin
             const newData = [...tweetData, ...postData].map((item) => {
                 if (item.postId && groupedPostComments[item.postId]) {
                     return {
@@ -65,96 +120,31 @@ const PostBox = ({refreshData}) => {
                     return item;
                 }
             });
-            setData(newData); // newData'yı ana veri dizisi olarak ayarlayın
+
+            setData(newData);
         }
-    }, [postCommentData, tweetData, postData, tweetCommentData]);
-
-
-
-
-    const fetchData = async () => {
-        try {
-            const postResponse = await fetch('/post/getPost');
-            const postResult = await postResponse.json();
-            setPostData(postResult);
-
-            const tweetResponse = await fetch('http://localhost:8080/tweet/allTweet');
-            const tweetResult = await tweetResponse.json();
-            setTweetData(tweetResult);
-        } catch (error) {
-            console.error("Error: ", error);
-        }
-    };
-
-    useEffect(() => {
-        if (postData.length > 0) {
-            Promise.all(
-                postData.map((post) => {
-                    const postId = post.postId;
-                    return fetch(`http://localhost:8080/comment/getAllComments/${postId}`)
-                        .then((response) => response.json())
-                        .catch((error) => {
-                            console.error("Error: ", error);
-                            return [];
-                        });
-                })
-            ).then((allComments) => {
-                const filteredComments = allComments.flat().filter((comment) => comment != null);
-                setPostCommentData(filteredComments);
-            });
-        }
-    }, [postData]);
-
-
-    useEffect(() => {
-        if (tweetData.length > 0) {
-            Promise.all(
-                tweetData.map((tweet) => {
-                    const tweetId = tweet.tweetId;
-                    return fetch(`http://localhost:8080/comment/getAllCommentsTweets/${tweetId}`)
-                        .then((response) => response.json())
-                        .catch((error) => {
-                            console.error("Error: ", error);
-                            return [];
-                        });
-                })
-            ).then((allComments) => {
-                const filteredComments = allComments.flat().filter((comment) => comment != null);
-                setTweetCommentData(filteredComments);
-            });
-        }
-    }, [tweetData]);
-
-
-    useEffect(() => {
-        fetchData();
-        // fetchCommentData()
-    }, [refreshData]);
+    }, [tweetData, postData, postCommentData, tweetCommentData]);
 
     return (
         <div>
-            { data.length > 0 ? (
+            {data.length > 0 ? (
                 data
                     .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
-                    .map((data) => (
+                    .map((item) => (
                         <Post
-                            nick={data.nick}
-                            description={data.description}
-                            like={data.likes}
-                            // key={data.postId || data.tweetId}
-                            tweet={data.tweetText}
-                            postId={data.postId}
-                            tweetId={data.tweetId}
-                            photo={data.postImgUrl}
-                            data={data}
-                            postComment ={ data.comments}
-                            // postCommentData={postCommentData}
-                            // tweetCommentData={tweetCommentData}
-
+                            nick={item.nick}
+                            description={item.description}
+                            like={item.likes}
+                            tweet={item.tweetText}
+                            postId={item.postId}
+                            tweetId={item.tweetId}
+                            photo={item.postImgUrl}
+                            data={item}
+                            postComment={item.comments}
                         />
                     ))
             ) : (
-                <p>No posts found</p>
+                <Loading value={"social"}/>
             )}
         </div>
     );

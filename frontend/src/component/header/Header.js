@@ -13,7 +13,10 @@ import market from "../../styles/market.svg";
 import group from "../../styles/groups.svg";
 import {Avatar} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import {useParams} from "react-router-dom";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 // import { getImage } from '../../GetImage';
 // import { Link } from 'react-router-dom';
 
@@ -23,14 +26,19 @@ const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [profile, setProfile] = useState('');
+    const [showMore, setShowMore] = useState(false)
 
     const isChart = location.pathname === '/chart';
-    console.log("params", location.pathname)
+    // console.log("params", location.pathname)
 
     const userName = localStorage.getItem("currentUserName");
     const userId = localStorage.getItem("currentUserId");
     const navigateToSocialMedia = () => navigate('/social-media');
     const navigateToLogin = () => navigate('/login')
+
+    const handleClose = () => {
+        setShowMore(false);
+    };
 
     useEffect(() => {
         fetch(`/profile/get/${userId}`)
@@ -78,9 +86,22 @@ const Header = () => {
                             <div className="navbar__right">
                                 <div className="navbar__righttab">
                                     <Avatar className="header-profile-page" src={profile.profileImageUrl}
-                                            onClick={() => navigate(`/profile/${userId}`)}/>
+                                            onClick={() => setShowMore(!showMore)}/>
                                     <div
-                                        className="navbar__profilename">{userName}</div>
+                                        className="navbar__profilename">{userName}
+                                    </div>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={showMore}
+                                        open={showMore}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                            'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        <MenuItem onClick={() => navigate(`/profile/${userId}`)}>Profile</MenuItem>
+                                        <MenuItem onClick={() => navigate(`/output`)}>Logout</MenuItem>
+                                    </Menu>
                                 </div>
                             </div>
                         </Grid>

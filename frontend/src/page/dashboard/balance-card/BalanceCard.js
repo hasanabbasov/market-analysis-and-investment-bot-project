@@ -12,7 +12,7 @@ const BalanceCard = () => {
         if (spotInfo && futureInfo) {
             const total = Number(spotInfo.usdt_balance) + Number(futureInfo.totalWalletBalance);
             setTotalWallet(total.toFixed(8));
-            console.log("totalWallet",totalWallet)
+            // console.log("totalWallet",totalWallet)
         }
     }, [spotInfo, futureInfo]);
 
@@ -26,9 +26,9 @@ const BalanceCard = () => {
                     setSpotInfo(data[0]);
                     setFutureInfo(data[1]);
                 }
-                console.log("spotInfo: ", spotInfo);
-                console.log("futureInfo: ", futureInfo);
-                console.log("data: ", data);
+                // console.log("spotInfo: ", spotInfo);
+                // console.log("futureInfo: ", futureInfo);
+                // console.log("data: ", data);
             })
             .catch(err => setError(err.message));
     }, []);

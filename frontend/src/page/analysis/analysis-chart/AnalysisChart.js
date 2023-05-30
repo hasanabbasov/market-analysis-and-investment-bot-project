@@ -16,14 +16,14 @@ const AnalysisChart = ({symb, interval, refresh}) => {
         let predictedCloseData = [];
 
         try {
-            const realCloseResponse = await fetch(`http://localhost:5000/real_close?symbol=${symb}&interval=${interval}`);
+            const realCloseResponse = await fetch(`http://127.0.0.1:5000/real_close?symbol=${symb}&interval=${interval}`);
             const realCloseResult = await realCloseResponse.json();
             realCloseData = realCloseResult.map((item, index) => ({
                 name: index,
                 'Real Close': item,
             }));
 
-            const predictedCloseResponse = await fetch(`http://localhost:5000/predicted_close?symbol=${symb}&interval=${interval}`);
+            const predictedCloseResponse = await fetch(`http://127.0.0.1:5000/predicted_close?symbol=${symb}&interval=${interval}`);
             const predictedCloseResult = await predictedCloseResponse.json();
             predictedCloseData = predictedCloseResult.map((item, index) => ({
                 'Predicted Close': item,

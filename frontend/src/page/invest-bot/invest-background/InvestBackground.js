@@ -113,7 +113,7 @@ const InvestBackground = () => {
     const postBotStartRequest = () => {
         getBotResponse()
         // http://127.0.0.1:5000/chart-history?date=${dataToChart.date}&lastDate=${dataToChart.lastDate}&symbol=${dataToChart.symbol}&interval=${dataToChart.interval}
-        fetch(`http://localhost:5000/start_bot?symbol=${symb}&interval=${interval}`, {
+        fetch(`http://127.0.0.1:5000/start_bot?symbol=${symb}&interval=${interval}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ const InvestBackground = () => {
     }
 
     const postBotStopRequest = () => {
-        fetch('http://localhost:5000/stop_bot', {
+        fetch('http://127.0.0.1:5000/stop_bot', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ const InvestBackground = () => {
     useEffect(() => {
         if (showButton) {
             const intervalId = setInterval(() => {
-                fetch('http://localhost:5000/futures_positions')
+                fetch('http://127.0.0.1:5000/futures_positions')
                     .then((response) => response.json())
                     .then((data) => {
                         setPositions(data);

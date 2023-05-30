@@ -9,7 +9,7 @@ const LeftFutureIcon = () => {
                 <Avatar/>
             </div>
             <div className='imageLayout_text'>
-                Bu bir Deneme Future'dur
+                Haberleri buradan filtrele
             </div>
         </div>
     );

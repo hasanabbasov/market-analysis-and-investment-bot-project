@@ -10,7 +10,7 @@ const FutureInvest = () => {
     useEffect(() => {
         if (showButton) {
             const intervalId = setInterval(() => {
-                fetch('http://localhost:5000/futures_positions')
+                fetch('http://127.0.0.1:5000/futures_positions')
                     .then((response) => response.json())
                     .then((data) => {
                         setPositions(data);

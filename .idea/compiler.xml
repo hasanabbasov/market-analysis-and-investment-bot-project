@@ -13,7 +13,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="senior" target="19" />
-      <module name="SeniorProject" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

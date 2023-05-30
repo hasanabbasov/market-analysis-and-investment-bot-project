@@ -95,7 +95,7 @@ const PostBox = ({ refreshData }) => {
     }, [tweetData]);
 
     useEffect(() => {
-        if (Array.isArray(postCommentData) && Array.isArray(tweetCommentData) && (postCommentData.length > 0 || tweetCommentData.length > 0)) {
+        if (Array.isArray(postCommentData) && Array.isArray(tweetCommentData)) {
             const groupedPostComments = groupCommentsByPostId(postCommentData);
             const groupedTweetComments = groupCommentsByTweetId(tweetCommentData);
 

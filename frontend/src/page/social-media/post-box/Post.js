@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import './postBox.css'
@@ -21,20 +21,21 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
     const [unFollowUserMethod, setUnFollowUserMethod] = useState('')
     const userId = localStorage.getItem("currentUserId");
     const isCommentEmpty = comment.trim() === '';
-    console.log("userId",userId)
+    console.log("following")
 
+    const getFollowingList = useCallback(() => {
+        return Promise.all([
+            fetch(`/users/${userId}/following`).then((response) => response.json())
+        ]).then(([res]) => {
+            setFollowing(res);
+            console.log("following: ", res);
+        });
+    }, [userId]);
 
-    console.log("ownerId",followedId)
-    console.log("following.includes(followedId)", following.includes(followedId))
 
     useEffect(() => {
-        fetch(`/users/${userId}/following`)
-            .then((response) => response.json())
-            .then((res) => {
-                setFollowing(res)
-                console.log("following: ", res)
-            })
-    },[userId, followUserMethod, unFollowUserMethod])
+        getFollowingList()
+    },[userId])
 
     const sendCommentToDatabase = async () => {
         const commentEntity = {
@@ -101,6 +102,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
             .then((res) => {
                 console.log("Success: ", res)
                 setFollowUserMethod(res)
+                getFollowingList()
             })
             .catch(console.error)
     }
@@ -115,6 +117,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
             .then((res) => {
                 console.log("Success: ", res)
                 setUnFollowUserMethod(res)
+                getFollowingList()
             })
             .catch(console.error)
     }

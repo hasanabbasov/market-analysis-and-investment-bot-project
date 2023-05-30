@@ -93,10 +93,9 @@ function Register() {
                 </FormControl>
                 <FormControl>
                     <FormLabel>Password</FormLabel>
-                    <Input
+                    <Input style={{color:"black"}}
                         name="password"
                         type="password"
-                        style={{color: "white"}}
                         placeholder="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -104,13 +103,14 @@ function Register() {
                 <Button sx={{mt: 1 /* margin top */}} type="submit">
                     Register
                 </Button>
-                <Typography
+                <div style={{paddingBottom:"50px"}}><Typography
                     endDecorator={<Link href="/login">Log in</Link>}
                     fontSize="sm"
                     sx={{alignSelf: 'center'}}
                 >
                     if you have an account
                 </Typography></div>
+            </div>
         </form>
         </div>
     );

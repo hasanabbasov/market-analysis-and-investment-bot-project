@@ -26,6 +26,7 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    @Transactional
     public void addFollowed(Long userId, Long followedId) {
         UsersEntity user = userRepository.findById(userId).orElseThrow();
         UsersEntity followed = userRepository.findById(followedId).orElseThrow();
@@ -33,7 +34,7 @@ public class UserService {
         user.addFollowed(followed);
         userRepository.save(user);
     }
-
+    @Transactional
     public void removeFollowed(Long userId, Long followedId) {
         UsersEntity user = userRepository.findById(userId).orElseThrow();
         UsersEntity followed = userRepository.findById(followedId).orElseThrow();

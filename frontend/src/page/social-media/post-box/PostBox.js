@@ -14,7 +14,7 @@ const PostBox = ({ refreshData }) => {
     // console.log("tweetData",tweetData)
     // console.log("postCommentData",postCommentData)
     // console.log("tweetCommentData",tweetCommentData)
-    // console.log("data",data)
+    console.log("data",data)
 
     const groupCommentsByPostId = (comments) => {
         return comments.reduce((acc, comment) => {
@@ -135,6 +135,7 @@ const PostBox = ({ refreshData }) => {
                             nick={item.nick}
                             description={item.description}
                             like={item.likes}
+                            followedId={item?.userId}
                             tweet={item.tweetText}
                             postId={item.postId}
                             tweetId={item.tweetId}

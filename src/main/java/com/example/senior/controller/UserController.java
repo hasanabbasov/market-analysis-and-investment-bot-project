@@ -128,13 +128,13 @@ public class UserController {
 
 
     @PostMapping("/{userId}/follow/{followedId}")
-    public ResponseEntity<Void> follow(@PathVariable Long userId, @PathVariable Long followedId) {
+    public ResponseEntity<Void> follow(@PathVariable("userId") Long userId, @PathVariable("followedId") Long followedId) {
         userService.addFollowed(userId, followedId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{userId}/unfollow/{followedId}")
-    public ResponseEntity<Void> unfollow(@PathVariable Long userId, @PathVariable Long followedId) {
+    public ResponseEntity<Void> unfollow(@PathVariable("userId") Long userId, @PathVariable("followedId") Long followedId) {
         userService.removeFollowed(userId, followedId);
         return ResponseEntity.ok().build();
     }

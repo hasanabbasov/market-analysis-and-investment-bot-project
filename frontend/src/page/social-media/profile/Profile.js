@@ -81,7 +81,7 @@ const Profile = () => {
                 {editButton && <input type='file' style={{width: '100%', height: '100%', cursor: 'pointer'}}
                         onChange={(e) => setBackgroundPhoto(e.target.files[0])}/>
                 }
-                <Paper style={{width: '90%', minHeight: '150px'}}>
+                <Paper style={{width: '100%', minHeight: '150px'}}>
                     <img src={profile?.backgroundImageUrl} style={{width: '100%', height: '252px',}}/>
                     <Avatar style={{width: '170px', height: '170px', position: 'absolute', marginTop: '-60px', marginLeft:'50px'}}>
                         {editButton ? <input type='file' style={{opacity: 0, width: '100%', height: '100%', cursor: 'pointer'}}

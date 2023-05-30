@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import './postBox.css'
@@ -11,16 +11,30 @@ import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import SendIcon from "@mui/icons-material/Send";
 
 
-const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComment}) => {
+const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComment, followedId}) => {
 
     const [comment, setComment] = useState('');
     const [liked, setLiked] = useState(true)
     const [showCommentBox, setShowCommentBox] = useState(false);
+    const [following, setFollowing] = useState([])
+    const [followUserMethod, setFollowUserMethod] = useState('')
+    const [unFollowUserMethod, setUnFollowUserMethod] = useState('')
     const userId = localStorage.getItem("currentUserId");
     const isCommentEmpty = comment.trim() === '';
+    console.log("userId",userId)
 
-    // console.log("tweet",tweet)
 
+    console.log("ownerId",followedId)
+    console.log("following.includes(followedId)", following.includes(followedId))
+
+    useEffect(() => {
+        fetch(`/users/${userId}/following`)
+            .then((response) => response.json())
+            .then((res) => {
+                setFollowing(res)
+                console.log("following: ", res)
+            })
+    },[userId, followUserMethod, unFollowUserMethod])
 
     const sendCommentToDatabase = async () => {
         const commentEntity = {
@@ -77,6 +91,34 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
         }
     }
 
+    const followUser = () => {
+        fetch(`/users/${userId}/follow/${followedId}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((res) => {
+                console.log("Success: ", res)
+                setFollowUserMethod(res)
+            })
+            .catch(console.error)
+    }
+
+    const unfollowUser = () => {
+        fetch(`/users/${userId}/unfollow/${followedId}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((res) => {
+                console.log("Success: ", res)
+                setUnFollowUserMethod(res)
+            })
+            .catch(console.error)
+    }
+
     return (
         <div>
             <Paper className='post_container'>
@@ -90,10 +132,21 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                             {nick}
                         </div>
                     </Grid>
-                    <Grid item xs={3} className="post-box-follow-botton">
-                        <span style={{paddingRight:"5px", fontSize:"15px"}}>Follow</span>
-                        <FollowTheSignsIcon style={{fontSize:"20px"}}/>
-                    </Grid>
+                    <div>
+                        {followedId == userId ?
+                            <div/> :
+                            following.some(follow => follow.userId === followedId ) ?
+                                <Grid item xs={3} className="post-box-unfollow-botton">
+                                    <span style={{paddingRight: "5px", fontSize: "15px"}} onClick={unfollowUser}>Unfollow</span>
+                                    <FollowTheSignsIcon style={{fontSize: "20px"}}/>
+                                </Grid> :
+                                <Grid item xs={3} className="post-box-follow-botton">
+                                    <span style={{paddingRight: "5px", fontSize: "15px"}} onClick={followUser}>Follow</span>
+                                    <FollowTheSignsIcon style={{fontSize: "20px"}}/>
+                                </Grid>
+                        }
+                    </div>
+
                 </Grid>
                 <div className='post_description'>
                     {description ? description : tweet}

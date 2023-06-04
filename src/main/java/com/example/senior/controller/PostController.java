@@ -1,13 +1,12 @@
 package com.example.senior.controller;
 
+import com.example.senior.dto.SocialMediaPostDTO;
 import com.example.senior.entity.PostEntity;
-import com.example.senior.entity.TweetEntity;
 import com.example.senior.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -23,7 +22,7 @@ public class PostController {
     }
 
     @GetMapping("/getPost")
-    public List<PostEntity> getAllPost() {
+    public List<SocialMediaPostDTO> getAllPost() {
         return postService.allPost();
     }
 

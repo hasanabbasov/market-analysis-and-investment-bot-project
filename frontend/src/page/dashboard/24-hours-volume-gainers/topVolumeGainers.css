@@ -1,0 +1,27 @@
+.top-volume-table-title {
+    /*position: relative;*/
+    padding-left: 40px;
+    font-weight: bold;
+    font-size: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+
+.top-volume-table-title-box {
+    position: relative;
+}
+
+.top-volume-table-title-box:hover::after {
+    content: "Son 24 saat boyunca hacim ağırlıklı ortalama fiyatı temsil eder";
+    position: absolute;
+    background-color: #ffffff;
+    padding: 5px;
+    bottom: calc(100% + 10px);
+    left: 0;
+    border: 1px solid #000000;
+    z-index: 1;
+    max-width: 240px;
+    white-space: normal;
+}

@@ -5,9 +5,10 @@ import Home from "./home/Home";
 import Tweets from "./tweets/Tweets";
 import Wallet from "./wallet/Wallet";
 import Saves from "./all-save/Saves";
+import Following from "./following/Following"
 
 const ProfileRightSide = ({show}) => {
-    switch(show) {
+    switch (show) {
         case 'home':
             return <Home/>;
         case 'tweet':
@@ -20,6 +21,8 @@ const ProfileRightSide = ({show}) => {
             return <AllLikedPostsAndTweets/>;
         case 'save':
             return <Saves/>;
+        case 'follow':
+            return <Following/>;
         default:
             return null;
     }

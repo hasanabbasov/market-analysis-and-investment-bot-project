@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Paper, Avatar} from '@material-ui/core'
 import live from "../../../styles/video.png";
 import feeling from "../../../styles/feelings.png";
@@ -11,6 +11,7 @@ const SharePost = ({ refreshData,onRefresh}) => {
     const [showPostDialog, setShowPostDialog] = useState(false);
     const [image, setImage] = useState(null);
     const [text, setText] = useState('');
+    const [profile, setProfile] = useState('');
     const userId = localStorage.getItem("currentUserId");
     const nick = localStorage.getItem("currentUserName");
 
@@ -83,6 +84,16 @@ const SharePost = ({ refreshData,onRefresh}) => {
         }
     }
 
+    useEffect(() => {
+        fetch(`/profile/get/${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setProfile(data);
+            })
+            .catch(console.error);
+    }, [userId])
+
+
     return (
         <div>
             <Dialog aria-labelledby="simple-dialog-title" className="upload_dialogbox" open={showPostDialog}>
@@ -98,7 +109,7 @@ const SharePost = ({ refreshData,onRefresh}) => {
             <Paper className='upload_container'>
                 <div className='upload_top'>
                     <div>
-                        <Avatar className='upload_img'/>
+                        <Avatar className='upload_img' src={profile?.profileImageUrl}/>
                     </div>
                     <div style={{width: '88%'}}>
                         <input className='upload_box' type='text' placeholder='Write here for sharing'

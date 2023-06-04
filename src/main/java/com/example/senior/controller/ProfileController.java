@@ -8,6 +8,8 @@ import com.example.senior.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -21,6 +23,11 @@ public class ProfileController {
     @GetMapping("/get/{userId}")
     public ProfileEntity getUserId(@PathVariable(value = "userId") Long userId){
         return profileRepository.findById(userId).get();
+    }
+
+    @GetMapping("/getAll")
+    public List<ProfileEntity> getAll(){
+        return profileRepository.findAll();
     }
 
     @PostMapping("/save/{userId}")

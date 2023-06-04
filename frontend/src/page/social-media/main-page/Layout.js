@@ -16,8 +16,8 @@ const Layout = () => {
                     <LeftSide/>
                 </Grid>
                 <Grid item xs={6} className='middleContainer'>
-                    <StatusBox/>
-                    <SharePost refreshData={refreshData} onRefresh={(value) => setRefreshData(value)}/>
+                    {/*<StatusBox/>*/}
+                    <SharePost  refreshData={refreshData} onRefresh={(value) => setRefreshData(value)}/>
                     <PostBox refreshData={refreshData}/>
                 </Grid>
                 <Grid item xs={3}>

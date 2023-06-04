@@ -5,15 +5,15 @@ import {useNavigate} from 'react-router-dom';
 
 const RightSide = () => {
     const userId =  localStorage.getItem("currentUserId")
-    const [following, setFollowing] = useState('');
     const navigate = useNavigate();
+    const [following, setFollowing] = useState([]);
+    console.log("rigtsideFollowinf",following)
     useEffect(() => {
         fetch(`/users/${userId}/following`)
             .then((response) => response.json())
             .then((res) => setFollowing(res))
             .catch(console.error)
-    },[])
-    // /social-media/user/:userId
+    },[userId])
     return (
         <div className="rightside_container">
             <div className="rightside_header">
@@ -22,7 +22,7 @@ const RightSide = () => {
             {  following ? following?.map((follow) => (
                 <div className="rightside_content">
                     <div className='imageLayout_imglay'>
-                        <Avatar/>
+                        <Avatar src={follow.profileImageUrl}/>
                         <div className='popup'>
                             <p><strong style={{paddingRight:'5px'}}>Nick:</strong> {follow.userName}</p>
                             <p><strong style={{paddingRight:'5px'}}>Email:</strong>{follow.email}</p>

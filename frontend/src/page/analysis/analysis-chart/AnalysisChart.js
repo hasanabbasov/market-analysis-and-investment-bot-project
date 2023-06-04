@@ -18,6 +18,7 @@ const AnalysisChart = ({symb, interval, refresh}) => {
         try {
             const realCloseResponse = await fetch(`http://127.0.0.1:5000/real_close?symbol=${symb}&interval=${interval}`);
             const realCloseResult = await realCloseResponse.json();
+            console.log("realCloseResponse")
             realCloseData = realCloseResult.map((item, index) => ({
                 name: index,
                 'Real Close': item,
@@ -25,6 +26,7 @@ const AnalysisChart = ({symb, interval, refresh}) => {
 
             const predictedCloseResponse = await fetch(`http://127.0.0.1:5000/predicted_close?symbol=${symb}&interval=${interval}`);
             const predictedCloseResult = await predictedCloseResponse.json();
+            console.log("predictedCloseResponse",predictedCloseResponse)
             predictedCloseData = predictedCloseResult.map((item, index) => ({
                 'Predicted Close': item,
             }));
@@ -32,9 +34,9 @@ const AnalysisChart = ({symb, interval, refresh}) => {
             console.error('Error:', error);
         }
 
-        let data = realCloseData.map((item, index) => ({
+        let data = predictedCloseData.map((item, index) => ({
             ...item,
-            ...predictedCloseData[index],
+            ...realCloseData[index] || {},
         }));
 
         setData(data);
@@ -58,7 +60,7 @@ const AnalysisChart = ({symb, interval, refresh}) => {
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis dataKey="name"/>
                 <YAxis scale="log" domain={['auto', 'auto']} allowDataOverflow={true}>
-                    <Label value="Value" angle={-90} position="insideLeft" offset={-10}/>
+                    <Label value= {symb} angle={-90} position="insideLeft" offset={-10}/>
                 </YAxis>
                 <Tooltip/>
                 <Legend/>

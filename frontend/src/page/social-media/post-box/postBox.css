@@ -20,6 +20,7 @@
 }
 .post_img {
     margin: 15px;
+    cursor: pointer;
 }
 .post_header_text {
     font-weight: 700;

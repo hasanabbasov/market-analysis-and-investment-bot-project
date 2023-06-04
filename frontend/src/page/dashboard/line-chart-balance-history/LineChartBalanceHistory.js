@@ -16,27 +16,18 @@ ChartJS.register(
     PointElement
 )
 
-const data = {
-    labels: ['Mon','Wen','Sat'],
-    datasets: [{
-        axis: 'y',
-        label: 'My First Dataset',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: true,
-        backgroundColor: [
-            'rgba(54, 162, 235, 0.2)',
-        ],
-        borderColor: [
-            'rgb(54, 162, 235)',
-        ],
-        borderWidth: 1,
-        tension:0.4
-    }]
-};
-
 const options = {
     plugins: {
-        legend: true
+        legend: {
+            labels: {
+                // Etiketin rengini belirtir
+                color: 'rgb(0,0,0)',
+                // Etiketin font-weight'unu belirtir
+                font: {
+                    weight: 'bold'
+                }
+            }
+        }
     },
     scales: {
         y:{},
@@ -44,11 +35,36 @@ const options = {
     }
 }
 
-const LineChartBalanceHistory = () => {
+const LineChartBalanceHistory = ({bitcoinHoursData}) => {
+    // `bitcoinHoursData` nesnesini anahtarlar (saatler) ve değerler (fiyatlar) olarak ayır
+    const hours = Object.keys(bitcoinHoursData);
+    const prices = Object.values(bitcoinHoursData);
+
+    // Veriyi güncelle
+    const data = {
+        labels: hours,
+        datasets: [{
+            axis: 'y',
+            label: 'Bitcoin 24 hours Data',
+
+            data: prices,
+            fill: true,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+                'rgb(4,102,173)',
+            ],
+            borderWidth: 4,
+            tension:1
+        }]
+    };
+
     return (
-        <div style={{paddingTop:'20px'}}>
-            <div className='line-chart-balance-history'><p>Line Chart</p>
-                <Line data={data} options={options}/></div>
+        <div style={{paddingTop:'13px', width:"100%"}}>
+            <div className='line-chart-balance-history'>
+                <Line data={data} options={options}/>
+            </div>
         </div>
     );
 };

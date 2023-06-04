@@ -19,6 +19,9 @@ const Login = () => {
     const [error, setError] = useState(false);
     const navigate = useNavigate();
 
+    console.log("userName",userName)
+    console.log("password",password)
+
     const handleLogin =  (e) => {
         e.preventDefault();
         fetch(`/users/login`, {
@@ -85,7 +88,7 @@ const Login = () => {
                             <Input
                                 name="password"
                                 type="password"
-                                style={{color: "white"}}
+                                style={{color: "black"}}
                                 placeholder="password"
                                 onChange={(e) => setPassword(e.target.value)}
                             />

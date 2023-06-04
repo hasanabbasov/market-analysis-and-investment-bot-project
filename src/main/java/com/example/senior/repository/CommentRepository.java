@@ -11,6 +11,10 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
     List<CommentEntity> findAllByOrderByCommentID();
 
+    List<CommentEntity> findByPostId(Long postId);
+
+    List<CommentEntity> findByTweetId(Long tweetId);
+
 //    List<CommentEntity> findAllById(Long postId);
 
 //    List<CommentEntity> findAllById(Long postID);

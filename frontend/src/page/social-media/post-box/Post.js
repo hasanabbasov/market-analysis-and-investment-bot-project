@@ -11,17 +11,19 @@ import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import SendIcon from "@mui/icons-material/Send";
 
 
-const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComment, followedId}) => {
+const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComment, followedId, data, comments}) => {
 
     const [comment, setComment] = useState('');
     const [liked, setLiked] = useState(true)
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [following, setFollowing] = useState([])
-    const [followUserMethod, setFollowUserMethod] = useState('')
-    const [unFollowUserMethod, setUnFollowUserMethod] = useState('')
+    const [followUserMethod, setFollowUserMethod] = useState([])
+    const [unFollowUserMethod, setUnFollowUserMethod] = useState([])
     const userId = localStorage.getItem("currentUserId");
+    const navigate = useNavigate();
     const isCommentEmpty = comment.trim() === '';
-    console.log("following")
+    console.log("following", following)
+    console.log("followedId", followedId)
 
     const getFollowingList = useCallback(() => {
         return Promise.all([
@@ -30,12 +32,12 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
             setFollowing(res);
             console.log("following: ", res);
         });
-    }, [userId]);
+    }, [userId, followUserMethod, unFollowUserMethod]);
 
 
     useEffect(() => {
         getFollowingList()
-    },[userId])
+    }, [userId])
 
     const sendCommentToDatabase = async () => {
         const commentEntity = {
@@ -125,11 +127,11 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
     return (
         <div>
             <Paper className='post_container'>
-                <Grid container spacing={2} style={{display:"flex", alignItems:'center'}}>
+                <Grid container spacing={2} style={{display: "flex", alignItems: 'center'}}>
                     {/*TODO*/}
-                    <Grid item xs={9}  className='post_header'>
+                    <Grid item xs={9} className='post_header'>
                         <div className='post_header_img'>
-                            <Avatar className='post_img'/>
+                            <Avatar className='post_img' src={data?.profileImageUrl ? data?.profileImageUrl : ""}  onClick={() => navigate(`/profile/${data.userId}`)}  />
                         </div>
                         <div className='post_header_text'>
                             {nick}
@@ -138,13 +140,15 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                     <div>
                         {followedId == userId ?
                             <div/> :
-                            following.some(follow => follow.userId === followedId ) ?
+                            following.some(follow => follow.userId === followedId) ?
                                 <Grid item xs={3} className="post-box-unfollow-botton">
-                                    <span style={{paddingRight: "5px", fontSize: "15px"}} onClick={unfollowUser}>Unfollow</span>
+                                    <span style={{paddingRight: "5px", fontSize: "15px"}}
+                                          onClick={unfollowUser}>Unfollow</span>
                                     <FollowTheSignsIcon style={{fontSize: "20px"}}/>
                                 </Grid> :
                                 <Grid item xs={3} className="post-box-follow-botton">
-                                    <span style={{paddingRight: "5px", fontSize: "15px"}} onClick={followUser}>Follow</span>
+                                    <span style={{paddingRight: "5px", fontSize: "15px"}}
+                                          onClick={followUser}>Follow</span>
                                     <FollowTheSignsIcon style={{fontSize: "20px"}}/>
                                 </Grid>
                         }
@@ -202,33 +206,35 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                         </div>
                     </div>
                 </div>
-                {showCommentBox && <div className='post-comment-box-background'>
-                    <div>
-                        {postComment ? postComment?.map(({comment, userId}, index) => (
-                            <>
-                                <div className='' style={{display: 'flex', paddingBottom: '15px', paddingTop: '15px'}}>
-                                    <div style={{width: '20%', display: 'flex', justifyContent: 'center'}}>
-                                        <Avatar/>
+                {
+                    showCommentBox && <div className='post-comment-box-background'>
+                        <div>
+                            {comments ? comments?.map(({comment, nick, profileImageUrl}, index) => (
+                                <>
+                                    <div className='' style={{display: 'flex', paddingBottom: '15px', paddingTop: '15px'}}>
+                                        <div style={{width: '20%', display: 'flex', justifyContent: 'center'}}>
+                                            <Avatar src={profileImageUrl ? profileImageUrl : "" }/>
+                                        </div>
+                                        <div className='test'>
+                                            <div style={{
+                                                width: '100%',
+                                                fontWeight: "bold",
+                                                paddingTop: '5px'
+                                            }}>{nick}</div>
+                                            <div style={{paddingTop: '15px', paddingBottom: '5px'}}
+                                                 key={index}>{comment}</div>
+                                        </div>
                                     </div>
-                                    <div className='test'>
-                                        <div style={{
-                                            width: '100%',
-                                            fontWeight: "bold",
-                                            paddingTop: '5px'
-                                        }}>{userId}</div>
-                                        <div style={{paddingTop: '15px', paddingBottom: '5px'}}
-                                             key={index}>{comment}</div>
-                                    </div>
-                                </div>
-                                <div></div>
-                            </>
-                        )) : <div>Comment yok</div>}
+                                    <div></div>
+                                </>
+                            )) : <div>Comment yok</div>}
+                        </div>
                     </div>
-                </div>}
+                }
                 <div>
                     <div className='upload_top'>
                         <div className='post-comment-avatar-background'>
-                            <Avatar/>
+                            <Avatar src={data?.profileImageUrl ? data?.profileImageUrl : "" }/>
                         </div>
                         <div style={{width: '80%'}}>
                             <input className='upload_box' type='text' placeholder='Share comment'
@@ -246,7 +252,8 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                 </div>
             </Paper>
         </div>
-    );
+    )
+        ;
 };
 
 export default Post;

@@ -1,10 +1,15 @@
 package com.example.senior.service;
 
+import com.example.senior.dto.UserContactDTO;
+import com.example.senior.entity.ProfileEntity;
 import com.example.senior.entity.UsersEntity;
+import com.example.senior.repository.ProfileRepository;
 import com.example.senior.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +17,10 @@ import java.util.stream.Collectors;
 public class UserService {
 
 
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
+    ProfileRepository profileRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -44,10 +52,36 @@ public class UserService {
     }
 
     @Transactional
-    public List<UsersEntity> getFollowing(Long userId) {
+    public List<UserContactDTO> getFollowing(Long userId) {
         UsersEntity user = userRepository.findById(userId).orElseThrow();
-        return user.getFollowed().stream().collect(Collectors.toList());
+        List<UsersEntity> following = user.getFollowed().stream().collect(Collectors.toList());
+        List<UserContactDTO> followingDTOList = new ArrayList<>();
+
+        for(UsersEntity userEntity : following) {
+            ProfileEntity profile = profileRepository.findById(userEntity.getUserId()).orElseThrow();
+            UserContactDTO followingDTO = new UserContactDTO();
+
+            followingDTO.setUserId(userEntity.getUserId());
+            followingDTO.setUserName(userEntity.getUserName());
+            followingDTO.setFirstname(userEntity.getFirstname());
+            followingDTO.setLastname(userEntity.getLastname());
+            followingDTO.setEmail(userEntity.getEmail());
+
+            followingDTO.setNick(profile.getNick());
+            followingDTO.setProfileImageUrl(profile.getProfileImageUrl());
+            followingDTO.setBackgroundImageUrl(profile.getBackgroundImageUrl());
+            followingDTO.setEducation(profile.getEducation());
+            followingDTO.setTwitter(profile.getTwitter());
+            followingDTO.setFacebook(profile.getFacebook());
+            followingDTO.setLive(profile.getLive());
+            followingDTO.setInfo(profile.getInfo());
+
+            followingDTOList.add(followingDTO);
+        }
+
+        return followingDTOList;
     }
+
 
     @Transactional
     public List<UsersEntity> getFollowers(Long userId) {

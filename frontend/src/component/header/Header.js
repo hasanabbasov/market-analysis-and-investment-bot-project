@@ -26,10 +26,13 @@ const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [profile, setProfile] = useState('');
+    const [AllUserProfile, setAllUserProfile] = useState([]);
+    const [search, setSearch] = useState("");
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [showMore, setShowMore] = useState(false)
-
+    console.log("AllUserProfile",AllUserProfile)
     const isChart = location.pathname === '/chart';
-    // console.log("params", location.pathname)
+    console.log("filteredUsers",filteredUsers)
 
     const userName = localStorage.getItem("currentUserName");
     const userId = localStorage.getItem("currentUserId");
@@ -40,11 +43,39 @@ const Header = () => {
         setShowMore(false);
     };
 
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+        if (event.target.value.length > 0) {
+            const filtered = AllUserProfile.filter(user =>
+                user.nick.toLowerCase().includes(event.target.value.toLowerCase())
+            );
+            setFilteredUsers(filtered);
+        } else {
+            setFilteredUsers([]);
+        }
+    }
+
+    const handleClick = (userId) => {
+        // You can use this userId to navigate to the appropriate profile page
+        navigate(`/profile/${userId}`);
+        setFilteredUsers([]);
+        setSearch("");
+    }
+
     useEffect(() => {
         fetch(`/profile/get/${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 setProfile(data);
+            })
+            .catch(console.error);
+    }, [userId])
+
+    useEffect(() => {
+        fetch(`/profile/getAll`)
+            .then((response) => response.json())
+            .then((data) => {
+                setAllUserProfile(data);
             })
             .catch(console.error);
     }, [userId])
@@ -57,38 +88,51 @@ const Header = () => {
                 <div className="header-background">
                     <Grid container className="navbar__main">
                         <Grid item xs={3}>
-                            <div className="header-left-side-logo" onClick={() => navigate("/dashboard")}>
-                                <img className="header-app-logo" src={appLogo} width="40px"
+                            <div className="header-left-side-logo" >
+                                <img className="header-app-logo" src={appLogo} width="40px" onClick={() => navigate("/dashboard")}
                                      />
                                 <p className="website-name">InvestMedia</p>
-                                { location.pathname === '/social-media' && <input className="navbar__search" type="text"
-                                        placeholder="Search Social Media"/>}
+                                { location.pathname === '/social-media' &&
+
+                                    <div className="search-container">
+                                        <input className="navbar__search" type="text" placeholder="Search Social Media" value={search} onChange={handleSearch} />
+                                        {search && filteredUsers.length > 0 && (
+                                        <div className="search-results">
+                                            {filteredUsers.map(user => (
+                                                <div key={user.userId} className="search-result" onClick={() => handleClick(user.userId)}>
+                                                    {user.nick}
+                                                </div>
+                                            ))}
+                                        </div>
+                                            )}
+                                    </div>
+                                }
                             </div>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={6} style={{display: "flex", alignItems:"center", justifyContent:"center"}}>
                             <div className="navbar__container">
                                 <div className="header-logo-title">
                                     <DashboardIcon/>
-                                    <p style={{paddingLeft:'10px'}} onClick={() => navigate("/dashboard")}>
+                                    <p style={{paddingLeft:'10px' , fontSize:"20px"}} onClick={() => navigate("/dashboard")}>
                                         Dashboard
                                     </p>
                                 </div>
                                 <div className="header-logo-title">
                                     <ConnectWithoutContactIcon/>
-                                    <p style={{paddingLeft:'10px'}} onClick={navigateToSocialMedia}>
+                                    <p style={{paddingLeft:'10px',  fontSize:"20px"}} onClick={navigateToSocialMedia}>
                                         Social Media
                                     </p>
                                 </div>
 
                             </div>
                         </Grid>
-                        <Grid item xs={3}>
-                            <div className="navbar__right">
-                                <div className="navbar__righttab">
+                        <Grid item xs={3} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                            <div className="header-right">
+                                <div className="header-righttab">
                                     <Avatar className="header-profile-page" src={profile.profileImageUrl}
                                             onClick={() => setShowMore(!showMore)}/>
                                     <div
-                                        className="navbar__profilename">{userName}
+                                        className="navbar-profilename">{userName}
                                     </div>
                                     <Menu
                                         id="basic-menu"
@@ -99,8 +143,8 @@ const Header = () => {
                                             'aria-labelledby': 'basic-button',
                                         }}
                                     >
-                                        <MenuItem onClick={() => navigate(`/profile/${userId}`)}>Profile</MenuItem>
-                                        <MenuItem onClick={() => navigate(`/output`)}>Logout</MenuItem>
+                                        <MenuItem style={{background: "#2C3E50", width:"200px" , paddingLeft:"75px", color:"white"}} onClick={() => navigate(`/profile/${userId}`)}>Profile</MenuItem>
+                                        <MenuItem style={{background: "#2C3E50", width:"200px" , paddingLeft:"75px", color:"white", borderTopx: '1px solid #FFFF'}} onClick={() => navigate(`/output`)}>Logout</MenuItem>
                                     </Menu>
                                 </div>
                             </div>
@@ -118,78 +162,6 @@ const Header = () => {
                     </div>
                 </div>
             }
-
-            {/*{(location.pathname === '/social-media' && userName != null) &&*/}
-            {/*    <div className="header-background">*/}
-            {/*        <Grid container className="navbar__main">*/}
-            {/*            <Grid item xs={3}>*/}
-            {/*                <div className="navbar__leftbar">*/}
-            {/*                    <img className="header-app-logo" src={appLogo} width="40px"*/}
-            {/*                         onClick={() => navigate("/dashboard")}/>*/}
-            {/*                    <input className="navbar__search" type="text"*/}
-            {/*                           placeholder="Search Social Media"/>*/}
-            {/*                </div>*/}
-            {/*            </Grid>*/}
-            {/*            <Grid item xs={6}>*/}
-            {/*                <div className="navbar__container">*/}
-            {/*                    <div className="navbar__tabs active">*/}
-            {/*                        <img src={home} height="35px" width="35px"/>*/}
-            {/*                    </div>*/}
-            {/*                    <div className="navbar__tabs">*/}
-            {/*                        <img src={page} height="35px" width="35px"/>*/}
-            {/*                    </div>*/}
-            {/*                    <div className="navbar__tabs">*/}
-            {/*                        <img src={watch} height="35px" width="35px"/>*/}
-            {/*                    </div>*/}
-            {/*                    <div className="navbar__tabs">*/}
-            {/*                        <img src={market} height="35px" width="35px"/>*/}
-            {/*                    </div>*/}
-            {/*                    <div className="navbar__tabs">*/}
-            {/*                        <img src={group} height="35px" width="35px"/>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </Grid>*/}
-            {/*            <Grid item xs={3}>*/}
-            {/*                <div className="navbar__right">*/}
-            {/*                    <div className="navbar__righttab">*/}
-            {/*                        <Avatar className="header-profile-page" src={profile.profileImageUrl}*/}
-            {/*                                onClick={() => navigate(`/profile/${userId}`)}/>*/}
-            {/*                        <div*/}
-            {/*                            className="navbar__profilename">{userName}</div>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </Grid>*/}
-            {/*        </Grid>*/}
-            {/*    </div>}*/}
-
-            {/*{(location.pathname === `/profile/${userId}` && userName != null) &&*/}
-            {/*    <div className="header-background">*/}
-            {/*        <Grid container className="navbar__main">*/}
-            {/*            <Grid item xs={3}>*/}
-            {/*                <div className="navbar__leftbar">*/}
-            {/*                    <img className="header-app-logo" src={appLogo} width="40px"*/}
-            {/*                         onClick={() => navigate("/dashboard")}/>*/}
-            {/*                </div>*/}
-            {/*            </Grid>*/}
-            {/*            <Grid item xs={6}>*/}
-
-            {/*            </Grid>*/}
-            {/*            <Grid item xs={3}>*/}
-            {/*                <div className="navbar__right">*/}
-            {/*                    <div className="navbar__righttab">*/}
-            {/*                        <div className="back-to-social-media-icon">*/}
-            {/*                            <img src={page} height="35px" width="35px"/>*/}
-            {/*                        </div>*/}
-            {/*                        <div className='back-to-social-media' onClick={() => navigate("/social-media")}>*/}
-            {/*                            Back to Main Page*/}
-            {/*                        </div>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </Grid>*/}
-            {/*        </Grid>*/}
-            {/*    </div>*/}
-
-            {/*}*/}
         </>
     );
 }

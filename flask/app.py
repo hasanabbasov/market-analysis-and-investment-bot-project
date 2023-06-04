@@ -24,8 +24,6 @@ db = SQLAlchemy(app)
 CORS(app)
 
 
-
-
 # Chart tablosundan API anahtarlarını ve güvenlik anahtarlarını çek
 def get_chart_api_keys():
     with app.app_context():
@@ -59,7 +57,7 @@ def get_account_info():
     return account_info
 
 
-# Bakiye bilgilerini döndüren Flask API endpoint'i
+# Bu kod bakiye bilgimi cekiyor ve ardindan piyasadaki fiyat bilgilerini ceker ve total fiyati ile carpar;
 @app.route('/active_invest', methods=['GET'])
 def get_active_invest():
     account_info = get_account_info()
@@ -69,12 +67,40 @@ def get_active_invest():
         free = float(balance['free'])
         locked = float(balance['locked'])
         total = free + locked
-        balances[asset] = {'free': free, 'locked': locked, 'total': total}
-        filtered_data = {key: value for key, value in balances.items() if value["total"] != 0}
+
+        if total > 0:  # sadece cüzdanınızda olan varlıkları kontrol ediyoruz
+            try:
+                avg_price_info = client.get_avg_price(symbol=asset)
+                avg_price = float(avg_price_info['price'])
+            except BinanceAPIException:
+                avg_price = 0  # Eğer bir hata olursa, avg_price değerini 0 olarak ayarlıyoruz
+            usd_value = total * avg_price
+            balances[asset] = {'free': free, 'locked': locked, 'total': usd_value}
+
+    filtered_data = {key: value for key, value in balances.items() if value["total"] != 0}
     return jsonify(filtered_data)
 
 
-#
+
+@app.route('/btc_price_last_24_hours', methods=['GET'])
+def get_btc_price_last_24_hours():
+    now = datetime.now()
+    twenty_four_hours_ago = now - timedelta(hours=24)
+
+    klines = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1HOUR, twenty_four_hours_ago.strftime("%d %b %Y %H:%M:%S"), now.strftime("%d %b %Y %H:%M:%S"))
+
+    hourly_prices = {}
+    for kline in klines:
+        time_end = datetime.utcfromtimestamp(int(kline[6])/1000).strftime('%H:%00') #  kline data is in milliseconds
+        avg_price = (float(kline[2]) + float(kline[3])) / 2  # Calculating average between high and low prices
+        hourly_prices[time_end] = avg_price
+
+    return jsonify(hourly_prices)
+
+
+
+
+
 # Symbol: Pozisyonun geçerli olduğu varlık çifti.
 # Size: Pozisyon büyüklüğü.
 # Entry Price: Pozisyonun açılış fiyatı.
@@ -96,6 +122,98 @@ def get_futures_positions():
         }
         formatted_positions.append(formatted_position)
     return jsonify(formatted_positions)
+
+
+# Bu örnekte, tüm çiftlerin 24 saatlik fiyat değişimlerini alıyoruz ve en çok değer kazanan veya kaybeden ilk 10 çifti döndürüyoruz.
+# symbol: İlgili ticaret çiftinin adını temsil eder. Bu örnekte "BTCUSDT", Bitcoin'in Amerikan Doları karşısındaki değerini temsil eder.
+#
+# priceChange: Son 24 saat içindeki fiyat değişimini temsil eder.
+#
+# priceChangePercent: Son 24 saatteki fiyat değişim yüzdesini temsil eder.
+#
+# weightedAvgPrice: Son 24 saat boyunca hacim ağırlıklı ortalama fiyatı temsil eder.
+#
+# prevClosePrice: Önceki 24 saatlik periyodun kapanış fiyatını temsil eder.
+#
+# lastPrice: En son gerçekleşen ticaretin fiyatını temsil eder.
+#
+# lastQty: En son gerçekleşen ticaretin miktarını temsil eder.
+#
+# bidPrice: Şu anda geçerli olan en yüksek alış fiyatını temsil eder.
+#
+# bidQty: En yüksek alış fiyatındaki miktarı temsil eder.
+#
+# askPrice: Şu anda geçerli olan en düşük satış fiyatını temsil eder.
+#
+# askQty: En düşük satış fiyatındaki miktarı temsil eder.
+#
+# openPrice: Son 24 saatlik periyodun açılış fiyatını temsil eder.
+#
+# highPrice: Son 24 saat içindeki en yüksek fiyatı temsil eder.
+#
+# lowPrice: Son 24 saat içindeki en düşük fiyatı temsil eder.
+#
+# volume: Son 24 saatte ticareti gerçekleştirilen Bitcoin miktarını temsil eder.
+#
+# quoteVolume: Son 24 saatte ticareti gerçekleştirilen Amerikan Doları miktarını temsil eder.
+@app.route('/top_change', methods=['GET'])
+def get_top_change():
+    tickers = client.get_ticker()
+
+    # Tüm çiftler için 24 saatlik fiyat değişimlerini alın
+    price_changes = {}
+    for ticker in tickers:
+        symbol = ticker['symbol']
+        change = ticker['priceChangePercent']
+        price_changes[symbol] = float(change)
+
+    # En çok değer kazanan 10 çifti ve en çok değer kaybeden 10 çifti bulun
+    top_gainers = dict(sorted(price_changes.items(), key=lambda item: item[1], reverse=True)[:10])
+    top_losers = dict(sorted(price_changes.items(), key=lambda item: item[1])[:10])
+
+    return jsonify({'gainers': top_gainers, 'losers': top_losers})
+
+
+@app.route('/top_volume', methods=['GET'])
+def get_top_volume():
+    tickers = client.get_ticker()
+
+    # Tüm çiftler için 24 saatlik işlem hacmini alın
+    volume_changes = {}
+    for ticker in tickers:
+        symbol = ticker['symbol']
+        volume = ticker['weightedAvgPrice']
+        volume_changes[symbol] = float(volume)
+
+    # En yüksek işlem hacmine sahip 10 çifti ve en düşük işlem hacmine sahip 10 çifti bulun
+    top_high_volume = dict(sorted(volume_changes.items(), key=lambda item: item[1], reverse=True)[:19])
+    # top_low_volume = dict(sorted(volume_changes.items(), key=lambda item: item[1])[:10])
+
+    return jsonify({'high_volume': top_high_volume})
+
+
+# @app.route('/top_volume', methods=['GET'])
+# def get_top_volume():
+#
+#     ticker = client.get_ticker(symbol="BTCUSDT")
+#     print(ticker)
+    # volume = ticker['quoteVolume']
+    # return jsonify({'BTC_volume': volume})
+    # coin="USDT"
+    # tickers = client.get_ticker()
+    #
+    # # Belirli bir coin için tüm çiftlerin 24 saatlik işlem hacmini alın
+    # volume_changes = {}
+    # for ticker in tickers:
+    #     symbol = ticker['symbol']
+    #     if coin.upper() in symbol:  # coin'in symbol içinde olduğunu kontrol edin
+    #         volume = ticker['quoteVolume']
+    #         volume_changes[symbol] = float(volume)
+    #
+    # # En yüksek işlem hacmine sahip 10 çifti bulun
+    # top_high_volume = dict(sorted(volume_changes.items(), key=lambda item: item[1], reverse=True)[:10])
+    #
+    # return jsonify({'high_volume': top_high_volume})
 
 
 @app.route('/usdt_spot_balance')
@@ -219,6 +337,24 @@ def get_new_listing():
     return str(new_listings)
 
 
+
+# TODO
+@app.route('/transfer_to_futures', methods=['POST'])
+def transfer_to_futures():
+    try:
+        data = request.get_json()
+        asset = data.get('asset')
+        amount = data.get('amount')
+        type = data.get("type")
+        if not asset or not amount:
+            return jsonify({'error': 'Asset ve amount parametreleri gereklidir.'}), 400
+        # Transferi gerçekleştir
+        result = client.futures_account_transfer(asset=asset, amount=amount, type=type)
+        return jsonify(result)
+    except BinanceAPIException as e:
+        return jsonify({'error': str(e)}), 400
+
+
 @app.route('/buy', methods=['POST'])
 def buy():
     data = request.json
@@ -296,15 +432,6 @@ def chart_history():
     return jsonify(divided_take_sticks_datas)
 
 
-# @app.route('/start_bot', methods=['POST'])
-# def start_bot_route():
-#     if request.method == 'POST':
-#         # Botu başlatmak için bir arka plan iş parçacığı oluşturun
-#         bot_thread = threading.Thread(target=asrin.start_bot)
-#         bot_thread.start()
-#         return jsonify({"status": "success", "message": "Bot başlatıldı."}), 200
-
-
 @app.route('/start_bot', methods=['POST'])
 def start_bot_route():
     symbol = request.args.get('symbol')
@@ -332,28 +459,6 @@ def stop_bot_route():
     return jsonify({"status": "success", "message": "Bot durduruldu."}), 200
 
 
-# @app.route('/predictions', methods=['GET'])
-# def get_predictions():
-#     symbol = request.args.get('symbol')
-#     interval = request.args.get('interval')
-#
-#     user = Client()
-#
-#     # Veri alınma, özelliklerin hazırlanması ve modelin eğitilmesi.
-#     StockPredictor.fetch_data(user, symbol, interval)
-#     StockPredictor.prepare_features()
-#     StockPredictor.train_model()
-#
-#     # Son 20 elemanın verilerini hazırlayalım.
-#     last_20_input_data = StockPredictor.data[['open', 'close', 'high', 'low']].tail(20)
-#
-#     # Tahminlerin oluşturulması
-#     next_close_prediction = StockPredictor.predict_next_close(last_20_input_data)
-#     print("Next Close Price Prediction:", next_close_prediction)
-#     print("jsonify(next_close_prediction.tolist())", jsonify(next_close_prediction.tolist()))
-#     # Tahminler listesini bir JSON formatında döndür.
-#     return jsonify(next_close_prediction.tolist())
-
 @app.route('/real_close', methods=['GET'])
 def get_real_close():
     symbol = request.args.get('symbol')
@@ -366,6 +471,7 @@ def get_real_close():
     last_20_real_close = StockPredictor.data['close'].tail(20).tolist()
 
     return jsonify(last_20_real_close)
+
 
 @app.route('/predicted_close', methods=['GET'])
 def get_predicted_close():
@@ -380,7 +486,7 @@ def get_predicted_close():
     StockPredictor.train_model()
 
     # Prepare input data for prediction (last 20 rows of historical data)
-    input_data = StockPredictor.data[['open', 'close', 'high', 'low']].tail(20)
+    input_data = StockPredictor.data[['open', 'close', 'high', 'low']].tail(21)
     next_close_predictions = StockPredictor.predict_next_close(input_data).tolist()
 
     return jsonify(next_close_predictions)

@@ -22,13 +22,12 @@ const ActiveInvestPieChart = (data) => {
             datasets: [
                 {
                     data: [],
-                    backgroundColor: ['aqua',
-                        'bloodorange',
+                    backgroundColor: ['blue',
+                        'aqua',
                         'purple',
                         'red',
                         'green',
                         'yellow',
-                        'blue',
                         'fuchsia',
                         'gray',
                         'lime',
@@ -65,7 +64,7 @@ const ActiveInvestPieChart = (data) => {
     const option = {
         plugins: {
             legend: {
-                position: 'right', // Etiketlerin sağ tarafta listelenmesini sağlar
+                position: 'bottom', // Etiketlerin sağ tarafta listelenmesini sağlar
             },
         },
     };
@@ -73,7 +72,7 @@ const ActiveInvestPieChart = (data) => {
     return (
         <div className='active-invest-pie-chart-background'>
             <div>
-                <Pie data={pieData} options={option} style={{maxHeight:"350px", maxWidth:'350px'}}/>
+                <Pie data={pieData} options={option} style={{maxHeight:"300px", maxWidth:'350px'}}/>
             </div>
         </div>
     );

@@ -9,12 +9,14 @@ const PostBox = ({ refreshData }) => {
     const [postCommentData, setPostCommentData] = useState([]);
     const [tweetCommentData, setTweetCommentData] = useState([]);
     const [data, setData] = useState([]);
+    const [combinedData , setCombinedData] = useState([])
 
-    // console.log("postData",postData)
-    // console.log("tweetData",tweetData)
+    console.log("postData",postData)
+    console.log("tweetData",tweetData)
     // console.log("postCommentData",postCommentData)
     // console.log("tweetCommentData",tweetCommentData)
     console.log("data",data)
+    console.log("combinedData",combinedData)
 
     const groupCommentsByPostId = (comments) => {
         return comments.reduce((acc, comment) => {
@@ -48,6 +50,14 @@ const PostBox = ({ refreshData }) => {
                 const tweetResponse = await fetch('http://localhost:8080/tweet/allTweet');
                 const tweetResult = await tweetResponse.json();
                 setTweetData(tweetResult);
+
+                let combinedData = postResult.concat(tweetResult);
+
+                // Tarihlerine göre sırala (en yeniden en eskiye)
+                combinedData.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
+                setCombinedData(combinedData);  // birleştirilmiş ve sıralanmış veriyi duruma ayarla
+
             } catch (error) {
                 console.error('Error: ', error);
             }
@@ -127,9 +137,8 @@ const PostBox = ({ refreshData }) => {
 
     return (
         <div>
-            {data.length > 0 ? (
-                data
-                    .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+            {combinedData.length > 0 ? (
+                combinedData
                     .map((item) => (
                         <Post
                             nick={item.nick}
@@ -141,6 +150,7 @@ const PostBox = ({ refreshData }) => {
                             tweetId={item.tweetId}
                             photo={item.postImgUrl}
                             data={item}
+                            comments={item.comments}
                             postComment={item.comments}
                         />
                     ))

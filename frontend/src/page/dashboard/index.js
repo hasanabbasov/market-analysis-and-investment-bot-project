@@ -27,12 +27,13 @@ const Index = () => {
                     </Grid>
                 );
             default:
-                return (<Grid item xs={11.5}><Main/></Grid>);
+                return (<Grid item xs={11.5} >
+                    <Main sizes={sizes}/></Grid>);
         }
     }
     return (
         <div>
-            <div style={{background: "#EFEFEF"}} >
+            <div style={{background: "#EFEFEF", marginTop:"16px"}} >
                 <Grid container spacing={2}>
                     <>{SideMenuBackground(sizes)}</>
                     <>{DashboardBackground(sizes)}</>

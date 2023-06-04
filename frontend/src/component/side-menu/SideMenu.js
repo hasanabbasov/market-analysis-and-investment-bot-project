@@ -10,6 +10,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 
 
 const SideMenu = ({size, onToggle}) =>{
@@ -71,19 +74,35 @@ const SideMenu = ({size, onToggle}) =>{
                     <div className="side-sm-menu-icon" onClick={handleIcon}>
                         <MenuIcon style={{color:"white"}}/>
                     </div>
-                    <div>
-                        <IconButton style={{paddingTop:"40px"}}>
-                            <AccountCircleIcon style={{color:"white"}}/>
-                        </IconButton>
-                        <IconButton style={{paddingTop:"20px"}}>
-                            <DashboardIcon style={{color:"white"}}/>
-                        </IconButton>
-                        <IconButton style={{paddingTop:"20px"}}>
-                            <ManageHistoryIcon style={{color:"white"}}/>
-                        </IconButton>
-                        <IconButton style={{paddingTop:"20px"}}>
-                            <TimelineIcon style={{color:"white"}}/>
-                        </IconButton>
+                    <div className={"side-sm-container-d-flex"}>
+                        <div>
+                            <IconButton style={{paddingTop: "70px"}} onClick={() => navigate(`/profile/${userId}`)}>
+                                <AccountCircleIcon style={{color: "white"}}/>
+                            </IconButton>
+                        </div>
+
+                        <div onClick={() => navigate("/dashboard")} >
+                            <IconButton style={{paddingTop: "50px"}}>
+                                <DashboardIcon style={{color: "white"}}/>
+                            </IconButton>
+                        </div>
+
+                        <div>
+                            <IconButton style={{paddingTop: "50px"}} onClick={() => navigate("/chart")}>
+                                <CandlestickChartIcon style={{color: "white"}}/>
+                            </IconButton>
+                        </div>
+
+                        <div>
+                            <IconButton style={{paddingTop: "50px"}} onClick={() => navigate("/analysis")}>
+                                <AutoGraphIcon style={{color: "white"}}/>
+                            </IconButton>
+                        </div>
+                        <div>
+                            <IconButton style={{paddingTop: "50px"}} onClick={() => navigate("/bot")}>
+                                <SmartToyIcon style={{color: "white"}}/>
+                            </IconButton>
+                        </div>
 
                     </div>
                 </div>

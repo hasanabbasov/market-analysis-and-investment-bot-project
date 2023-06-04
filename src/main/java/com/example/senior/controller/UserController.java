@@ -1,5 +1,6 @@
 package com.example.senior.controller;
 
+import com.example.senior.dto.UserContactDTO;
 import com.example.senior.entity.ProfileEntity;
 import com.example.senior.entity.UsersEntity;
 import com.example.senior.repository.ProfileRepository;
@@ -139,11 +140,18 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+//    @GetMapping("/{userId}/following")
+//    public ResponseEntity<UserContactDTO> getFollowing(@PathVariable Long userId) {
+//        UserContactDTO following = userService.getFollowing(userId);
+//        return ResponseEntity.ok(following);
+//    }
+
     @GetMapping("/{userId}/following")
-    public ResponseEntity<List<UsersEntity>> getFollowing(@PathVariable Long userId) {
-        List<UsersEntity> following = userService.getFollowing(userId);
+    public ResponseEntity<List<UserContactDTO>> getFollowing(@PathVariable Long userId) {
+        List<UserContactDTO> following = userService.getFollowing(userId);
         return ResponseEntity.ok(following);
     }
+
 
     @GetMapping("/{userId}/followers")
     public ResponseEntity<List<UsersEntity>> getFollowers(@PathVariable Long userId) {

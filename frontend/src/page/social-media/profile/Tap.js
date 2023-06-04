@@ -9,7 +9,8 @@ const Tap = ({show, setShow}) => {
             {show === "post" ? <p className="profile-top-button" onClick={() => setShow("post")}>Post</p> : <p style={{cursor:"pointer"}} onClick={() => setShow("post")}>Post</p>}
             {show === "wallet" ? <p className="profile-top-button" onClick={() => setShow("wallet")}>Cüzdan</p> : <p style={{cursor:"pointer"}} onClick={() => setShow("wallet")}>Cüzdan</p>}
             {/*<p onClick={() => setShow("like")}>Beğeniler</p>*/}
-            {show === "save" ? <p className="profile-top-button" onClick={() => setShow("save")}>Save</p> : <p style={{cursor:"pointer"}} onClick={() => setShow("save")}>Save</p>}
+            {/*{show === "save" ? <p className="profile-top-button" onClick={() => setShow("save")}>Save</p> : <p style={{cursor:"pointer"}} onClick={() => setShow("save")}>Save</p>}*/}
+            {show === "follow" ? <p className="profile-top-button" onClick={() => setShow("follow")}>Follow</p> : <p style={{cursor:"pointer"}} onClick={() => setShow("follow")}>Follow</p>}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 package com.example.senior.controller;
 
-import com.example.senior.entity.PostEntity;
+import com.example.senior.dto.SocialMediaTweetDTO;
 import com.example.senior.entity.TweetEntity;
 import com.example.senior.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class TweetController {
     }
 
     @GetMapping("/allTweet")
-    public List<TweetEntity> getAllTweet() {
+    public List<SocialMediaTweetDTO> getAllTweet() {
         return tweetService.allTweet();
     }
 

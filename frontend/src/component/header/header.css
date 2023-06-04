@@ -1,6 +1,8 @@
 .header-background {
-    height: 80px;
+    height: 80px !important;
     background: #2C3E50;
+    display: flex;
+    align-items: center;
 }
 
 .header-background-social-media {
@@ -37,13 +39,10 @@
     background-color: #EFF2F5;
     font-size: 16px;
     padding-left: 30px;
-    margin-top: 8px;
 }
 
 .navbar__container {
     display: flex;
-    margin-top: 10px;
-    margin-left: 60px;
     justify-content: center;
 }
 
@@ -76,26 +75,29 @@
     color: white;
 }
 
-
-.navbar__righttab {
+.header-right {
     display: flex;
-    margin-left: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-righttab {
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .header-profile-page {
-    margin-top: 15px;
     margin-right: 10px;
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 70px;
+    max-height: 70px;
     cursor: pointer;
 }
 
-.navbar__profilename{
-    margin-top: 20px;
-    font-weight: 600;
+.navbar-profilename{
+    font-weight: 400;
     color: white;
+    font-size:20px;
 }
 
 .social-media-botton {
@@ -118,4 +120,27 @@
     top: 0!important;
     left: 82% !important;
     margin-top: 62px;
+}
+
+
+.search-container {
+    position: relative;
+    /* other styles as needed */
+}
+
+.search-results {
+    position: absolute;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.search-result {
+    margin-bottom: 10px;
+    cursor: pointer;
+    /* other styles as needed */
 }

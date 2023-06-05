@@ -23,6 +23,7 @@ public class SocialMediaPostDTO {
     private int likes;
     private Timestamp dateTime;
     private List<CommentProfileDTO> comments;
+    private boolean isFollowingPoster;
     private String profileImageUrl;
     private String backgroundImageUrl;
     private String education;

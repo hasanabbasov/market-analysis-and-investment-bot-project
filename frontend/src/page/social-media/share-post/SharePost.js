@@ -1,17 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Paper, Avatar} from '@material-ui/core'
-import live from "../../../styles/video.png";
-import feeling from "../../../styles/feelings.png";
 import Dialog from '@material-ui/core/Dialog';
 import logoImage from "../../../styles/image.png";
 import SendIcon from '@mui/icons-material/Send';
 import './sharePost.css'
 
-const SharePost = ({ refreshData,onRefresh, comingFromProfile}) => {
+const SharePost = ({ refreshData,onRefresh, comingFromProfile, mainUserProfileInfo}) => {
     const [showPostDialog, setShowPostDialog] = useState(false);
     const [image, setImage] = useState(null);
     const [text, setText] = useState('');
-    const [profile, setProfile] = useState('');
     const userId = localStorage.getItem("currentUserId");
     const nick = localStorage.getItem("currentUserName");
 
@@ -89,15 +86,6 @@ const SharePost = ({ refreshData,onRefresh, comingFromProfile}) => {
         }
     }
 
-    useEffect(() => {
-        fetch(`/profile/get/${userId}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setProfile(data);
-            })
-            .catch(console.error);
-    }, [userId])
-
 
     return (
         <div>
@@ -114,7 +102,7 @@ const SharePost = ({ refreshData,onRefresh, comingFromProfile}) => {
             <Paper className='upload_container' style={paperStyle}>
                 <div className='upload_top'>
                     <div>
-                        <Avatar className='upload_img' src={profile?.profileImageUrl}/>
+                        <Avatar className='upload_img' src={mainUserProfileInfo?.profileImageUrl}/>
                     </div>
                     <div style={{width: '88%'}}>
                         <input className='upload_box' type='text' placeholder='Write here for sharing' value={text}

@@ -23,9 +23,10 @@ public class PostController {
     }
 
     @GetMapping("/getPost")
-    public List<SocialMediaPostDTO> getAllPost() {
-        return postService.allPost();
+    public List<SocialMediaPostDTO> getAllPost(@RequestParam(name = "userId", required = false) Long userId) {
+        return postService.allPost(userId);
     }
+
 
     @GetMapping("/getPost/{userId}")
     public List<UserOwnPostForProfilePageDTO> getAllTweetWithId(@PathVariable("userId") Long userId) {

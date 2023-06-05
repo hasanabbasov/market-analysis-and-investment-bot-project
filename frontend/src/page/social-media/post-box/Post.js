@@ -11,36 +11,37 @@ import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import SendIcon from "@mui/icons-material/Send";
 
 
-const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedId, data, comments, setRefreshData, refreshData, comingFromProfile}) => {
+const Post = ({
+                  nick,
+                  description,
+                  like,
+                  photo,
+                  tweet,
+                  postId,
+                  tweetId,
+                  followedId,
+                  data,
+                  comments,
+                  setRefreshData,
+                  refreshData,
+                  comingFromProfile,
+                  mainUserProfileInfo
+              }) => {
 
     const [comment, setComment] = useState('');
     const [liked, setLiked] = useState(true)
     const [showCommentBox, setShowCommentBox] = useState(false);
-    const [following, setFollowing] = useState([])
-    const [mainUserProfileInfo, setMainUserProfileInfo] = useState('');
+
     const userId = localStorage.getItem("currentUserId");
     const userNick = localStorage.getItem("currentUserName");
     const navigate = useNavigate();
-    console.log("mainUserProfileInfo",mainUserProfileInfo)
+    console.log("mainUserProfileInfo", mainUserProfileInfo)
 
     const paperStyle = {
         boxShadow: comingFromProfile === "Profile" ? "0px 2px 3px 1px #2C3E50" : "0px 2px 3px 1px #d1e9ff",
         marginTop: "20px"
     };
 
-    const followUserListUpdate = () => {
-        fetch(`/users/${userId}/following`)
-            .then((response) => response.json())
-            .then(setFollowing)
-            .catch(console.error).finally(setRefreshData(!refreshData));
-    }
-
-    useEffect(() => {
-        fetch(`/profile/get/${userId}`)
-            .then((response) => response.json())
-            .then(setMainUserProfileInfo)
-            .catch(console.error).finally(followUserListUpdate)
-    },[userId])
 
     const sendCommentToDatabase = async () => {
         const commentEntity = {
@@ -108,8 +109,8 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
         }).then((response) => response.json())
             .then((res) => {
                 console.log("Success: ", res)
-            })
-            .catch(console.error).finally(followUserListUpdate)
+                setRefreshData(prev => !prev);
+            }).finally(() => setRefreshData(prev => !prev))
     }
 
     const unfollowUser = () => {
@@ -121,8 +122,9 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
         }).then((response) => response.json())
             .then((res) => {
                 console.log("Success: ", res)
+                setRefreshData(prev => !prev);
             })
-            .catch(console.error).finally(followUserListUpdate)
+            .catch(console.error)
     }
 
     return (
@@ -132,7 +134,8 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
                     {/*TODO*/}
                     <Grid item xs={9} className='post_header'>
                         <div className='post_header_img'>
-                            <Avatar className='post_img' src={data?.profileImageUrl ? data?.profileImageUrl : ""}  onClick={() => navigate(`/profile/${data.userId}`)}  />
+                            <Avatar className='post_img' src={data?.profileImageUrl ? data?.profileImageUrl : ""}
+                                    onClick={() => navigate(`/profile/${data.userId}`)}/>
                         </div>
                         <div className='post_header_text'>
                             {nick}
@@ -141,7 +144,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
                     <div>
                         {followedId == userId ?
                             <div/> :
-                            following.some(follow => follow.userId === followedId) ?
+                            data.followingPoster ?
                                 <Grid item xs={3} className="post-box-unfollow-botton">
                                     <span style={{paddingRight: "5px", fontSize: "15px"}}
                                           onClick={unfollowUser}>Unfollow</span>
@@ -170,7 +173,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
                         {like}
                     </div>
                 </div>
-                { comingFromProfile !== "Profile" && <div className='post_likeShare'>
+                {comingFromProfile !== "Profile" && <div className='post_likeShare'>
                     {liked ? <div className='post_tab' onClick={sendLikeToDatabase}>
                         <div className='post_tabfirst'>
                             <img className='post_tabimg' src={likebutton} alt={""}/>
@@ -208,13 +211,13 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
                     </div>
                 </div>}
                 {
-                    comingFromProfile !== "Profile" &&  showCommentBox && <div className='post-comment-box-background'>
+                    comingFromProfile !== "Profile" && showCommentBox && <div className='post-comment-box-background'>
                         <div>
                             {comments ? comments?.map(({comment, nick, profileImageUrl}, index) => (
                                 <>
                                     <div className='' style={{display: 'flex', paddingBottom: '15px', paddingTop: '15px'}}>
                                         <div style={{width: '20%', display: 'flex', justifyContent: 'center'}}>
-                                            <Avatar src={profileImageUrl ? profileImageUrl : "" }/>
+                                            <Avatar src={profileImageUrl ? profileImageUrl : ""}/>
                                         </div>
                                         <div className='test'>
                                             <div style={{
@@ -233,23 +236,24 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedI
                     </div>
                 }
                 <div>
-                    {  comingFromProfile !== "Profile" && <div className='upload_top'>
-                        <div className='post-comment-avatar-background'>
-                            <Avatar
-                                src={mainUserProfileInfo?.profileImageUrl ? mainUserProfileInfo?.profileImageUrl : ""}/>
-                        </div>
-                        <div style={{width: '80%'}}>
-                            <input className='upload_box' type='text' placeholder='Share comment' value={comment}
-                                   onChange={(event) => setComment(event.target.value)}/>
-                        </div>
-                        {comment ?
-                            <div className='upload_sencIcon' onClick={sendCommentToDatabase}>
-                                <SendIcon/>
-                            </div> :
-                            <div className='upload-send-icon-disable'>
-                                <SendIcon/>
-                            </div>}
-                    </div>}
+                    {comingFromProfile !== "Profile" &&
+                        <div className='upload_top'>
+                            <div className='post-comment-avatar-background'>
+                                <Avatar
+                                    src={mainUserProfileInfo?.profileImageUrl ? mainUserProfileInfo?.profileImageUrl : ""}/>
+                            </div>
+                            <div style={{width: '80%'}}>
+                                <input className='upload_box' type='text' placeholder='Share comment' value={comment}
+                                       onChange={(event) => setComment(event.target.value)}/>
+                            </div>
+                            {comment ?
+                                <div className='upload_sencIcon' onClick={sendCommentToDatabase}>
+                                    <SendIcon/>
+                                </div> :
+                                <div className='upload-send-icon-disable'>
+                                    <SendIcon/>
+                                </div>}
+                        </div>}
 
                 </div>
             </Paper>

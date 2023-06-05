@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Layout from "./main-page/Layout";
-import {useNavigate} from "react-router-dom";
 
 const Index = () => {
 
@@ -12,20 +11,32 @@ const Index = () => {
     console.log("combinedData",combinedData)
 
     console.log("rigtsideFollowinf",following)
-    // useEffect(() => {
-    //     fetch(`/users/${userId}/following`)
-    //         .then((response) => response.json())
-    //         .then((res) => setFollowing(res))
-    //         .catch(console.error)
-    // },[userId, refreshData])
+
+    const [mainUserProfileInfo, setMainUserProfileInfo] = useState('');
+
+    useEffect(() => {
+        fetch(`/profile/get/${userId}`)
+            .then((response) => response.json())
+            .then(setMainUserProfileInfo)
+            .catch(console.error)
+    }, [userId, refreshData])
+
+    useEffect(() => {
+        fetch(`/users/${userId}/following`)
+            .then((response) => response.json())
+            .then((res) => setFollowing(res))
+            .catch(console.error)
+    },[userId, refreshData])
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const postResponse = await fetch('/post/getPost');
+
+                const postResponse = await fetch('/post/getPost?userId=' + userId);
                 const postResult = await postResponse.json();
 
-                const tweetResponse = await fetch('http://localhost:8080/tweet/allTweet');
+                const tweetResponse = await fetch('http://localhost:8080/tweet/allTweet?userId=' + userId);
                 const tweetResult = await tweetResponse.json();
 
                 let combinedData = postResult.concat(tweetResult);
@@ -40,11 +51,12 @@ const Index = () => {
         };
 
         fetchData();
-    }, []);
+    }, [refreshData]);
+
 
     return (
         <div>
-            <Layout combinedData={combinedData} following={following} refreshData={refreshData} setRefreshData={(value) => setRefreshData(value)}/>
+            <Layout combinedData={combinedData} following={following} refreshData={refreshData} setRefreshData={(value) => setRefreshData(value)} mainUserProfileInfo={mainUserProfileInfo}/>
         </div>
     );
 };

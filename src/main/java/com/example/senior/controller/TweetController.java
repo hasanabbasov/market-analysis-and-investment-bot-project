@@ -22,8 +22,8 @@ public class TweetController {
     }
 
     @GetMapping("/allTweet")
-    public List<SocialMediaTweetDTO> getAllTweet() {
-        return tweetService.allTweet();
+    public List<SocialMediaTweetDTO> getAllTweet(@RequestParam(name = "userId", required = false) Long userId) {
+        return tweetService.allTweet(userId);
     }
 
     @GetMapping("/allTweet/{userId}")

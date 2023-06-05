@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './postBox.css';
 import Post from './Post';
 import Loading from "../../../component/loading/Loading";
 
-const PostBox = ({ refreshData, setRefreshData, combinedData }) => {
+const PostBox = ({ refreshData, setRefreshData, combinedData, mainUserProfileInfo }) => {
     return (
         <div>
             {combinedData.length > 0 ? (
@@ -22,6 +22,7 @@ const PostBox = ({ refreshData, setRefreshData, combinedData }) => {
                             comments={item.comments}
                             setRefreshData={setRefreshData}
                             refreshData={refreshData}
+                            mainUserProfileInfo={mainUserProfileInfo}
                         />
                     ))
             ) : (

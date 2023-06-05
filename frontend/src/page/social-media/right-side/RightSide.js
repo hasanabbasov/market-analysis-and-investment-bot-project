@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './rightSide.css'
 import {Paper, Avatar} from "@material-ui/core";
 import {useNavigate} from 'react-router-dom';
+import {SocialMediaDataContext} from "../SocialMediaDataContext";
 
 const RightSide = ({following}) => {
     const navigate = useNavigate();

@@ -4,15 +4,15 @@ import com.example.senior.dto.CommentProfileDTO;
 import com.example.senior.dto.SocialMediaTweetDTO;
 import com.example.senior.dto.UserOwnPostForProfilePageDTO;
 import com.example.senior.dto.UserOwnTweetForProfilePageDTO;
-import com.example.senior.entity.CommentEntity;
-import com.example.senior.entity.PostEntity;
-import com.example.senior.entity.ProfileEntity;
-import com.example.senior.entity.TweetEntity;
+import com.example.senior.entity.*;
 import com.example.senior.repository.CommentRepository;
 import com.example.senior.repository.ProfileRepository;
 import com.example.senior.repository.TweetRepository;
+import com.example.senior.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -32,6 +32,10 @@ public class TweetService {
     @Autowired
     ProfileRepository profileRepository;
 
+    @Autowired
+    UserRepository usersRepository;
+
+
     public List<TweetEntity> saveTweet(TweetEntity tweetEntity) {
         Date date = new Date();
         long time = date.getTime();
@@ -46,7 +50,8 @@ public class TweetService {
         return tweetRepository.findAll();
     }
 
-    public List<SocialMediaTweetDTO> allTweet() {
+    @Transactional
+    public List<SocialMediaTweetDTO> allTweet(Long currenUserId) {
         List<TweetEntity> tweets = tweetRepository.findAll();
         List<SocialMediaTweetDTO> tweetDTOs = new ArrayList<>();
 
@@ -99,6 +104,14 @@ public class TweetService {
                 tweetDTO.setFacebook(profile.getFacebook());
                 tweetDTO.setLive(profile.getLive());
                 tweetDTO.setInfo(profile.getInfo());
+            }
+
+            UsersEntity loggedInUser = usersRepository.findById(currenUserId).orElse(null);
+            if (loggedInUser != null) {
+                Hibernate.initialize(loggedInUser.getFollowed());
+                boolean isFollowingPoster = loggedInUser.getFollowed().stream()
+                        .anyMatch(followedUser -> followedUser.getUserId().equals(tweet.getUserId()));
+                tweetDTO.setFollowingPoster(isFollowingPoster);
             }
 
             tweetDTOs.add(tweetDTO);

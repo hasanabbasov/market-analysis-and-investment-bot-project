@@ -12,6 +12,7 @@ const BalanceCard = () => {
     const [totalWallet, setTotalWallet] = useState(0);
     const [spotToFuture , setSpotToFuture ] = useState("Spot")
     const [amountForTransfer, setAmountForTransfer] = useState('')
+    const [refresWalletInfo, setRefresWalletInfo] = useState("");
 
     console.log("amountForTransfer",amountForTransfer)
 
@@ -38,7 +39,7 @@ const BalanceCard = () => {
                 // console.log("data: ", data);
             })
             .catch(err => setError(err.message));
-    }, []);
+    }, [refresWalletInfo]);
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -60,12 +61,12 @@ const BalanceCard = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({asset : "USDT",
-                    amount : "amountForTransfer",
+                    amount : amountForTransfer,
                     type: 1}),
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
+                    setRefresWalletInfo(data)
                 })
                 .catch((error) => console.log(error));
         }
@@ -76,12 +77,12 @@ const BalanceCard = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({asset : "USDT",
-                    amount : "amountForTransfer",
+                    amount : amountForTransfer,
                     type: 2}),
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
+                    setRefresWalletInfo(data)
                 })
                 .catch((error) => console.log(error));
         }

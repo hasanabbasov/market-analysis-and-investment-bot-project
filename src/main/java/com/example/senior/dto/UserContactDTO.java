@@ -4,6 +4,8 @@ import com.example.senior.entity.ProfileEntity;
 import com.example.senior.entity.UsersEntity;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,6 +22,7 @@ public class UserContactDTO {
     private String profileImageUrl;
     private String backgroundImageUrl;
     private String education;
+    private Timestamp dateTime;
     private String twitter;
     private String facebook;
     private String live;

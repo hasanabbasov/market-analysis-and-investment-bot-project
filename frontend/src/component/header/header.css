@@ -140,7 +140,21 @@
 }
 
 .search-result {
-    margin-bottom: 10px;
     cursor: pointer;
-    /* other styles as needed */
+    font-weight: bold;
 }
+
+.search-bar-user-background {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+}
+
+.search-bar-user-background:hover {
+    background: #2C3E50;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    color: white;
+}
+

@@ -1,0 +1,19 @@
+.profile-following-contact-paper {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    /*margin-left: 10px;*/
+    font-weight: 600;
+    font-size: 18px;
+    border: 1px solid #d1e9ff;
+}
+
+
+.profile-following-first-background {
+    margin: 0 10px 0 10px;
+    padding: 10px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 33%;
+}

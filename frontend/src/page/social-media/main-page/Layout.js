@@ -6,9 +6,7 @@ import SharePost from "../share-post/SharePost";
 import PostBox from "../post-box/PostBox";
 import RightSide from "../right-side/RightSide";
 
-const Layout = () => {
-    const [refreshData, setRefreshData] = useState(false);
-    // console.log("refreshData",refreshData)
+const Layout = ({combinedData, following, refreshData, setRefreshData}) => {
     return (
         <div className='mainpage_container' style={{background:'#F8F9FA'}}>
             <Grid container>
@@ -17,11 +15,11 @@ const Layout = () => {
                 </Grid>
                 <Grid item xs={6} className='middleContainer'>
                     {/*<StatusBox/>*/}
-                    <SharePost  refreshData={refreshData} onRefresh={(value) => setRefreshData(value)}/>
-                    <PostBox refreshData={refreshData}/>
+                    <SharePost  refreshData={refreshData} onRefresh={setRefreshData} />
+                    <PostBox  combinedData={combinedData} refreshData={setRefreshData}/>
                 </Grid>
                 <Grid item xs={3}>
-                    <RightSide/>
+                    <RightSide following={following}/>
                 </Grid>
             </Grid>
         </div>

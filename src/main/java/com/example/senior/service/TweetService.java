@@ -2,6 +2,8 @@ package com.example.senior.service;
 
 import com.example.senior.dto.CommentProfileDTO;
 import com.example.senior.dto.SocialMediaTweetDTO;
+import com.example.senior.dto.UserOwnPostForProfilePageDTO;
+import com.example.senior.dto.UserOwnTweetForProfilePageDTO;
 import com.example.senior.entity.CommentEntity;
 import com.example.senior.entity.PostEntity;
 import com.example.senior.entity.ProfileEntity;
@@ -108,8 +110,29 @@ public class TweetService {
 
 
 
-    public List<TweetEntity> allTweetWithId(Long userId){
-        return tweetRepository.findByUserId(userId);
+    public List<UserOwnTweetForProfilePageDTO> allTweetWithId(Long userId){
+
+        List<TweetEntity> tweets = tweetRepository.findByUserId(userId);
+        List<UserOwnTweetForProfilePageDTO> TweetDTOs = new ArrayList<>();
+
+        for (TweetEntity tweet : tweets) {
+            UserOwnTweetForProfilePageDTO TweetDTO = new UserOwnTweetForProfilePageDTO();
+            TweetDTO.setPostId(tweet.getTweetId());
+            TweetDTO.setUserId(tweet.getUserId());
+            TweetDTO.setNick(tweet.getNick());
+            TweetDTO.setTweetText(tweet.getTweetText());
+            TweetDTO.setLikes(tweet.getLikes());
+            TweetDTO.setDateTime(tweet.getDateTime());
+            ProfileEntity profileEntity = profileRepository.findById(userId).orElse(null);
+            TweetDTO.setProfileImageUrl(profileEntity.getProfileImageUrl());
+
+
+            TweetDTOs.add(TweetDTO);
+        }
+
+        return TweetDTOs;
+
+//        return tweetRepository.findByUserId(userId);
     }
 
     public List<TweetEntity> deleteTweet(Long tweeId) {

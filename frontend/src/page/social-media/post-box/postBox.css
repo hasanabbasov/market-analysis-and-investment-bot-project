@@ -2,6 +2,7 @@
     width: 100%;
     margin-top: 20px;
     border-radius: 20px;
+    box-shadow: 0px 2px 3px 1px #d1e9ff;
 }
 
 /*.post_container {*/
@@ -140,6 +141,39 @@
     cursor: pointer;
 }
 
+.post-box-follow-botton:hover {
+    display: flex;
+    max-height: 40px;
+    max-width: 150px!important;
+    align-items: center;
+    justify-content: center;
+    background: #4a698d;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 5px 15px 5px 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.following-profile-visit {
+    background:#2C3E50 ;
+    padding: 8px 25px 8px 25px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 35px;
+}
+
+.following-profile-visit:hover {
+    background:#4a698d ;
+    padding: 8px 25px 8px 25px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 35px;
+}
+
 .post-box-unfollow-botton {
     display: flex;
     max-height: 40px;
@@ -147,6 +181,21 @@
     align-items: center;
     justify-content: center;
     background:  #fc4b4b;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 5px 15px 5px 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.post-box-unfollow-botton:hover {
+    display: flex;
+    max-height: 40px;
+    max-width: 150px!important;
+    align-items: center;
+    justify-content: center;
+    background: #772626;
     border-color: black;
     border-radius: 14px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

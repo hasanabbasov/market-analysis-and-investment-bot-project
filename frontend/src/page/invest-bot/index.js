@@ -35,7 +35,7 @@ const Index = () => {
 
     return (
         <div>
-            <div style={{background: "#EFEFEF"}}>
+            <div style={{background: "#EFEFEF",marginTop:"16px"}}>
                 <Grid container spacing={2}>
                     <>{SideMenuBackground(sizes)}</>
                     <>{InvestBotBackground(sizes)}</>

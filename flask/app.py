@@ -192,29 +192,6 @@ def get_top_volume():
     return jsonify({'high_volume': top_high_volume})
 
 
-# @app.route('/top_volume', methods=['GET'])
-# def get_top_volume():
-#
-#     ticker = client.get_ticker(symbol="BTCUSDT")
-#     print(ticker)
-    # volume = ticker['quoteVolume']
-    # return jsonify({'BTC_volume': volume})
-    # coin="USDT"
-    # tickers = client.get_ticker()
-    #
-    # # Belirli bir coin için tüm çiftlerin 24 saatlik işlem hacmini alın
-    # volume_changes = {}
-    # for ticker in tickers:
-    #     symbol = ticker['symbol']
-    #     if coin.upper() in symbol:  # coin'in symbol içinde olduğunu kontrol edin
-    #         volume = ticker['quoteVolume']
-    #         volume_changes[symbol] = float(volume)
-    #
-    # # En yüksek işlem hacmine sahip 10 çifti bulun
-    # top_high_volume = dict(sorted(volume_changes.items(), key=lambda item: item[1], reverse=True)[:10])
-    #
-    # return jsonify({'high_volume': top_high_volume})
-
 
 @app.route('/usdt_spot_balance')
 def get_account_spot_balance():
@@ -346,6 +323,10 @@ def transfer_to_futures():
         asset = data.get('asset')
         amount = data.get('amount')
         type = data.get("type")
+        print("asset",asset)
+        print("amount",amount)
+        print("type",type)
+        print("",)
         if not asset or not amount:
             return jsonify({'error': 'Asset ve amount parametreleri gereklidir.'}), 400
         # Transferi gerçekleştir
@@ -355,6 +336,7 @@ def transfer_to_futures():
         return jsonify({'error': str(e)}), 400
 
 
+# Chart Uzerinde coin alim satim yapar
 @app.route('/buy', methods=['POST'])
 def buy():
     data = request.json
@@ -432,6 +414,7 @@ def chart_history():
     return jsonify(divided_take_sticks_datas)
 
 
+# Trader botunu baslatir ve durdurur
 @app.route('/start_bot', methods=['POST'])
 def start_bot_route():
     symbol = request.args.get('symbol')
@@ -459,6 +442,7 @@ def stop_bot_route():
     return jsonify({"status": "success", "message": "Bot durduruldu."}), 200
 
 
+# Ml analysis;i baslatir ve durdurur
 @app.route('/real_close', methods=['GET'])
 def get_real_close():
     symbol = request.args.get('symbol')

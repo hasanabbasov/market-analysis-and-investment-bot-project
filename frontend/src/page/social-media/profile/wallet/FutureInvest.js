@@ -23,7 +23,7 @@ const FutureInvest = () => {
         }
     }, [showButton]); // Botun durumuna bağlı olarak güncelle
     return (
-        <div>
+        <div style={{boxShadow:" 0px 2px 3px 1px #2C3E50",borderBottomLeftRadius:"14px", borderBottomRightRadius:"14px",borderTopLeftRadius:"0", borderTopRightRadius:"0"}}>
             <BotTable loading={loading} positions={positions}/>
         </div>
     );

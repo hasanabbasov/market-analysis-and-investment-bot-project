@@ -99,8 +99,12 @@ const Header = () => {
                                         {search && filteredUsers.length > 0 && (
                                         <div className="search-results">
                                             {filteredUsers.map(user => (
-                                                <div key={user.userId} className="search-result" onClick={() => handleClick(user.userId)}>
-                                                    {user.nick}
+                                                <div className="search-bar-user-background"><Avatar className="header-profile-page"
+                                                           src={user.profileImageUrl}/>
+                                                    <div key={user.userId} className="search-result"
+                                                         onClick={() => handleClick(user.userId)}>
+                                                        {user.nick}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>

@@ -1,6 +1,7 @@
 package com.example.senior.controller;
 
 import com.example.senior.dto.SocialMediaTweetDTO;
+import com.example.senior.dto.UserOwnTweetForProfilePageDTO;
 import com.example.senior.entity.TweetEntity;
 import com.example.senior.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class TweetController {
     }
 
     @GetMapping("/allTweet/{userId}")
-    public List<TweetEntity> getAllTweetWithId(@PathVariable("userId") Long userId) {
+    public List<UserOwnTweetForProfilePageDTO> getAllTweetWithId(@PathVariable("userId") Long userId) {
         return tweetService.allTweetWithId(userId);
     }
 

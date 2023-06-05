@@ -1,6 +1,7 @@
 package com.example.senior.controller;
 
 import com.example.senior.dto.SocialMediaPostDTO;
+import com.example.senior.dto.UserOwnPostForProfilePageDTO;
 import com.example.senior.entity.PostEntity;
 import com.example.senior.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class PostController {
     }
 
     @GetMapping("/getPost/{userId}")
-    public List<PostEntity> getAllTweetWithId(@PathVariable("userId") Long userId) {
+    public List<UserOwnPostForProfilePageDTO> getAllTweetWithId(@PathVariable("userId") Long userId) {
         return postService.allPostWithId(userId);
     }
 

@@ -11,33 +11,36 @@ import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import SendIcon from "@mui/icons-material/Send";
 
 
-const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComment, followedId, data, comments}) => {
+const Post = ({nick, description, like, photo, tweet, postId, tweetId, followedId, data, comments, setRefreshData, refreshData, comingFromProfile}) => {
 
     const [comment, setComment] = useState('');
     const [liked, setLiked] = useState(true)
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [following, setFollowing] = useState([])
-    const [followUserMethod, setFollowUserMethod] = useState([])
-    const [unFollowUserMethod, setUnFollowUserMethod] = useState([])
+    const [mainUserProfileInfo, setMainUserProfileInfo] = useState('');
     const userId = localStorage.getItem("currentUserId");
+    const userNick = localStorage.getItem("currentUserName");
     const navigate = useNavigate();
-    const isCommentEmpty = comment.trim() === '';
-    console.log("following", following)
-    console.log("followedId", followedId)
+    console.log("mainUserProfileInfo",mainUserProfileInfo)
 
-    const getFollowingList = useCallback(() => {
-        return Promise.all([
-            fetch(`/users/${userId}/following`).then((response) => response.json())
-        ]).then(([res]) => {
-            setFollowing(res);
-            console.log("following: ", res);
-        });
-    }, [userId, followUserMethod, unFollowUserMethod]);
+    const paperStyle = {
+        boxShadow: comingFromProfile === "Profile" ? "0px 2px 3px 1px #2C3E50" : "0px 2px 3px 1px #d1e9ff",
+        marginTop: "20px"
+    };
 
+    const followUserListUpdate = () => {
+        fetch(`/users/${userId}/following`)
+            .then((response) => response.json())
+            .then(setFollowing)
+            .catch(console.error).finally(setRefreshData(!refreshData));
+    }
 
     useEffect(() => {
-        getFollowingList()
-    }, [userId])
+        fetch(`/profile/get/${userId}`)
+            .then((response) => response.json())
+            .then(setMainUserProfileInfo)
+            .catch(console.error).finally(followUserListUpdate)
+    },[userId])
 
     const sendCommentToDatabase = async () => {
         const commentEntity = {
@@ -45,7 +48,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
             tweetId: tweetId,
             userId: userId,
             comment: comment,
-            nick: nick
+            nick: userNick
         }
 
         try {
@@ -58,7 +61,9 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
             })
             if (response.ok) {
                 console.log('Comment başarıyla paylaşıldı!');
-                // onRefresh(!refreshData);
+                setRefreshData(!refreshData)
+                setShowCommentBox(true)
+                setComment('')
             } else {
                 throw new Error('Comment paylaşılırken hata oluştu');
             }
@@ -103,10 +108,8 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
         }).then((response) => response.json())
             .then((res) => {
                 console.log("Success: ", res)
-                setFollowUserMethod(res)
-                getFollowingList()
             })
-            .catch(console.error)
+            .catch(console.error).finally(followUserListUpdate)
     }
 
     const unfollowUser = () => {
@@ -118,15 +121,13 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
         }).then((response) => response.json())
             .then((res) => {
                 console.log("Success: ", res)
-                setUnFollowUserMethod(res)
-                getFollowingList()
             })
-            .catch(console.error)
+            .catch(console.error).finally(followUserListUpdate)
     }
 
     return (
         <div>
-            <Paper className='post_container'>
+            <Paper className='post_container' style={paperStyle}>
                 <Grid container spacing={2} style={{display: "flex", alignItems: 'center'}}>
                     {/*TODO*/}
                     <Grid item xs={9} className='post_header'>
@@ -169,7 +170,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                         {like}
                     </div>
                 </div>
-                <div className='post_likeShare'>
+                { comingFromProfile !== "Profile" && <div className='post_likeShare'>
                     {liked ? <div className='post_tab' onClick={sendLikeToDatabase}>
                         <div className='post_tabfirst'>
                             <img className='post_tabimg' src={likebutton} alt={""}/>
@@ -205,9 +206,9 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                             Share
                         </div>
                     </div>
-                </div>
+                </div>}
                 {
-                    showCommentBox && <div className='post-comment-box-background'>
+                    comingFromProfile !== "Profile" &&  showCommentBox && <div className='post-comment-box-background'>
                         <div>
                             {comments ? comments?.map(({comment, nick, profileImageUrl}, index) => (
                                 <>
@@ -232,12 +233,13 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                     </div>
                 }
                 <div>
-                    <div className='upload_top'>
+                    {  comingFromProfile !== "Profile" && <div className='upload_top'>
                         <div className='post-comment-avatar-background'>
-                            <Avatar src={data?.profileImageUrl ? data?.profileImageUrl : "" }/>
+                            <Avatar
+                                src={mainUserProfileInfo?.profileImageUrl ? mainUserProfileInfo?.profileImageUrl : ""}/>
                         </div>
                         <div style={{width: '80%'}}>
-                            <input className='upload_box' type='text' placeholder='Share comment'
+                            <input className='upload_box' type='text' placeholder='Share comment' value={comment}
                                    onChange={(event) => setComment(event.target.value)}/>
                         </div>
                         {comment ?
@@ -247,7 +249,7 @@ const Post = ({nick, description, like, photo, tweet, postId, tweetId, postComme
                             <div className='upload-send-icon-disable'>
                                 <SendIcon/>
                             </div>}
-                    </div>
+                    </div>}
 
                 </div>
             </Paper>

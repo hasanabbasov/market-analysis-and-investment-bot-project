@@ -44,7 +44,7 @@ const InfoBox = ({user, profile, editButton, setEditButton}) => {
     }
     return (
         <div>
-            <Paper>
+            <Paper style={{boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"}}>
                 {!editButton ? <>
                         <div className='info-box-title-background'>
                             <div className='info-box-title'>Education:</div>
@@ -88,7 +88,7 @@ const InfoBox = ({user, profile, editButton, setEditButton}) => {
                             <button className="info-box-button" onClick={() => setEditButton(!editButton)}>
                                 Close Edit!
                             </button>
-                            <button className="info-box-button" onClick={handleSubmit}>Send</button>
+                            <button className="info-box-button" onClick={handleSubmit}>Save</button>
                         </>
                     }
                 </div>

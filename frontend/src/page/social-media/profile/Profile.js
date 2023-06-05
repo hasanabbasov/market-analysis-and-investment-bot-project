@@ -16,7 +16,7 @@ const Profile = () => {
     const {userId} = useParams();
     const [profilePhoto, setProfilePhoto] = useState('');
     const [backgroundPhoto, setBackgroundPhoto] = useState('');
-    console.log("profilePhoto",profilePhoto)
+    console.log("profile",profile)
     // console.log("backgroundPhoto",backgroundPhoto)
 
     useEffect(() => {
@@ -75,15 +75,15 @@ const Profile = () => {
             flexDirection: 'column'
         }}>
             <Paper style={{
-                width: '90%', padding: '20px', minHeight: '300px', display: 'flex', justifyContent: 'center'
-                , flexDirection: 'column', alignItems: 'center'
+                width: '92%',marginTop:"10px", minHeight: '300px', display: 'flex', justifyContent: 'center'
+                , flexDirection: 'column', alignItems: 'center', boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"
             }}>
                 {editButton && <input type='file' style={{width: '100%', height: '100%', cursor: 'pointer'}}
                         onChange={(e) => setBackgroundPhoto(e.target.files[0])}/>
                 }
-                <Paper style={{width: '100%', minHeight: '150px'}}>
+                <Paper style={{width: '100%', height: '255px', boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"}}>
                     <img src={profile?.backgroundImageUrl} style={{width: '100%', height: '252px',}}/>
-                    <Avatar style={{width: '170px', height: '170px', position: 'absolute', marginTop: '-60px', marginLeft:'50px'}}>
+                    <Avatar style={{width: '170px', height: '170px', position: 'absolute', marginTop: '-60px', marginLeft:'50px',boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"}}>
                         {editButton ? <input type='file' style={{opacity: 0, width: '100%', height: '100%', cursor: 'pointer'}}
                                 onChange={(e) => setProfilePhoto(e.target.files[0])}/> :
                         <img src={profile?.profileImageUrl} style={{width: '90%', height: '90%'}}/>
@@ -99,7 +99,7 @@ const Profile = () => {
                     </div>
                 }
 
-                <Paper className="profile-tap-background" style={{width: '100%', height: '50px', marginTop: '120px' , background:"rgb(210,211,213)"}}>
+                <Paper className="profile-tap-background" style={{width: '100%', height: '50px', marginTop: '140px',marginBottom:"20px" , background:"#2C3E50"}}>
                     <Tap show={show} setShow={(value) => setShow(value)}/>
                 </Paper>
             </Paper>

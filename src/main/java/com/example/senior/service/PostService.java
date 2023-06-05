@@ -1,6 +1,7 @@
 package com.example.senior.service;
 import com.example.senior.dto.CommentProfileDTO;
 import com.example.senior.dto.SocialMediaPostDTO;
+import com.example.senior.dto.UserOwnPostForProfilePageDTO;
 import com.example.senior.entity.CommentEntity;
 import com.example.senior.entity.ProfileEntity;
 import com.example.senior.repository.CommentRepository;
@@ -75,7 +76,8 @@ public class PostService {
                 commentProfileDTO.setDateTime(comment.getDateTime());
 
                 // get profile for the user who commented
-                ProfileEntity profileEntity = profileRepository.findById(Long.parseLong(comment.getUserId())).orElse(null);
+                Long userId =  Long.parseLong(comment.getUserId());
+                ProfileEntity profileEntity = profileRepository.findById(userId).orElse(null);
                 if (profileEntity != null) {
                     commentProfileDTO.setProfileImageUrl(profileEntity.getProfileImageUrl());
                     commentProfileDTO.setBackgroundImageUrl(profileEntity.getBackgroundImageUrl());
@@ -89,6 +91,17 @@ public class PostService {
                 commentProfileDTOS.add(commentProfileDTO);
             }
             postDTO.setComments(commentProfileDTOS);
+
+            ProfileEntity profile = profileRepository.findById(post.getUserId()).orElse(null);
+            if (profile != null) {
+                postDTO.setProfileImageUrl(profile.getProfileImageUrl());
+                postDTO.setBackgroundImageUrl(profile.getBackgroundImageUrl());
+                postDTO.setEducation(profile.getEducation());
+                postDTO.setTwitter(profile.getTwitter());
+                postDTO.setFacebook(profile.getFacebook());
+                postDTO.setLive(profile.getLive());
+                postDTO.setInfo(profile.getInfo());
+            }
 
             postDTOs.add(postDTO);
         }
@@ -113,7 +126,28 @@ public class PostService {
     }
 
     @Transactional
-    public List<PostEntity> allPostWithId(Long userId) {
-        return postRepository.findByUserId(userId);
+    public List<UserOwnPostForProfilePageDTO> allPostWithId(Long userId) {
+        List<PostEntity> posts = postRepository.findByUserId(userId);
+        List<UserOwnPostForProfilePageDTO> postDTOs = new ArrayList<>();
+
+        for (PostEntity post : posts) {
+            UserOwnPostForProfilePageDTO postDTO = new UserOwnPostForProfilePageDTO();
+            postDTO.setPostId(post.getPostId());
+            postDTO.setUserId(post.getUserId());
+            postDTO.setNick(post.getNick());
+            postDTO.setImageUrl(post.getImageUrl());
+            postDTO.setDescription(post.getDescription());
+            postDTO.setPostImgUrl(post.getPostImgUrl());
+            postDTO.setLikes(post.getLikes());
+            postDTO.setProfileImageUrl(postDTO.getProfileImageUrl());
+            postDTO.setDateTime(post.getDateTime());
+
+            ProfileEntity profileEntity = profileRepository.findById(userId).orElse(null);
+            postDTO.setProfileImageUrl(profileEntity.getProfileImageUrl());
+
+            postDTOs.add(postDTO);
+        }
+
+        return postDTOs;
     }
 }

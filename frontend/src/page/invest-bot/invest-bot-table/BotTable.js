@@ -12,8 +12,8 @@ import Loading from "../../../component/loading/Loading";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
+        backgroundColor: theme.palette.common.white,
+        color: theme.palette.common.black,
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
@@ -24,27 +24,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
 }));
 
 const BotTable = ({ positions, loading}) => { // props ismi yerine daha anlamlı bir isim olan positions kullanıldı.
-
-    // console.log("positions",positions)
-    // console.log("loading",loading)
-
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{borderBottomLeftRadius:"14px", borderBottomRightRadius:"14px",borderTopLeftRadius:"0", borderTopRightRadius:"0"}}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead >
+                <TableHead>
                     <TableRow>
-                        <StyledTableCell>Symbol</StyledTableCell>
-                        <StyledTableCell align="right">Size</StyledTableCell>
-                        <StyledTableCell align="right">Entry Price</StyledTableCell>
-                        <StyledTableCell align="right">Mark Price</StyledTableCell>
-                        <StyledTableCell align="right">Unrealized PNL (ROE%)</StyledTableCell>
+                        <StyledTableCell><strong>Symbol</strong></StyledTableCell>
+                        <StyledTableCell align="right"><strong>Size</strong></StyledTableCell>
+                        <StyledTableCell align="right"><strong>Entry Price</strong></StyledTableCell>
+                        <StyledTableCell align="right"><strong>Mark Price</strong></StyledTableCell>
+                        <StyledTableCell align="right"><strong>Unrealized PNL (ROE%)</strong></StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -10,7 +10,7 @@
 }
 
 .profile-top-button {
-    background: #2C3E50;
+    background: rgba(206, 227, 255, 0.9);
     border-color: black;
     border-radius: 14px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -18,10 +18,12 @@
     padding-right: 25px;
     margin-top: 5px;
     margin-bottom: 5px;
-    color: white;
+    color: black;
     cursor: pointer;
     display: flex;
     align-items: center;
+    font-weight: 600;
+    box-shadow: 1px 1px 1px 0 rgba(149, 205, 241, 0.57);
 }
 
 .profile-tap-background {
@@ -29,4 +31,10 @@
     height: 50px;
     margin-top: 120px;
     background: rgba(206, 227, 255, 0.9);
+}
+
+.profile-tap-title {
+    cursor: pointer;
+    color: white;
+    font-weight: 400;
 }

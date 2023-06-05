@@ -7,13 +7,18 @@ import logoImage from "../../../styles/image.png";
 import SendIcon from '@mui/icons-material/Send';
 import './sharePost.css'
 
-const SharePost = ({ refreshData,onRefresh}) => {
+const SharePost = ({ refreshData,onRefresh, comingFromProfile}) => {
     const [showPostDialog, setShowPostDialog] = useState(false);
     const [image, setImage] = useState(null);
     const [text, setText] = useState('');
     const [profile, setProfile] = useState('');
     const userId = localStorage.getItem("currentUserId");
     const nick = localStorage.getItem("currentUserName");
+
+    const paperStyle = {
+        boxShadow: comingFromProfile === "Profile" ? "0px 2px 3px 1px #2C3E50" : "0px 2px 3px 1px #d1e9ff",
+        marginTop: "20px"
+    };
 
     const openDialog = async (event) => {
         setShowPostDialog(true)
@@ -103,16 +108,16 @@ const SharePost = ({ refreshData,onRefresh}) => {
                 </div>
                 <input type="text" className="upload_textbox" onChange={(evet) => setText(evet.target.value)}
                        placeholder="What's on your mind"/>
-                <img src={image}/>
+                <img src={image} alt={""}/>
                 <input type="button" value="Share Post" onClick={uploadToDataBase} className="upload_button"/>
             </Dialog>
-            <Paper className='upload_container'>
+            <Paper className='upload_container' style={paperStyle}>
                 <div className='upload_top'>
                     <div>
                         <Avatar className='upload_img' src={profile?.profileImageUrl}/>
                     </div>
                     <div style={{width: '88%'}}>
-                        <input className='upload_box' type='text' placeholder='Write here for sharing'
+                        <input className='upload_box' type='text' placeholder='Write here for sharing' value={text}
                                onChange={(evet) => setText(evet.target.value)}/>
                     </div>
                     <div className='upload_sencIcon' onClick={sendTweeterToDatabase}>
@@ -120,21 +125,21 @@ const SharePost = ({ refreshData,onRefresh}) => {
                     </div>
                 </div>
                 <div className='upload_bottom'>
-                    <div className="upload_tabs">
-                        <img src={live} width="30px"/>
-                        <div className="upload_text_share">Live Video</div>
-                    </div>
+                    {/*<div className="upload_tabs">*/}
+                    {/*    <img src={live} width="30px"/>*/}
+                    {/*    <div className="upload_text_share">Live Video</div>*/}
+                    {/*</div>*/}
                     <div className="upload_tabs">
                         <label htmlFor="file-upload" className="upload_tabs">
-                            <img src={logoImage} width="30px"/>
+                            <img src={logoImage} width="30px" alt={""}/>
                             <div className="upload_text">Photo/Video</div>
                         </label>
                         <input type="file" id="file-upload" onChange={(event) => openDialog(event)}/>
                     </div>
-                    <div className="upload_tabs">
-                        <img src={feeling} width="30px"/>
-                        <div className="upload_text_share">Feeling/Activity</div>
-                    </div>
+                    {/*<div className="upload_tabs">*/}
+                    {/*    <img src={feeling} width="30px"/>*/}
+                    {/*    <div className="upload_text_share">Feeling/Activity</div>*/}
+                    {/*</div>*/}
 
                 </div>
             </Paper>

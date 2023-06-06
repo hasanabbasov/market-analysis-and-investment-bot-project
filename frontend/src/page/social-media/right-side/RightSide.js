@@ -38,7 +38,7 @@ const RightSide = ({following}) => {
                         </div>
                     </Paper>
             )) :
-            <p>Loading..</p>
+            <p style={{marginLeft:"90px"}}>Loading..</p>
             }
         </div>
     );

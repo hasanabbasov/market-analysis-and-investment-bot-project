@@ -14,55 +14,66 @@ const InvestBackground = () => {
     ]);
     const [intervalNames] = useState(['1 Minute', '5 Minute', '15 Minute']);
     const [symbols, setSymbols] = useState([]);
-    const [symb, setSymb] = useState('BTCUSDT');
+    const [symb, setSymb] = useState('SHIBUSDT');
+    const userId = localStorage.getItem("currentUserId")
     const [interval, setIntervalTime] = useState('KLINE_INTERVAL_1MINUTE');
     const [botResponse, setBotResponse] = useState('');
 
 
     //Burada ilk basta bot bilgilerimizi aliyoruz, botun calisib calismadigini kontrol etmek icin
     useEffect(() => {
-        fetch('/bot/getBot').then((response) => response.json())
+        fetch(`/bot/getBot/${userId}`).then((response) => response.json())
             .then((res) => {
-                setBotResponse(res[0])
+                setBotResponse(res)
                 setShowButton(res[0].start)
             }).catch(console.error)
     }, [])
 
+    // const startSaveBot = () => {
+    //     fetch(`/bot/save`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({userId: userId, asset: symb, interval: interval, start: true}),
+    //     })
+    //         .then((response) => response.json())
+    //         .then((res) => {
+    //             console.log("saveAnalysis: ", res)
+    //             // setShowButton(true)
+    //             setShowButton(res[0].start)
+    //         })
+    //         .catch(console.error)
+    // }
 
-    const startBot = async () => {
-        if (botResponse?.start === false) {
-            updateBotEntity();
-        }
 
-        postBotStartRequest();
+    const startBot =  () => {
+        fetch(`/bot/save`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userId: userId, asset: symb, interval: interval, start: true}),
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log("saveAnalysis: ", res)
+                // setShowButton(true)
+                setShowButton(true)
+            })
+            .catch(console.error)
     }
 
     const stopBot = () => {
         deleteBotEntity();
         postBotStopRequest();
+        setShowButton(false)
     }
-
-    // const postBotEntity = () =>{
-    //     fetch('/bot/save',{
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //             asset: symb,
-    //             interval: interval,
-    //             start: showButton
-    //         }),
-    //     }).then((response) => response.json())
-    //         .then((res) => setBotResponse(res))
-    //         .catch((error) => console.error("Error: ", error))
-    // }
-
     const deleteBotEntity = async () => {
 
-        const id = 1
+        // const id = 1
         try {
-            const response = await fetch(`/bot/update/${id}`, {
+            const response = await fetch(`/bot/update/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +113,7 @@ const InvestBackground = () => {
 
     //Her deyisiklikten sonra yeniden botun calisib calismadigi bilgilerini guncellemek icin
     const getBotResponse = () => {
-        fetch('/bot/getBot').then((response) => response.json())
+        fetch(`/bot/getBot/|${userId}`).then((response) => response.json())
             .then((res) => {
                 // console.log("deyisen: ", res)
                 setShowButton(res[0].start)
@@ -198,7 +209,7 @@ const InvestBackground = () => {
                     <h1>Tabloda aktiv yapılan yatırımlar gözüküyor</h1>
                 }
             </Paper>
-            {!showButton ?
+            {!showButton && botResponse !== null ?
                 <div>
                     <button className='invest-bot-page-button-background' onClick={startBot}>
                         Botu Baslat!

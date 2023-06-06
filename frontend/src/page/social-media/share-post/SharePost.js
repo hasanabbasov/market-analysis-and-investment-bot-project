@@ -14,7 +14,7 @@ const SharePost = ({ refreshData,onRefresh, comingFromProfile, mainUserProfileIn
 
     const paperStyle = {
         boxShadow: comingFromProfile === "Profile" ? "0px 2px 3px 1px #2C3E50" : "0px 2px 3px 1px #d1e9ff",
-        marginTop: "20px"
+        marginTop: comingFromProfile === "Profile" ? "0" : "20px"
     };
 
     const openDialog = async (event) => {

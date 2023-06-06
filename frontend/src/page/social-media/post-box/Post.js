@@ -44,6 +44,9 @@ const Post = ({
 
 
     const sendCommentToDatabase = async () => {
+        setShowCommentBox(true)
+        setComment('')
+        setRefreshData(!refreshData)
         const commentEntity = {
             postId: postId,
             tweetId: tweetId,
@@ -62,9 +65,9 @@ const Post = ({
             })
             if (response.ok) {
                 console.log('Comment başarıyla paylaşıldı!');
-                setRefreshData(!refreshData)
-                setShowCommentBox(true)
-                setComment('')
+
+
+
             } else {
                 throw new Error('Comment paylaşılırken hata oluştu');
             }
@@ -134,14 +137,19 @@ const Post = ({
                     {/*TODO*/}
                     <Grid item xs={9} className='post_header'>
                         <div className='post_header_img'>
-                            <Avatar className='post_img' src={data?.profileImageUrl ? data?.profileImageUrl : ""}
-                                    onClick={() => navigate(`/profile/${data.userId}`)}/>
+                            { userId != followedId ? <Avatar className='post_img' src={data?.profileImageUrl ? data?.profileImageUrl : ""}
+                                     onClick={() => navigate(`/social-media/user/${data.userId}`)}/>
+                            :
+                                <Avatar className='post_img' src={data?.profileImageUrl ? data?.profileImageUrl : ""}
+                            onClick={() => navigate(`/profile/${data.userId}`)}/>
+                            }
                         </div>
                         <div className='post_header_text'>
                             {nick}
                         </div>
                     </Grid>
-                    <div>
+                    { comingFromProfile !== "Profile" &&
+                        <div>
                         {followedId == userId ?
                             <div/> :
                             data.followingPoster ?
@@ -157,7 +165,7 @@ const Post = ({
                                 </Grid>
                         }
                     </div>
-
+                    }
                 </Grid>
                 <div className='post_description'>
                     {description ? description : tweet}
@@ -202,16 +210,16 @@ const Post = ({
                     </div>
 
                     <div className='post_tab'>
-                        <div className='post_tabfirst'>
-                            <img className='post_tabimg' src={sharebutton} alt={""}/>
-                        </div>
-                        <div className='post_tabtext'>
-                            Share
-                        </div>
+                        {/*<div className='post_tabfirst'>*/}
+                        {/*    <img className='post_tabimg' src={sharebutton} alt={""}/>*/}
+                        {/*</div>*/}
+                        {/*<div className='post_tabtext'>*/}
+                        {/*    Share*/}
+                        {/*</div>*/}
                     </div>
                 </div>}
                 {
-                    comingFromProfile !== "Profile" && showCommentBox && <div className='post-comment-box-background'>
+                   ( comingFromProfile !== "Profile" && showCommentBox) && <div className='post-comment-box-background'>
                         <div>
                             {comments ? comments?.map(({comment, nick, profileImageUrl}, index) => (
                                 <>

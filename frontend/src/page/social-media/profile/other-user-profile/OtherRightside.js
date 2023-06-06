@@ -1,17 +1,16 @@
 import React from 'react';
 import Home from "./OtherUserProfileMain";
-import Tweets from "../tweets/Tweets";
-import Posts from "../posts/Posts";
 import Wallet from "../wallet/Wallet";
-import AllLikedPostsAndTweets from "../all-likes/AllLikedPostsAndTweets";
-import Saves from "../all-save/Saves";
+import Following from "../following/Following";
 
 const OtherRightside = ({show}) => {
-    switch(show) {
+    switch (show) {
         case 'home':
             return <Home/>;
         case 'wallet':
             return <Wallet/>;
+        case 'follow':
+            return <Following/>;
         default:
             return null;
     }

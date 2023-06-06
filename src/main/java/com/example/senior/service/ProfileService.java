@@ -1,7 +1,11 @@
 package com.example.senior.service;
 
+import com.example.senior.dto.UserContactDTO;
+import com.example.senior.dto.UserProfileDto;
 import com.example.senior.entity.ProfileEntity;
+import com.example.senior.entity.UsersEntity;
 import com.example.senior.repository.ProfileRepository;
+import com.example.senior.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,9 @@ public class ProfileService {
 
     @Autowired
     ProfileRepository profileRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public ProfileEntity saveInfoById(Long userId, ProfileEntity data) {
         ProfileEntity profile = profileRepository.findById(userId)
@@ -45,4 +52,25 @@ public class ProfileService {
         // Profil nesnesini veritabanına kaydet
         return profileRepository.save(profile);
     }
+
+    public UserProfileDto findUserProfileInfo(Long userId) {
+        ProfileEntity profileEntity = profileRepository.findById(userId).orElseThrow();
+        UsersEntity usersEntity = userRepository.findById(userId).orElseThrow();
+
+        return UserProfileDto.builder()
+                .userId(userId)
+                .firstname(usersEntity.getFirstname())
+                .lastname(usersEntity.getLastname())
+                .email(usersEntity.getEmail())
+                .nick(profileEntity.getNick())
+                .profileImageUrl(profileEntity.getProfileImageUrl())
+                .backgroundImageUrl(profileEntity.getBackgroundImageUrl())
+                .education(profileEntity.getEducation())
+                .twitter(profileEntity.getTwitter())
+                .facebook(profileEntity.getFacebook())
+                .live(profileEntity.getLive())
+                .info(profileEntity.getInfo())
+                .build();
+    }
+
 }

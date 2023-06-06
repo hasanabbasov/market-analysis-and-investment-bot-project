@@ -15,5 +15,37 @@
     display: flex;
     position: relative;
     align-items: center;
-    width: 33%;
+    width: 53%;
+}
+
+
+.following-unfollow-botton {
+    margin-left: 10px;
+    display: flex;
+    max-height: 40px;
+    max-width: 150px!important;
+    align-items: center;
+    justify-content: center;
+    background:  #fc4b4b;
+    border-color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 7px 25px 7px 25px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.following-unfollow-botton:hover {
+    display: flex;
+    max-height: 40px;
+    max-width: 150px!important;
+    align-items: center;
+    justify-content: center;
+    background: #772626;
+    border-color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 7px 25px 7px 25px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
 }

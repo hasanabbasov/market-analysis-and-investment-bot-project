@@ -3,7 +3,7 @@ import {Paper} from '@material-ui/core'
 
 const InfoBox = ({userProfileInfo}) => {
     return (
-        <Paper>
+        <Paper style={{boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"}}>
             <div>
                 <div className='info-box-title-background'>
                     <div className='info-box-title'>Education:</div>

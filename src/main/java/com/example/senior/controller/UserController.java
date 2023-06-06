@@ -56,20 +56,6 @@ public class UserController {
         return userRepository.findById(userId).get();
     }
 
-//    @PostMapping("/register")
-//    public UsersEntity createUser(@RequestBody UsersEntity userEntity){
-//        return userRepository.save(userEntity);
-//    }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<UsersEntity> login(@RequestBody UsersEntity user) {
-//        UsersEntity result = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
-//        if(result != null) {
-//            return ResponseEntity.ok(result);
-//        }
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//    }
-
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody UsersEntity loginRequest) {
@@ -101,13 +87,6 @@ public class UserController {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-//        ProfileEntity profile = new ProfileEntity();
-//        profile.setUserId(user.getUserId()); // UserID'yi atayın
-//        profile.setNick(registerRequest.getUserName());
-//        profile.setUser(user); // User ilişkisini ayarlayın
-//
-//        user.setProfile(profile); // User ile Profile arasındaki ilişkiyi ayarlayın
-
         ProfileEntity profile = new ProfileEntity();
         profile.setUserId(user.getUserId()); // UserID'yi atayın
         profile.setNick(registerRequest.getUserName());
@@ -118,11 +97,7 @@ public class UserController {
         userService.saveOneUser(user);
         profileRepository.save(profile); // Profili kaydedin
         authResponse.setMessage("User successfully registered.");
-//        // Profil oluştur
-//        ProfileEntity profile = new ProfileEntity();
-//        profile.setUser(user);
-//        profile.setNick(registerRequest.getUserName());
-//        profileRepository.save(profile);
+
 
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
@@ -139,12 +114,6 @@ public class UserController {
         userService.removeFollowed(userId, followedId);
         return ResponseEntity.ok().build();
     }
-
-//    @GetMapping("/{userId}/following")
-//    public ResponseEntity<UserContactDTO> getFollowing(@PathVariable Long userId) {
-//        UserContactDTO following = userService.getFollowing(userId);
-//        return ResponseEntity.ok(following);
-//    }
 
     @GetMapping("/{userId}/following")
     public ResponseEntity<List<UserContactDTO>> getFollowing(@PathVariable Long userId) {

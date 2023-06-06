@@ -1,7 +1,6 @@
 package com.example.senior.dto;
 
-import com.example.senior.entity.ProfileEntity;
-import com.example.senior.entity.UsersEntity;
+
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -12,7 +11,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
-public class UserContactDTO {
+public class UserProfileDto {
     private Long userId;
     private String userName;
     private String firstname;
@@ -22,6 +21,7 @@ public class UserContactDTO {
     private String profileImageUrl;
     private String backgroundImageUrl;
     private String education;
+    private Timestamp dateTime;
     private String twitter;
     private String facebook;
     private String live;

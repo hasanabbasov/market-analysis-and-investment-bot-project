@@ -14,7 +14,7 @@ public class BotService {
     @Autowired
     BotRepository botRepository;
 
-    public List<BotEntity> getBotData() {
-        return botRepository.findAll();
+    public List<BotEntity> getBotData(Long userId) {
+        return botRepository.getAllByUserId(userId);
     }
 }

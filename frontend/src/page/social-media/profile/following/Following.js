@@ -8,7 +8,9 @@ import Grid from "@material-ui/core/Grid";
 const Following = () => {
     const {userId} = useParams();
     const navigate = useNavigate();
+    const currentUserId  = localStorage.getItem("currentUserId")
     const [following, setFollowing] = useState([]);
+    console.log("following", following)
 
     useEffect(() => {
         followingList()
@@ -46,14 +48,21 @@ const Following = () => {
                                 {follow.userName}
                             </div>
                         </div>
-                        <button onClick={() => navigate(`/social-media/user/${follow?.userId}`)} className="following-profile-visit">Profili Ziyaret et
-                        </button>
-                        <Grid item xs={3} className="post-box-unfollow-botton">
+                        { currentUserId != follow?.userId ?
+                            <>
+                                <button onClick={() => navigate(`/social-media/user/${follow?.userId}`)}
+                                        style={{marginRight: "20px"}} className="following-profile-visit">Visit Profile
+                                </button>
+                                <Grid item xs={3} className="following-unfollow-botton">
                                     <span style={{paddingRight: "5px", fontSize: "15px"}}
                                           onClick={() => unfollowUser(follow?.userId)}>Unfollow</span>
-                            <FollowTheSignsIcon style={{fontSize: "20px"}}/>
-                        </Grid>
-
+                                    <FollowTheSignsIcon style={{fontSize: "20px"}}/>
+                                </Grid></>
+                            :
+                            <button onClick={() => navigate(`/profile/${follow?.userId}`)}
+                                    className="following-profile-visit">Back to Profile page
+                            </button>
+                        }
                     </Paper>
                 )) :
                 <p>Loading..</p>

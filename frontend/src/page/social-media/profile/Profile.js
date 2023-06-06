@@ -6,7 +6,6 @@ import InfoBox from "./ProfileInfoBox/InfoBox";
 import ProfileRightSide from "./ProfileRightSide";
 import Tap from "./Tap";
 import "./Profile.css"
-import Resizer from "react-image-file-resizer";
 
 const Profile = () => {
     const [show, setShow] = useState('home');
@@ -17,7 +16,6 @@ const Profile = () => {
     const [profilePhoto, setProfilePhoto] = useState('');
     const [backgroundPhoto, setBackgroundPhoto] = useState('');
     console.log("profile",profile)
-    // console.log("backgroundPhoto",backgroundPhoto)
 
     useEffect(() => {
         fetch(`/users/${userId}`)
@@ -34,8 +32,6 @@ const Profile = () => {
             reader.onerror = (error) => reject(error);
         });
 
-    // const profilePhotoBase64 =  toBase64(profilePhoto);
-    // const backgroundPhotoBase64 =  toBase64(backgroundPhoto);
 
     const savePhotos = async () => {
         const profilePhotoBase64 = await toBase64(profilePhoto);
@@ -82,15 +78,17 @@ const Profile = () => {
                         onChange={(e) => setBackgroundPhoto(e.target.files[0])}/>
                 }
                 <Paper style={{width: '100%', height: '255px', boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"}}>
-                    <img src={profile?.backgroundImageUrl} style={{width: '100%', height: '252px',}}/>
+                    <img src={profile?.backgroundImageUrl} style={{width: '100%', height: '252px',}} alt={""}/>
                     <Avatar style={{width: '170px', height: '170px', position: 'absolute', marginTop: '-60px', marginLeft:'50px',boxShadow: "0 4px 6px rgba(2, 56, 98, 0.9)"}}>
                         {editButton ? <input type='file' style={{opacity: 0, width: '100%', height: '100%', cursor: 'pointer'}}
                                 onChange={(e) => setProfilePhoto(e.target.files[0])}/> :
-                        <img src={profile?.profileImageUrl} style={{width: '90%', height: '90%'}}/>
+                        <img src={profile?.profileImageUrl} style={{width: '90%', height: '90%'}} alt={""}/>
                         }
                     </Avatar>
 
                     <div style={{position: 'absolute', marginTop: '30px', paddingLeft: '245px',fontWeight:'bold'}}>{user?.userName}</div>
+                    <div style={{position: 'absolute', marginTop: '55px', paddingLeft: '245px',fontWeight:'400',fontSize:"14px"}}>{user?.lastname} <span>{user?.firstname}</span></div>
+                    <div style={{position: 'absolute', marginTop: '80px', paddingLeft: '245px',fontWeight:'200',fontSize:"14px"}}>{user?.email}</div>
                 </Paper>
 
                 {editButton &&

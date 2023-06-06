@@ -57,7 +57,7 @@ const Header = () => {
 
     const handleClick = (userId) => {
         // You can use this userId to navigate to the appropriate profile page
-        navigate(`/profile/${userId}`);
+        navigate(`/social-media/user/${userId}`);
         setFilteredUsers([]);
         setSearch("");
     }

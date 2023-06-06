@@ -1,5 +1,6 @@
 package com.example.senior.controller;
 
+import com.example.senior.dto.UserProfileDto;
 import com.example.senior.entity.BinanceEntity;
 import com.example.senior.entity.ProfileEntity;
 import com.example.senior.entity.UsersEntity;
@@ -21,8 +22,9 @@ public class ProfileController {
     ProfileService profileService;
 
     @GetMapping("/get/{userId}")
-    public ProfileEntity getUserId(@PathVariable(value = "userId") Long userId){
-        return profileRepository.findById(userId).get();
+    public UserProfileDto getUserId(@PathVariable(value = "userId") Long userId){
+        return profileService.findUserProfileInfo(userId);
+//        return profileRepository.findById(userId).get();
     }
 
     @GetMapping("/getAll")

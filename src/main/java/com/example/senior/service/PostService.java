@@ -2,14 +2,13 @@ package com.example.senior.service;
 import com.example.senior.dto.CommentProfileDTO;
 import com.example.senior.dto.SocialMediaPostDTO;
 import com.example.senior.dto.UserOwnPostForProfilePageDTO;
-import com.example.senior.entity.CommentEntity;
-import com.example.senior.entity.ProfileEntity;
+import com.example.senior.entity.*;
 import com.example.senior.repository.CommentRepository;
 import com.example.senior.repository.ProfileRepository;
+import com.example.senior.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.senior.entity.PostEntity;
-import com.example.senior.entity.TweetEntity;
 import com.example.senior.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,9 @@ public class PostService {
     @Autowired
     ProfileRepository profileRepository;
 
+    @Autowired
+    UserRepository usersRepository;
+
     public List<PostEntity> savePost(PostEntity post) {
         Date date = new Date();
         long time = date.getTime();
@@ -46,7 +48,8 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<SocialMediaPostDTO> allPost() {
+    @Transactional
+    public List<SocialMediaPostDTO> allPost(Long currentUserId) {
         List<PostEntity> posts = postRepository.findAll();
         List<SocialMediaPostDTO> postDTOs = new ArrayList<>();
 
@@ -102,6 +105,15 @@ public class PostService {
                 postDTO.setLive(profile.getLive());
                 postDTO.setInfo(profile.getInfo());
             }
+
+            UsersEntity loggedInUser = usersRepository.findById(currentUserId).orElse(null);
+            if (loggedInUser != null) {
+                Hibernate.initialize(loggedInUser.getFollowed());
+                boolean isFollowingPoster = loggedInUser.getFollowed().stream()
+                        .anyMatch(followedUser -> followedUser.getUserId().equals(post.getUserId()));
+                postDTO.setFollowingPoster(isFollowingPoster);
+            }
+
 
             postDTOs.add(postDTO);
         }

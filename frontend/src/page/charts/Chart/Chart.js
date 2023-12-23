@@ -1,5 +1,4 @@
 import React, { useEffect,useState } from "react";
-// import LightweightCharts from "lightweight-charts";
 import * as LightweightCharts from 'lightweight-charts';
 import ModalForChart from "../ModalChart/ModalForChart";
 import BuySell from "../BuyAndSell/BuySell";
@@ -10,6 +9,7 @@ function Chart() {
     const [symbols, setSymbols] = useState([]);
     const [symb,setSymb] = useState('BTCUSDT');
     const [interval, setInterval] = useState('KLINE_INTERVAL_5MINUTE');
+    const userId = localStorage.getItem("currentUserId")
     const [intervalValues] = useState([
         'KLINE_INTERVAL_5MINUTE',
         'KLINE_INTERVAL_15MINUTE',
@@ -47,17 +47,15 @@ function Chart() {
         if (activeSymb && activeInterval){
             setActiveChart(true)
         }
-        fetch("http://127.0.0.1:5000/usdt_symbols")
+        fetch(`http://127.0.0.1:5000/usdt_symbols?userId=${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 setSymbols(data);
-                // console.log("symbols2",symbols);
-                // console.log("data",data);
             });
 
         if (activeChart) {
             const chart = LightweightCharts.createChart(document.getElementById("chart"), {
-                width: window.innerWidth * 0.77,
+                width: window.innerWidth * 0.76,
                 height: window.innerHeight * 0.7,
                 layout: {
                     background: {
@@ -94,19 +92,12 @@ function Chart() {
                 wickUpColor: "rgb(4,190,42)",
             });
 
-
-
-
-
-
             const dataToChart = {
                 date: tarih,
                 lastDate: altiTarih,
                 symbol: activeSymb,
                 interval: activeInterval
             };
-
-
 
             fetch(`http://127.0.0.1:5000/chart-history/post`, {
                 method: 'POST',
@@ -117,15 +108,13 @@ function Chart() {
             })
                 .then((response) => {
                     response.json()
-                    fetch(`http://127.0.0.1:5000/chart-history?date=${dataToChart.date}&lastDate=${dataToChart.lastDate}&symbol=${dataToChart.symbol}&interval=${dataToChart.interval}`)
+                    fetch(`http://127.0.0.1:5000/chart-history?date=${dataToChart.date}&lastDate=${dataToChart.lastDate}&symbol=${dataToChart.symbol}&interval=${dataToChart.interval}&userId=${userId}`)
                         .then((response) => response.json())
                         .then((data) => {
-                            // console.log("data",data)
                             candleSeries.setData(data);
                         });
                 })
                 .then((data) => {
-                    // console.log("GelenData" , data)
                 })
                 .catch((error) => console.error("Error: ", error))
 
@@ -134,10 +123,8 @@ function Chart() {
             );
 
             exampleSocket.onmessage = (event) => {
-
                 const messageDate = JSON.parse(event.data)
                 const handleStick = messageDate.k
-                // console.log("",messageDate)
                 candleSeries.update({
                     "time": handleStick.t / 1000,
                     "open": parseFloat(handleStick.o),
@@ -147,7 +134,6 @@ function Chart() {
                 })
             };
 
-            // clean up the WebSocket connection on unmounting
             return () => {
                 exampleSocket.close();
                 chart.remove();
@@ -155,11 +141,6 @@ function Chart() {
         }
 
     },[altiTarih, interval, symb, tarih, activeChart]);
-
-    // console.log('symb',symb)
-    // console.log('interval',interval)
-    // console.log('activeChart             : ',activeChart)
-
     return (
         <div style={{paddingRight:'35px'}}>
             <div >

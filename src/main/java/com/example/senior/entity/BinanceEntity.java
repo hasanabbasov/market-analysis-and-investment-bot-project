@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "chart")
+@Table(name = "binance")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,12 +14,16 @@ import javax.persistence.*;
 @ToString
 public class BinanceEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(length = 600, name = "user_id", nullable = false)
     private Long userId;
+
     @Column(length = 600, name = "api_key")
     private String apiKey;
+
     @Column(length = 600, name = "secruty_key")
     private String secrutyKey;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private UsersEntity user;
 }

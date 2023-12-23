@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from "./OtherUserProfileMain";
-import Wallet from "../wallet/Wallet";
+import Wallet from "./OtherWallet";
 import Following from "../following/Following";
 
 const OtherRightside = ({show}) => {

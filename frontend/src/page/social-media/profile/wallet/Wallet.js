@@ -9,9 +9,10 @@ const Wallet = () => {
     const [show, setShow] = useState('active');
     const [data, setData] = useState();
     // console.log("data active invest card: ", data)
+    const userId = localStorage.getItem("currentUserId")
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/active_invest')
+        fetch(`http://127.0.0.1:5000/active_invest?userId=${userId}`)
             .then((response) => response.json())
             .then((res) => {
                 // console.log("res", res)

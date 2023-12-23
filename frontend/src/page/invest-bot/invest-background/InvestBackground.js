@@ -29,22 +29,22 @@ const InvestBackground = () => {
             }).catch(console.error)
     }, [])
 
-    // const startSaveBot = () => {
-    //     fetch(`/bot/save`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({userId: userId, asset: symb, interval: interval, start: true}),
-    //     })
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             console.log("saveAnalysis: ", res)
-    //             // setShowButton(true)
-    //             setShowButton(res[0].start)
-    //         })
-    //         .catch(console.error)
-    // }
+    const startSaveBot = () => {
+        fetch(`/bot/save`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userId: userId, asset: symb, interval: interval, start: true}),
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log("saveAnalysis: ", res)
+                // setShowButton(true)
+                setShowButton(res[0].start)
+            })
+            .catch(console.error)
+    }
 
 
     const startBot =  () => {
@@ -62,6 +62,8 @@ const InvestBackground = () => {
                 setShowButton(true)
             })
             .catch(console.error)
+
+        postBotStartRequest()
     }
 
     const stopBot = () => {
@@ -124,7 +126,7 @@ const InvestBackground = () => {
     const postBotStartRequest = () => {
         getBotResponse()
         // http://127.0.0.1:5000/chart-history?date=${dataToChart.date}&lastDate=${dataToChart.lastDate}&symbol=${dataToChart.symbol}&interval=${dataToChart.interval}
-        fetch(`http://127.0.0.1:5000/start_bot?symbol=${symb}&interval=${interval}`, {
+        fetch(`http://127.0.0.1:5000/start_bot?symbol=${symb}&interval=${interval}&userId=${userId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,7 +164,7 @@ const InvestBackground = () => {
     }
 
         useEffect(() => {
-            fetch("http://127.0.0.1:5000/usdt_symbols")
+            fetch(`http://127.0.0.1:5000/usdt_symbols?userId=${userId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setSymbols(data);
@@ -173,7 +175,7 @@ const InvestBackground = () => {
     useEffect(() => {
         if (showButton) {
             const intervalId = setInterval(() => {
-                fetch('http://127.0.0.1:5000/futures_positions')
+                fetch(`http://127.0.0.1:5000/futures_positions?userId=${userId}`)
                     .then((response) => response.json())
                     .then((data) => {
                         setPositions(data);
@@ -190,8 +192,8 @@ const InvestBackground = () => {
     return (
         <div className='invest-bot-page-background'>
             <Paper style={{padding: '20px'}}>
-                <h1>Bu bir yatirim Botudur</h1>
-                <h2>İlk başta İnterval ve Symbol seçin</h2>
+                <h1>This is an investment bot that works by utilizing various indicators to automatically perform investment transactions on your behalf.</h1>
+                <h4>First, select the Interval and Symbol.</h4>
                 {!showButton ? <div>
                         <select id="symbol" value={symb} onChange={(e) => setSymb(e.target.value)}>
                             {symbols.map((symbol) => (

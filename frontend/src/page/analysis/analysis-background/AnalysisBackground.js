@@ -23,7 +23,7 @@ const AnalysisBackground = () => {
     console.log("showButton",showButton)
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/usdt_symbols")
+        fetch(`http://127.0.0.1:5000/usdt_symbols?userId=${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 setSymbols(data);
@@ -79,8 +79,11 @@ const AnalysisBackground = () => {
     return (
         <div className='analysis-page-background'>
             <Paper style={{padding: '20px'}}>
-                <h1>Burada sizin icin sectiginiz coin'in gelecekte ki degerini ML kullanarak tahmin ediyoruz!</h1>
-                <h2>İlk başta İnterval ve Symbol seçin</h2>
+                <h1>
+                    Choose the cryptocurrency you wish to analyze and select the interval at which you want to conduct the market analysis.
+                </h1>
+                <h3>Please note that this is an ML model, and its predictions are not 100% accurate.</h3>
+                <h4>First, select the Interval and Symbol.</h4>
                 {!showButton && <div>
                         <select id="symbol" value={symb} onChange={(e) => setSymb(e.target.value)}>
                             {symbols.map((symbol) => (
@@ -100,15 +103,15 @@ const AnalysisBackground = () => {
             {!showButton  && intervalSymbolDataForFlaskFetch !== null ?
                 <div>
                     <button className='analysis-page-button-background' onClick={startAnalysis}>
-                        Analize Basla!
+                        Start analysis!
                     </button>
                 </div> :
                 <div>
                     <button className='analysis-page-button-refresh-background' onClick={refreshAnalysis}>
-                        Analizi Yenile!
+                        Refresh analysis!
                     </button>
                     <button className='analysis-page-stop-button-background' onClick={stopAnalysis}>
-                        Analizi Durdur!
+                        Stop analysis!
                     </button>
                 </div>
             }

@@ -19,8 +19,8 @@ const Login = () => {
     const [error, setError] = useState(false);
     const navigate = useNavigate();
 
-    console.log("userName",userName)
-    console.log("password",password)
+    // console.log("userName",userName)
+    // console.log("password",password)
 
     const handleLogin =  (e) => {
         e.preventDefault();
@@ -52,7 +52,22 @@ const Login = () => {
                     setError(false);
                 }, 3000);
                 }
-            )
+            ).finally(() => {
+            let userId = localStorage.getItem("currentUserId")
+            fetch(`http://127.0.0.1:5000/currentUserId`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    currentUserId: userId,
+                    urlId: null
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => console.log("currenUserId send to flask", data))
+                .catch((error) => console.log(error));
+        })
     }
 
 

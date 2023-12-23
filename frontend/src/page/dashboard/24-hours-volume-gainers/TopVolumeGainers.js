@@ -10,10 +10,11 @@ import Paper from '@mui/material/Paper';
 
 const TopVolumeGainers = () => {
     const [top20VolumeGainers, setTop20VolumeGainers] = useState('');
+    const userId = localStorage.getItem("currentUserId")
     console.log("top20VolumeGainers", top20VolumeGainers)
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/top_volume")
+        fetch(`http://127.0.0.1:5000/top_volume?userId=${userId}`)
             .then((response) => response.json())
             .then((res) => {
                 setTop20VolumeGainers(res.high_volume);

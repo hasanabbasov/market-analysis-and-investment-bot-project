@@ -1,15 +1,17 @@
 import React from 'react';
-import { Avatar } from '@material-ui/core'
+import BitcoinLogo from "../../../styles/bitcoin-logo.png"
+// import ETHLogo from "../../../styles/ethereumpow-logo.png"
 import './leftside.css'
 
-const LeftFutureIcon = () => {
+const LeftFutureIcon = ({logo, text}) => {
+    console.log("logo", logo)
     return (
         <div className='imageLayout_container'>
             <div className='imageLayout_imglay'>
-                <Avatar/>
+                {/*<img src={logo === "BitcoinLogo" ? BitcoinLogo : ETHLogo} style={{width: '35px', height: '35px'}} alt={""}/>*/}
             </div>
             <div className='imageLayout_text'>
-                Haberleri buradan filtrele
+                {text}
             </div>
         </div>
     );

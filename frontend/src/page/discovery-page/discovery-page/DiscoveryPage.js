@@ -5,10 +5,11 @@ const DiscoveryPage = () => {
     const [asset, setAsset] = useState('');
     const [amount, setAmount] = useState(0);
     const [response, setResponse] = useState(null);
+    const userId = localStorage.getItem("currentUserId")
 
     const handleTransfer = async () => {
         try {
-            const result = await fetch(`http://127.0.0.1:5000/futures_income_history`);
+            const result = await fetch(`http://127.0.0.1:5000/futures_income_history?userId=${userId}`);
             const data = await result.json();
             setResponse(data);
         } catch (error) {

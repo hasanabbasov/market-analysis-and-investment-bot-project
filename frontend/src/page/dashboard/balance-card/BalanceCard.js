@@ -1,8 +1,10 @@
-import React,{useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import './balanceCard.css'
+import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
 
 
 const BalanceCard = () => {
@@ -10,11 +12,13 @@ const BalanceCard = () => {
     const [futureInfo, setFutureInfo] = useState();
     const [error, setError] = useState(false);
     const [totalWallet, setTotalWallet] = useState(0);
-    const [spotToFuture , setSpotToFuture ] = useState("Spot")
+    const [spotToFuture, setSpotToFuture] = useState("Spot")
     const [amountForTransfer, setAmountForTransfer] = useState('')
     const [refresWalletInfo, setRefresWalletInfo] = useState("");
+    const [success, setSuccess] = useState(false);
+    const userId = localStorage.getItem("currentUserId")
 
-    console.log("amountForTransfer",amountForTransfer)
+    console.log("amountForTransfer", amountForTransfer)
 
     useEffect(() => {
         if (spotInfo && futureInfo) {
@@ -26,8 +30,20 @@ const BalanceCard = () => {
 
     useEffect(() => {
         Promise.all([
-            fetch('http://127.0.0.1:5000/usdt_spot_balance').then(res => res.json()),
-            fetch('http://127.0.0.1:5000/usdt_future_balance').then(res => res.json())
+            fetch('http://127.0.0.1:5000/usdt_spot_balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userId: userId})
+            }).then(res => res.json()),
+            fetch('http://127.0.0.1:5000/usdt_future_balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userId: userId})
+            }).then(res => res.json())
         ])
             .then(data => {
                 if (data) {
@@ -41,6 +57,7 @@ const BalanceCard = () => {
             .catch(err => setError(err.message));
     }, [refresWalletInfo]);
 
+
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -51,6 +68,19 @@ const BalanceCard = () => {
 
 
 
+    const SuccessesToast = () => {
+        return (
+            <div style={{position: "relative", top: "-40%"}}>
+                <Stack sx={{width: '100%'}} spacing={2}>
+                    <Alert variant="filled" severity="success">
+                        Transfer Success!
+                        <span  style={{cursor:"pointer" , paddingLeft:"15px", fontSize:"12px", color:"red"}} onClick={() => setSuccess(false)} >X</span>
+                    </Alert>
+                </Stack>
+            </div>
+        )
+    }
+
 
     const transferToSpotOrFuture = (value) => {
 
@@ -60,29 +90,36 @@ const BalanceCard = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({asset : "USDT",
-                    amount : amountForTransfer,
-                    type: 1}),
+                body: JSON.stringify({
+                    asset: "USDT",
+                    amount: amountForTransfer,
+                    type: 1,
+                    userId: userId
+                }),
             })
                 .then((response) => response.json())
                 .then((data) => {
                     setRefresWalletInfo(data)
+                    setSuccess(true)
                 })
                 .catch((error) => console.log(error));
-        }
-        else {
+        } else {
             fetch(`http://127.0.0.1:5000/transfer_to_futures`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({asset : "USDT",
-                    amount : amountForTransfer,
-                    type: 2}),
+                body: JSON.stringify({
+                    asset: "USDT",
+                    amount: amountForTransfer,
+                    type: 2,
+                    userId: userId
+                }),
             })
                 .then((response) => response.json())
                 .then((data) => {
                     setRefresWalletInfo(data)
+                    setSuccess(true)
                 })
                 .catch((error) => console.log(error));
         }
@@ -92,7 +129,7 @@ const BalanceCard = () => {
         <Grid container spacing={1} className="balance-card-background">
             <Grid item xs={12}>
                 <div className='balance-total-balance'>
-                    <p className='balance-card-title-p'>Total Balance:</p>
+                    <p className='balance-card-title-p'>Total Available Balance:</p>
                     <p>{totalWallet} $</p>
                 </div>
                 <div className='balance-total-balance'>
@@ -104,7 +141,7 @@ const BalanceCard = () => {
                     <p>{Number(futureInfo.totalWalletBalance)} $</p>
                 </div>
             </Grid>
-            { spotToFuture === "Spot" ? <>
+            {spotToFuture === "Spot" ? <>
                     <div className="spot-to-future-background">
                         <div className="spot-to-future-button-active" onClick={() => setSpotToFuture("Future")}>Spot</div>
                         <ArrowForwardIosIcon/>
@@ -113,8 +150,10 @@ const BalanceCard = () => {
                     </div>
                     <div className="spot-to-future-input-button-background">
 
-                        <input className="spot-to-future-input" type={"number"} placeholder="10$" onChange={(e) => setAmountForTransfer(e.target.value)}  />
-                        <p className="spot-to-future-send-button" onClick={() => transferToSpotOrFuture("Future")} >Send To Future</p>
+                        <input className="spot-to-future-input" type={"number"} placeholder="10$"
+                               onChange={(e) => setAmountForTransfer(e.target.value)}/>
+                        <p className="spot-to-future-send-button" onClick={() => transferToSpotOrFuture("Future")}>Send To
+                            Future</p>
                     </div>
                 </>
 
@@ -128,13 +167,16 @@ const BalanceCard = () => {
                         </div>
                     </div>
                     <div className="spot-to-future-input-button-background">
-                        <input className="spot-to-future-input" type={"number"} placeholder="10$" onChange={(e) => setAmountForTransfer(e.target.value)} />
-                        <p className="spot-to-future-send-button" onClick={() => transferToSpotOrFuture("Spot")}>Send To Spot</p>
+                        <input className="spot-to-future-input" type={"number"} placeholder="10$"
+                               onChange={(e) => setAmountForTransfer(e.target.value)}/>
+                        <p className="spot-to-future-send-button" onClick={() => transferToSpotOrFuture("Spot")}>Send To
+                            Spot</p>
                     </div>
                 </>
             }
-
-
+            { success &&
+                SuccessesToast()
+            }
 
 
         </Grid>

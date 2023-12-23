@@ -64,8 +64,8 @@ const AnalysisChart = ({symb, interval, refresh}) => {
                 </YAxis>
                 <Tooltip/>
                 <Legend/>
-                <Line type="monotone" dataKey="Real Close" stroke="#8884d8" activeDot={{r: 8}}/>
-                <Line type="monotone" dataKey="Predicted Close" stroke="#82ca9d"/>
+                <Line type="monotone" dataKey="Real Close" strokeWidth={2}  stroke="#8884d8" activeDot={{r: 8}}/>
+                <Line type="monotone" dataKey="Predicted Close" strokeWidth={2}  stroke="#82ca9d"/>
             </LineChart> : <Loading value={"analysis"}/>}
         </div>
     );

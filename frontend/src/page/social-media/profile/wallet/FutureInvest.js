@@ -4,13 +4,12 @@ import BotTable from "../../../../page/invest-bot/invest-bot-table/BotTable"
 const FutureInvest = () => {
 
     const [loading, setLoading] = useState(true)
-    const [showButton, setShowButton] = useState('');
     const [positions,   setPositions] = useState([]); // Pozisyonları tutacak yeni state
+    const userId = localStorage.getItem("currentUserId")
 
     useEffect(() => {
-        if (showButton) {
             const intervalId = setInterval(() => {
-                fetch('http://127.0.0.1:5000/futures_positions')
+                fetch(`http://127.0.0.1:5000/futures_positions?userId=${userId}`)
                     .then((response) => response.json())
                     .then((data) => {
                         setPositions(data);
@@ -20,8 +19,8 @@ const FutureInvest = () => {
 
             // Cleanup function
             return () => clearInterval(intervalId);
-        }
-    }, [showButton]); // Botun durumuna bağlı olarak güncelle
+
+    }, []); // Botun durumuna bağlı olarak güncelle
     return (
         <div style={{boxShadow:" 0px 2px 3px 1px #2C3E50",borderBottomLeftRadius:"14px", borderBottomRightRadius:"14px",borderTopLeftRadius:"0", borderTopRightRadius:"0"}}>
             <BotTable loading={loading} positions={positions}/>

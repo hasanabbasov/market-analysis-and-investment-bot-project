@@ -18,6 +18,17 @@
     border: 1px solid #d1e9ff;
 }
 
+.rightside-contact-paper:hover {
+    margin-top: 5px;
+    display: flex;
+    margin-left: 90px;
+    font-weight: 600;
+    font-size: 18px;
+    border: 1px solid #d1e9ff;
+    background: #b1d9ff;
+    padding: 5px;
+}
+
 .rightside_content {
     margin: 0 10px 0 10px;
     padding: 10px;

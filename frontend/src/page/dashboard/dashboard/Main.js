@@ -15,17 +15,18 @@ const Main = ({sizes}) => {
     const [bitcoinHoursData, setBitcoinHoursData] = useState();
     // console.log("data active invest card: ", activeInvestData)
     console.log("bitcoinHoursData: ", bitcoinHoursData)
+    const userId = localStorage.getItem("currentUserId")
 
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/active_invest')
+        fetch(`http://127.0.0.1:5000/active_invest?userId=${userId}`)
             .then((response) => response.json())
             .then((res) => {
                 // console.log("res", res)
                 setActiveInvestData(res)
             })
 
-        fetch('http://127.0.0.1:5000/btc_price_last_24_hours')
+        fetch(`http://127.0.0.1:5000/btc_price_last_24_hours?userId=${userId}`)
             .then((response) => response.json())
             .then((res) => {
                 // console.log("res", res)

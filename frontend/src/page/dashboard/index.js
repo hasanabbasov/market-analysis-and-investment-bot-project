@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState} from "react";
 import Grid from "@mui/material/Grid";
 import SideMenu from "../../component/side-menu/SideMenu";
 import Main from "./dashboard/Main"
 
-const Index = () => {
+const Index = ({binanceInfoModalData}) => {
     const [sizes, setSize] = useState(false)
+    console.log("binanceInfoModalData",binanceInfoModalData)
 
     const SideMenuBackground = (sizes) => {
         switch (sizes) {
@@ -33,10 +34,14 @@ const Index = () => {
     }
     return (
         <div>
-            <div style={{background: "#EFEFEF", marginTop:"16px"}} >
+             <div style={{background: "#EFEFEF", marginTop: "16px"}}>
                 <Grid container spacing={2}>
-                    <>{SideMenuBackground(sizes)}</>
-                    <>{DashboardBackground(sizes)}</>
+                    { (binanceInfoModalData.apiKey !== null)  &&
+                        <><>{SideMenuBackground(sizes)}</>
+
+                            <>{DashboardBackground(sizes)}</>
+                        </>
+                    }
                 </Grid>
             </div>
         </div>

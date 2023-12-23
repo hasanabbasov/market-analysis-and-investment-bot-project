@@ -26,9 +26,9 @@ public class BotController {
     }
 
 
-    @GetMapping("/getBot")
-    public List<BotEntity> getBotData() {
-        return botService.getBotData();
+    @GetMapping("/getBot/{userId}")
+    public List<BotEntity> getBotData(@PathVariable("userId") Long userId) {
+        return botService.getBotData(userId);
     }
 
     @PutMapping("/update/{id}")

@@ -11,6 +11,8 @@ const Following = () => {
     const currentUserId  = localStorage.getItem("currentUserId")
     const [following, setFollowing] = useState([]);
     console.log("following", following)
+    console.log("currentUserId", currentUserId)
+    console.log("userId", userId)
 
     useEffect(() => {
         followingList()
@@ -53,11 +55,12 @@ const Following = () => {
                                 <button onClick={() => navigate(`/social-media/user/${follow?.userId}`)}
                                         style={{marginRight: "20px"}} className="following-profile-visit">Visit Profile
                                 </button>
-                                <Grid item xs={3} className="following-unfollow-botton">
+                                { userId == currentUserId && <Grid item xs={3} className="following-unfollow-botton">
                                     <span style={{paddingRight: "5px", fontSize: "15px"}}
                                           onClick={() => unfollowUser(follow?.userId)}>Unfollow</span>
                                     <FollowTheSignsIcon style={{fontSize: "20px"}}/>
-                                </Grid></>
+                                </Grid>}
+                            </>
                             :
                             <button onClick={() => navigate(`/profile/${follow?.userId}`)}
                                     className="following-profile-visit">Back to Profile page

@@ -5,8 +5,26 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
 
 
+# The workings of the code are as follows:
+#
+# Data Retrieval: The fetch_data method is used to fetch the last 1500 data points for the specified symbol.
+# Each row of data corresponds to a 1-5-15-minute time interval and includes the opening (open),
+# highest (high), lowest (low), and closing (close) prices.
+#
+# Data Preparation: The prepare_features method is used to append the next closing price (next_close) to each row.
+# This is the target variable we are trying to predict.
+#
+# Model Training: The train_model method is used to train the model.
+# At this stage, the model uses the opening, closing, highest,
+# and lowest prices as input and tries to predict the next closing price.
+# The model is trained using a K-Nearest Neighbors Regressor,
+# which makes predictions based on the average of the target values of the specified number of (in this case 5) nearest neighbors.
+#
+# Prediction: The predict_next_close method is used for the model to make a prediction about the next closing price based on the given input data.
+
 class StockPredictor:
 
+    # Bu method'da Binance modelinden son 1500 datayi cekiyoruz. 1500 cekmemizin sebebi Binance'in bize verdiyi max limit bu.
     @classmethod
     def fetch_data(cls, user, symbol, timeframe):
         klines = user.futures_klines(symbol=symbol, interval=timeframe, limit=1500)

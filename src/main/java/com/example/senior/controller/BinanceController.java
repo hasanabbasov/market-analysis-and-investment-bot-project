@@ -32,9 +32,8 @@ public class BinanceController {
     }
 
     @GetMapping("/getData/{userId}")
-    public ResponseEntity<BinanceEntity> getDataByUserId(@PathVariable("userId") Long userId) {
-        Optional<BinanceEntity> binanceEntity = binanceService.findByUserId(userId);
-        return binanceEntity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public BinanceEntity getDataByUserId(@PathVariable("userId") Long userId) {
+        return binanceService.findByUserId(userId);
     }
 
     @PutMapping("/update")

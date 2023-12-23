@@ -5,14 +5,8 @@ import LeftFutureIcon from "./LeftFutureIcon";
 const LeftSide = () => {
     return (
         <div>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
-            <LeftFutureIcon/>
+            <LeftFutureIcon logo={"BitcoinLogo"} text={"Filter Bitcoin news."}/>
+            <LeftFutureIcon logo={"ETHLogo"} text={"Filter Ethereum news."} />
         </div>
     );
 };

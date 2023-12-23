@@ -13,11 +13,12 @@ const TopGainersAnsLosers = () => {
     const [topLoserData, setTopLoserData] = useState('');
     const [topGainersData, setTopGainersData] = useState('');
     const [show, setShow] = useState("Losers");
+    const userId = localStorage.getItem("currentUserId")
     console.log("topLoserData", topLoserData)
     console.log("topGainersData", topGainersData)
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/top_change")
+        fetch(`http://127.0.0.1:5000/top_change?userId=${userId}`)
             .then((response) => response.json())
             .then((res) => {
                 setTopGainersData(res.gainers);

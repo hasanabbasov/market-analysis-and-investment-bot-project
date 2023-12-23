@@ -14,8 +14,8 @@ import javax.persistence.*;
 @ToString
 public class BotEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = 600, name = "user_id", nullable = false)
+    private Long userId;
     @Column(name = "asset", nullable = false)
     private String asset;
     @Column(name = "interval", nullable = false)

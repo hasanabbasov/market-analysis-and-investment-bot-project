@@ -53,7 +53,7 @@ const ActiveInvestCard = (data) => {
 
     return (
         <div style={{paddingTop:'20px', marginLeft:"-7px"}}>
-            <Table columns={columns} dataSource={tableData} onChange={onChange} pagination={{pageSize: 6}} title={() => <strong>Active Varliklar</strong>}  style={{boxShadow:' 0 4px 6px rgba(2, 56, 98, 0.9)',border:'1px solid #2C3E50',borderRadius:'10px' }}/>
+            <Table columns={columns} dataSource={tableData} onChange={onChange} pagination={{pageSize: 6}} title={() => <strong>Active Assets</strong>}  style={{boxShadow:' 0 4px 6px rgba(2, 56, 98, 0.9)',border:'1px solid #2C3E50',borderRadius:'10px' }}/>
         </div>
     );
 };

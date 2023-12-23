@@ -452,6 +452,18 @@ class BinanceClientOrderQtyHandler:
 
             print(str(text))
 
+#
+# BinanceClient örneği ve sembol bilgisi parametre olarak alınır.
+# current_lot_price değişkeni, BinanceClientBridgeFunctions modülündeki get_from_futures_symbol_ticker işlevi kullanılarak kullanıcının belirli sembol için güncel fiyatını alır.
+# current_wallet_balance değişkeni, BianceClientPropertyHandler modülündeki get_asset_property işlevi kullanılarak kullanıcının cüzdan bakiyesini alır.
+# step_size değişkeni, BianceClientPropertyHandler modülündeki get_symbol_property işlevi kullanılarak sembol için adım büyüklüğünü alır.
+# notional değişkeni, BianceClientPropertyHandler modülündeki get_symbol_property işlevi kullanılarak sembol için minimum değeri alır.
+# aimed_quantity, kullanıcının hedeflediği her bir pozisyon için hesaplanan miktarı belirli bir adım büyüklüğüne yuvarlar.
+# aimed_cost, hedeflenen miktarı güncel fiyatla çarparak elde eder.
+# Eğer hedeflenen maliyet, mevcut cüzdan bakiyesinden yüksekse, "Hesap, {} sembolü için sipariş açmak için yeterli bakiyeye sahip değil." şeklinde bir hata mesajı yazdırır ve None değeri döndürür.
+# Eğer hedeflenen maliyet, minimum notional değerinden düşükse, "Hedeflenen maliyet, {} sembolü için minimum notional değerinden düşüktür." şeklinde bir hata mesajı yazdırır ve None değeri döndürür.
+# Eğer hedeflenen miktar, adım büyüklüğünden düşükse, "Hedeflenen miktar, {} sembolü için adım büyüklüğünden düşüktür." şeklinde bir hata mesajı yazdırır ve None değeri döndürür.
+# Yukarıdaki hata kontrollerinden geçen durumlarda, hesaplanan miktarı ondalık bir sayı olarak döndürür.
     @staticmethod
     def __calculate_qty_to_open_order(user: BinanceClient, symbol: str) -> Union[float, None]:
 

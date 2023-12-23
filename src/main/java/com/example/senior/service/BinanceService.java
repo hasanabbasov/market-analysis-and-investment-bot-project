@@ -5,6 +5,7 @@ import com.example.senior.entity.PostEntity;
 import com.example.senior.repository.BinanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +30,8 @@ public class BinanceService {
         binanceRepository.save(binanceEntity);
     }
 
-    public Optional<BinanceEntity> findByUserId(Long userId) {
-        return Optional.ofNullable(binanceRepository.findByUserId(userId));
+    @Transactional
+    public BinanceEntity findByUserId(Long userId) {
+        return binanceRepository.findByUserId(userId);
     }
 }

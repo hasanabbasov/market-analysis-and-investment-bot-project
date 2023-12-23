@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Main from './page/dashboard/index'
@@ -24,17 +24,33 @@ export default function App() {
     const userId = localStorage.getItem("currentUserId")
     const userNick = localStorage.getItem("currentUserName")
     const apikey = localStorage.getItem("apiKey")
+    const [binanceInfoModalData, setBinanceInfoModalData ] = useState('');
 
     useEffect(() => {
         // console.log("Hello")
-        fetch(`http://localhost:8080/binance/getData/${userId}`)
+        fetch(`/binance/getData/${userId}`)
             .then((response) => response.json())
             .then((res) => {
-                localStorage.setItem("apiKey", res.apiKey);
-                localStorage.setItem("secrutyKey", res.secrutyKey);
+                setBinanceInfoModalData(res)
+                console.log("BinanInfo",res)
+                // localStorage.setItem("apiKey", res.apiKey);
+                // localStorage.setItem("secrutyKey", res.secrutyKey);
                 // console.log("binnanceGelen", res)
             })
             .catch((error) => console.error("Error: ", error))
+
+
+        // fetch(`/binance/getData/${userId}`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({currentUserId : userId,
+        //         urlId : null}),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => console.log("currenUserId send to flask" , data))
+        //     .catch((error) => console.log(error));
 
     }, [])
 
@@ -42,12 +58,12 @@ export default function App() {
         <>
             <Router>
                 <Header/>
-                <BinanceModal/>
+                <BinanceModal binanceInfoModalData={binanceInfoModalData}/>
                 <Routes>
                     <Route path="/" element={<OpenPage/>}/>
                     {localStorage.getItem("currentUserName") != null ? <Route path="/chart" element={<Chart/>}/> :
                         <Route path="/login" element={<Login/>}/>}
-                    {localStorage.getItem("currentUserName") != null ? <Route path="/dashboard" element={<Main/>}/> :
+                    {localStorage.getItem("currentUserName") != null ? <Route path="/dashboard" element={<Main binanceInfoModalData={binanceInfoModalData}/>}/> :
                         <Route path="/login" element={<Login/>}/>}
                     {localStorage.getItem("currentUserName") != null ?
                         <Route path="/history" element={<HistoryPage/>}/> : <Route path="/login" element={<Login/>}/>}
@@ -72,7 +88,7 @@ export default function App() {
                     {localStorage.getItem("currentUserName") != null ? <Route path="/social-media/user/:userId" element={<OtherUserProfile/>}/> :
                         <Route path="/login" element={<Login/>}/>}
 
-                    <Route path="/test" element={<BinanceModal apikey={apikey}/>}/>
+                    <Route path="/test" element={<BinanceModal/>}/>
                     <Route path="//output" element={<Output/>}/>
                 </Routes>
             </Router>

@@ -1,6 +1,7 @@
 package com.example.senior.controller;
 
 import com.example.senior.dto.UserContactDTO;
+import com.example.senior.entity.BinanceEntity;
 import com.example.senior.entity.ProfileEntity;
 import com.example.senior.entity.UsersEntity;
 import com.example.senior.repository.ProfileRepository;
@@ -93,6 +94,11 @@ public class UserController {
         profile.setUser(user); // User ilişkisini ayarlayın
 
         user.setProfile(profile); // User ile Profile arasındaki ilişkiyi ayarlayın
+
+        BinanceEntity binanceEntity = new BinanceEntity();
+        // Set properties for the binance entity...
+        binanceEntity.setUser(user);
+        user.setChart(binanceEntity);
 
         userService.saveOneUser(user);
         profileRepository.save(profile); // Profili kaydedin

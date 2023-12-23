@@ -1,7 +1,6 @@
-from flask import Flask, jsonify, session
-from flask_cors import CORS, cross_origin
+from flask import Flask, jsonify
+from flask_cors import CORS
 from binance.enums import *
-import requests
 from flask import request
 from binance.client import Client
 from binance.exceptions import BinanceAPIException
@@ -10,57 +9,61 @@ import threading
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from sqlalchemy import text
-
-# from MlModel import StockPredictor
-
 from ModelingWithMl import StockPredictor
 import bot
-import time
-import json
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 CORS(app)
 
-
-# Chart tablosundan API anahtarlarını ve güvenlik anahtarlarını çek
-def get_chart_api_keys():
+global_userId = 1
+def get_user_data_from_db(user_id):
     with app.app_context():
-        result = db.session.execute(text("SELECT api_key, secruty_key FROM chart LIMIT 1"))
+        result = db.session.execute(text(f"SELECT api_key, secruty_key FROM binance WHERE user_id = :user_id LIMIT 1"), {'user_id': user_id})
         row = result.fetchone()
         if row:
             api_keys = row[0]
             security_keys = row[1]
-            return api_keys, security_keys
+            return  api_keys, security_keys
         else:
             raise Exception("API anahtarları bulunamadı.")
 
 
-# Chart tablosundan API anahtarları ve güvenlik anahtarlarını al
-api_keys, security_keys = get_chart_api_keys()
-
-print("api_keys", api_keys)
-print("security_keys", security_keys)
-
-# API anahtarınızı ve gizli anahtarınızı buraya girin
-# api_key = 'zZbx7snepP5Sq0VXpKRGqvxADBXsDnw3IU14IBzmwKN9GdqFANxsYXgFgSG2KOFv'
-# api_secret = 'jB0HqOKW8W6TP0oHAf2TBWtv1lc8bUKgLKo8lJKUGo2mCCiqN8xvFynZfvqtMT5k'
-
-# Binance API'sine bağlanın
-client = Client(api_keys, security_keys)
-
-
-# Binance hesap bilgilerini almak için yardımcı fonksiyon
-def get_account_info():
-    account_info = client.get_account()
-    return account_info
+# Symbol: Pozisyonun geçerli olduğu varlık çifti.
+# Size: Pozisyon büyüklüğü.
+# Entry Price: Pozisyonun açılış fiyatı.
+# Mark Price: Pozisyonun mevcut piyasa fiyatı.
+# Unrealized PNL (ROE%): Gerçekleşmemiş kar veya zarar (Yatırım getirisi yüzdesi).
+@app.route('/futures_positions', methods=['GET'])
+def get_futures_positions():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
+    futures_positions = client.futures_position_information()
+    open_positions = [position for position in futures_positions if float(position['positionAmt']) != 0]
+    # Döndürmek istediğimiz bilgilere göre pozisyon bilgilerini filtreliyoruz
+    formatted_positions = []
+    for position in open_positions:
+        formatted_position = {
+            'Symbol': position['symbol'],
+            'Size': float(position['positionAmt']),
+            'Entry Price': float(position['entryPrice']),
+            'Mark Price': float(position['markPrice']),
+            'Unrealized PNL (ROE%)': float(position['unRealizedProfit'])
+        }
+        formatted_positions.append(formatted_position)
+    return jsonify(formatted_positions)
 
 
 # Bu kod bakiye bilgimi cekiyor ve ardindan piyasadaki fiyat bilgilerini ceker ve total fiyati ile carpar;
+
 @app.route('/active_invest', methods=['GET'])
 def get_active_invest():
-    account_info = get_account_info()
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
+    account_info = client.get_account()
     balances = {}
     for balance in account_info['balances']:
         asset = balance['asset'] + "USDT"
@@ -81,47 +84,25 @@ def get_active_invest():
     return jsonify(filtered_data)
 
 
-
 @app.route('/btc_price_last_24_hours', methods=['GET'])
 def get_btc_price_last_24_hours():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     now = datetime.now()
     twenty_four_hours_ago = now - timedelta(hours=24)
 
-    klines = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1HOUR, twenty_four_hours_ago.strftime("%d %b %Y %H:%M:%S"), now.strftime("%d %b %Y %H:%M:%S"))
+    klines = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1HOUR,
+                                          twenty_four_hours_ago.strftime("%d %b %Y %H:%M:%S"),
+                                          now.strftime("%d %b %Y %H:%M:%S"))
 
     hourly_prices = {}
     for kline in klines:
-        time_end = datetime.utcfromtimestamp(int(kline[6])/1000).strftime('%H:%00') #  kline data is in milliseconds
+        time_end = datetime.utcfromtimestamp(int(kline[6]) / 1000).strftime('%H:%00')  # kline data is in milliseconds
         avg_price = (float(kline[2]) + float(kline[3])) / 2  # Calculating average between high and low prices
         hourly_prices[time_end] = avg_price
 
     return jsonify(hourly_prices)
-
-
-
-
-
-# Symbol: Pozisyonun geçerli olduğu varlık çifti.
-# Size: Pozisyon büyüklüğü.
-# Entry Price: Pozisyonun açılış fiyatı.
-# Mark Price: Pozisyonun mevcut piyasa fiyatı.
-# Unrealized PNL (ROE%): Gerçekleşmemiş kar veya zarar (Yatırım getirisi yüzdesi).
-@app.route('/futures_positions', methods=['GET'])
-def get_futures_positions():
-    futures_positions = client.futures_position_information()
-    open_positions = [position for position in futures_positions if float(position['positionAmt']) != 0]
-    # Döndürmek istediğimiz bilgilere göre pozisyon bilgilerini filtreliyoruz
-    formatted_positions = []
-    for position in open_positions:
-        formatted_position = {
-            'Symbol': position['symbol'],
-            'Size': float(position['positionAmt']),
-            'Entry Price': float(position['entryPrice']),
-            'Mark Price': float(position['markPrice']),
-            'Unrealized PNL (ROE%)': float(position['unRealizedProfit'])
-        }
-        formatted_positions.append(formatted_position)
-    return jsonify(formatted_positions)
 
 
 # Bu örnekte, tüm çiftlerin 24 saatlik fiyat değişimlerini alıyoruz ve en çok değer kazanan veya kaybeden ilk 10 çifti döndürüyoruz.
@@ -158,6 +139,9 @@ def get_futures_positions():
 # quoteVolume: Son 24 saatte ticareti gerçekleştirilen Amerikan Doları miktarını temsil eder.
 @app.route('/top_change', methods=['GET'])
 def get_top_change():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     tickers = client.get_ticker()
 
     # Tüm çiftler için 24 saatlik fiyat değişimlerini alın
@@ -176,6 +160,9 @@ def get_top_change():
 
 @app.route('/top_volume', methods=['GET'])
 def get_top_volume():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     tickers = client.get_ticker()
 
     # Tüm çiftler için 24 saatlik işlem hacmini alın
@@ -185,16 +172,53 @@ def get_top_volume():
         volume = ticker['weightedAvgPrice']
         volume_changes[symbol] = float(volume)
 
-    # En yüksek işlem hacmine sahip 10 çifti ve en düşük işlem hacmine sahip 10 çifti bulun
+    # En yüksek işlem hacmine sahip 20 çifti ve en düşük işlem hacmine sahip
     top_high_volume = dict(sorted(volume_changes.items(), key=lambda item: item[1], reverse=True)[:19])
     # top_low_volume = dict(sorted(volume_changes.items(), key=lambda item: item[1])[:10])
 
     return jsonify({'high_volume': top_high_volume})
 
 
+# TODO
+# burasi 1002 hatasi veriyor arastir
 
-@app.route('/usdt_spot_balance')
+@app.route('/futures_income_history')
+def futures_income_history():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
+    asset = 'USDT'
+    amount = float(1)
+    types = "1"
+    account_info = client.futures_account_transfer(asset=asset, amount=amount, type=types)
+    print("account_info", account_info)
+    return account_info
+
+
+# profile karti icin kullaniliyor
+@app.route('/usdt_future_balance', methods=['POST'])
+def get_account_future_balance():
+    data = request.json
+    userId = data.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
+    try:
+        # Binance vadeli hesap bakiyesini alın
+        futures_account = client.futures_account()
+        # Sadece availableBalance ve totalWalletBalance bilgilerini içeren bir JSON nesnesi oluşturun
+        result = {'availableBalance': futures_account['availableBalance'],
+                  'totalWalletBalance': futures_account['totalWalletBalance']}
+        return result
+    except BinanceAPIException as e:
+        return str(e)
+
+
+@app.route('/usdt_spot_balance', methods=['POST'])
 def get_account_spot_balance():
+    data = request.json
+    userId = data.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     try:
         # Binance spot hesap bakiyesini alın
         account = client.get_account()
@@ -207,36 +231,12 @@ def get_account_spot_balance():
         return str(e)
 
 
-# TODO
-# burasi 1002 hatasi veriyor arastir
-
-@app.route('/futures_income_history')
-def futures_income_history():
-    asset = 'USDT'
-    amount = float(1)
-    types = "1"
-    account_info = client.futures_account_transfer(asset=asset, amount=amount, type=types)
-    print("account_info", account_info)
-    return account_info
-
-
-# profile karti icin kullaniliyor
-@app.route('/usdt_future_balance')
-def get_account_future_balance():
-    try:
-        # Binance vadeli hesap bakiyesini alın
-        futures_account = client.futures_account()
-        # Sadece availableBalance ve totalWalletBalance bilgilerini içeren bir JSON nesnesi oluşturun
-        result = {'availableBalance': futures_account['availableBalance'],
-                  'totalWalletBalance': futures_account['totalWalletBalance']}
-        return result
-    except BinanceAPIException as e:
-        return str(e)
-
-
 # Slect Box icin kullaniliyor
 @app.route('/usdt_symbols')
 def get_usdt_symbols():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     exchange_info = client.get_exchange_info()
     exchange_info_symbols = exchange_info['symbols']
     USDT_symbols = []
@@ -249,6 +249,8 @@ def get_usdt_symbols():
 
 @app.route('/top')
 def get_top_gainers():
+    api_keys, security_keys = get_user_data_from_db(10)
+    client = Client(api_keys, security_keys)
     # Get all USDT trading pairs
     exchange_info = client.get_exchange_info()
     usdt_pairs = [pair['symbol'] for pair in exchange_info['symbols'] if pair['quoteAsset'] == 'USDT']
@@ -288,6 +290,8 @@ def get_top_gainers():
 
 @app.route('/new-list')
 def get_new_listing():
+    api_keys, security_keys = get_user_data_from_db(10)
+    client = Client(api_keys, security_keys)
     # Calculate date range
     end_date = datetime.utcnow()
     start_date = end_date - timedelta(days=90)
@@ -314,19 +318,21 @@ def get_new_listing():
     return str(new_listings)
 
 
-
 # TODO
 @app.route('/transfer_to_futures', methods=['POST'])
 def transfer_to_futures():
+    data = request.get_json()
+    userId = data.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     try:
-        data = request.get_json()
         asset = data.get('asset')
         amount = data.get('amount')
         type = data.get("type")
-        print("asset",asset)
-        print("amount",amount)
-        print("type",type)
-        print("",)
+        print("asset", asset)
+        print("amount", amount)
+        print("type", type)
+        print("", )
         if not asset or not amount:
             return jsonify({'error': 'Asset ve amount parametreleri gereklidir.'}), 400
         # Transferi gerçekleştir
@@ -340,6 +346,10 @@ def transfer_to_futures():
 @app.route('/buy', methods=['POST'])
 def buy():
     data = request.json
+    userId = data['userId']
+    print("userId", userId)
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     symbol = data['symb']
     amount = data['amount']
     print("symbol", symbol)
@@ -359,6 +369,9 @@ def buy():
 @app.route('/sell', methods=['POST'])
 def sell():
     data = request.json
+    userId = data['userId']
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     symbol = data['symb']
     amount = data['amount']
     print("symbol", symbol)
@@ -389,6 +402,9 @@ def chart_history_post():
 
 @app.route('/chart-history', methods=['GET'])
 def chart_history():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     date = str(request.args.get('date'))
     lastDate = str(request.args.get('lastDate'))
     symbol = request.args.get('symbol')
@@ -417,7 +433,12 @@ def chart_history():
 # Trader botunu baslatir ve durdurur
 @app.route('/start_bot', methods=['POST'])
 def start_bot_route():
+    userId = request.args.get('userId')
+    api_keys, security_keys = get_user_data_from_db(userId)
+    client = Client(api_keys, security_keys)
     symbol = request.args.get('symbol')
+    symbol = symbol.rstrip('USDT')
+    print("symbol", symbol)
     interval = request.args.get('interval')
     print("symbol", symbol)
     print("interval", interval)
@@ -426,7 +447,7 @@ def start_bot_route():
             api_key=api_keys,
             api_secret=security_keys,
             quote_asset="USDT",
-            base_asset="MASK",
+            base_asset=symbol,
             interval=KLINE_INTERVAL_1MINUTE,
             aimed_cost_per_position=10
         )
@@ -442,7 +463,7 @@ def stop_bot_route():
     return jsonify({"status": "success", "message": "Bot durduruldu."}), 200
 
 
-# Ml analysis;i baslatir ve durdurur
+# Ml analysis'i baslatir ve durdurur
 @app.route('/real_close', methods=['GET'])
 def get_real_close():
     symbol = request.args.get('symbol')

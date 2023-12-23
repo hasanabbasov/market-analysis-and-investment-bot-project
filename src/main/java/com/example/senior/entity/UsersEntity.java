@@ -40,6 +40,11 @@ public class UsersEntity {
     private ProfileEntity profile;
 
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private BinanceEntity chart;
+
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(

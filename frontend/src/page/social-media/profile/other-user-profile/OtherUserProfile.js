@@ -37,11 +37,18 @@ const OtherUserProfile = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then((response) => response.json())
+        })
+            .then((response) => response.json())
             .then((res) => {
-                console.log("Success: ", res)
+                console.log("Success: ", res);
+                window.location.reload();
             })
-    }
+            .catch((error) => {
+                console.error("Error: ", error);
+            })
+            .finally(() => window.location.reload());
+    };
+
 
     const unfollowUser = () => {
         fetch(`/users/${currentUserId}/unfollow/${userId}`, {
@@ -49,12 +56,16 @@ const OtherUserProfile = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then((response) => response.json())
+        })
+            .then((response) => response.json())
             .then((res) => {
-                console.log("Success: ", res)
+                console.log("Success: ", res);
+                window.location.reload();
             })
             .catch(console.error)
-    }
+            .finally(() => window.location.reload());
+    };
+
 
 
     // profileImageUrl

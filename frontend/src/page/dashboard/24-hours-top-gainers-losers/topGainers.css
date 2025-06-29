@@ -1,0 +1,52 @@
+.gainers-background {
+    background: #b1d9ff;
+    border-color: black;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    color: #000000;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+}
+
+.gainers-button-active {
+    background: #2C3E50;
+    border-color: black;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px 31.5px 10px 30.5px;
+
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.gainers-button-passive {
+    background: transparent;
+    padding: 10px 31.5px 10px 31.5px;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+
+}
+
+.top-gainers-table {
+    position: relative;
+}
+
+
+.top-gainers-table:hover::after {
+    content: "Son 24 saatteki fiyat değişim yüzdesini temsil eder.";
+    position: absolute;
+    display: block;
+    background-color: #ffffff;
+    padding: 5px;
+    top: -25%;
+    left: 0;
+    border: 1px solid #000000;
+    z-index: 1;
+}

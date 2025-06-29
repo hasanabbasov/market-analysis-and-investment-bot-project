@@ -1,0 +1,21 @@
+#
+# asset: Bu parametre transfer edeceğiniz kripto para biriminin simgesini belirtir. Örneğin, 'BTC' veya 'ETH' gibi.
+# amount: Bu parametre transfer edeceğiniz miktarı belirtir.
+# type: # Bu parametre transfer türünü belirtir. Spot hesaptan futures hesaba transfer yapmak için 1, futures hesaptan spot hesaba transfer yapmak için 2 değerini kullanabilirsiniz.
+#
+# Bu endpoint'i kullanarak bir POST isteği ile asset ve amount parametrelerini JSON olarak göndermeniz gerekir. Dönen sonuç da transfer işleminin sonucunu JSON formatında içerecektir.
+
+# @app.route('/transfer_to_futures', methods=['POST'])
+# def transfer_to_futures():
+#     try:
+#         data = request.get_json()
+#         asset = data.get('asset')
+#         amount = data.get('amount')
+#         type = data.get("type")
+#         if not asset or not amount:
+#             return jsonify({'error': 'Asset ve amount parametreleri gereklidir.'}), 400
+#         # Transferi gerçekleştir
+#         result = client.futures_account_transfer(asset=asset, amount=amount, type=type)
+#         return jsonify(result)
+#     except BinanceAPIException as e:
+#         return jsonify({'error': str(e)}), 400

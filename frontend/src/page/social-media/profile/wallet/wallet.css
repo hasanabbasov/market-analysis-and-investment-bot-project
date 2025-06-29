@@ -1,0 +1,14 @@
+.profile-wallet-top-button {
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 4px solid #b1d9ff;
+}
+
+/* App.css or a similar global CSS file */
+.custom-table .ant-table {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

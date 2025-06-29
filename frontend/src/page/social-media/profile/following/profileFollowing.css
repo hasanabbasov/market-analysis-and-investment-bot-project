@@ -1,0 +1,51 @@
+.profile-following-contact-paper {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    /*margin-left: 10px;*/
+    font-weight: 600;
+    font-size: 18px;
+    border: 1px solid #d1e9ff;
+}
+
+
+.profile-following-first-background {
+    margin: 0 10px 0 10px;
+    padding: 10px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 53%;
+}
+
+
+.following-unfollow-botton {
+    margin-left: 10px;
+    display: flex;
+    max-height: 40px;
+    max-width: 150px!important;
+    align-items: center;
+    justify-content: center;
+    background:  #fc4b4b;
+    border-color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 7px 25px 7px 25px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.following-unfollow-botton:hover {
+    display: flex;
+    max-height: 40px;
+    max-width: 150px!important;
+    align-items: center;
+    justify-content: center;
+    background: #772626;
+    border-color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 7px 25px 7px 25px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}

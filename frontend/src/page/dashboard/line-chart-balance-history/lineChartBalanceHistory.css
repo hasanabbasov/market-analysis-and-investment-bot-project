@@ -1,0 +1,11 @@
+.line-chart-balance-history {
+    border-radius: 14px;
+    padding: 10px;
+    border: 1px solid #2C3E50; /* Koyu siyah kalın çizgi */
+    height: 260px;
+    width: 104%;
+    font-weight: bold;
+    background: #F8F9FA;
+    box-shadow: 0 4px 6px rgba(2, 56, 98, 0.9);
+    /*color: red;*/
+}

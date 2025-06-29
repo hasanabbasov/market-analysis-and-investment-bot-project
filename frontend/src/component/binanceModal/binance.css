@@ -1,0 +1,11 @@
+input {
+    background: rgba(239, 242, 245, 0.56);
+    border-radius: 14px;
+    height: 45px;
+}
+
+.binance-submit-button {
+    background: #2C3E50;
+    color: white;
+    cursor: pointer
+}

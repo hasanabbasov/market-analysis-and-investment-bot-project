@@ -1,0 +1,160 @@
+.header-background {
+    height: 80px !important;
+    background: #2C3E50;
+    display: flex;
+    align-items: center;
+}
+
+.header-background-social-media {
+    min-height: 70px;
+    background: #2C3E50;
+    display: flex;
+    padding-right: 50px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+
+.header-app-logo {
+    margin: 8px 10px 8px 16px ;
+    cursor: pointer;
+}
+
+.navbar__leftbar {
+    display: flex;
+}
+
+.header-left-side-logo {
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+}
+
+.navbar__search {
+    height: 40px;
+    width: 190px;
+    border-radius: 25px;
+    border: 0px;
+    background-color: #EFF2F5;
+    font-size: 16px;
+    padding-left: 30px;
+}
+
+.navbar__container {
+    display: flex;
+    justify-content: center;
+}
+
+.website-name {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    padding-right: 20px;
+    font-family: "Poppins", sans-serif;
+}
+
+.navbar__tabs {
+    width: 120px;
+    height: 45px;
+}
+
+.header-logo-title {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-right: 55px;
+    color: white;
+    align-items: center;
+    cursor: pointer;
+}
+
+.back-to-social-media-icon {
+    padding-top: 13px;
+    width: 35px;
+    height: 45px;
+    color: white;
+}
+
+.header-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-righttab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-profile-page {
+    margin-right: 10px;
+    max-width: 70px;
+    max-height: 70px;
+    cursor: pointer;
+}
+
+.navbar-profilename{
+    font-weight: 400;
+    color: white;
+    font-size:20px;
+}
+
+.social-media-botton {
+    background: white;
+    border-color: black;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
+    padding-right: 25px;
+    color: black;
+    cursor: pointer;
+}
+
+.back-to-social-media {
+    color: white;
+
+}
+
+.MuiPaper-root.MuiMenu-paper.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-1ka5eyc-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
+    top: 0!important;
+    left: 82% !important;
+    margin-top: 62px;
+}
+
+
+.search-container {
+    position: relative;
+    /* other styles as needed */
+}
+
+.search-results {
+    position: absolute;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.search-result {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-bar-user-background {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+}
+
+.search-bar-user-background:hover {
+    background: #2C3E50;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    color: white;
+}
+

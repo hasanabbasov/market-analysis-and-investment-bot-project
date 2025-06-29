@@ -1,90 +1,309 @@
-# Market Analysis and Investment Bot Project
+# 🚀 Market Analysis and Investment Bot Project
 
-## Getting started
+<div align="center">
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+![Market Analysis Bot](https://img.shields.io/badge/Market%20Analysis-Investment%20Bot-gold?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-17+-red?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.6.3-brightgreen?style=for-the-badge&logo=springboot)
+![React](https://img.shields.io/badge/React-18.2+-blue?style=for-the-badge&logo=react)
+![Python](https://img.shields.io/badge/Python-3.8+-green?style=for-the-badge&logo=python)
+![Flask](https://img.shields.io/badge/Flask-2.3+-black?style=for-the-badge&logo=flask)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue?style=for-the-badge&logo=postgresql)
+![Binance](https://img.shields.io/badge/Binance-API-yellow?style=for-the-badge&logo=binance)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+</div>
 
-## Add your files
+A comprehensive cryptocurrency trading and investment platform that combines automated trading, machine learning predictions, and social media features for crypto enthusiasts.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## 📋 Table of Contents
+- [Features](#features)
+- [User Interface](#user-interface)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+
+## ✨ Features
+
+### 🤖 Automated Trading Bot
+- **Real-time Trading**: Automated buy/sell operations on Binance
+- **EMA Strategy**: Uses 89-period Exponential Moving Average for trading decisions
+- **Risk Management**: Configurable position sizing and stop-loss mechanisms
+- **24/7 Monitoring**: Continuous market monitoring and execution
+
+### 🧠 Machine Learning Predictions
+- **Price Prediction**: K-Nearest Neighbors algorithm for next-close price prediction
+- **Technical Analysis**: Integrated with multiple technical indicators
+- **Historical Data**: Utilizes 1500+ data points for accurate predictions
+- **Real-time Updates**: Live prediction updates based on market movements
+
+### 👥 Social Trading Platform
+- **User Profiles**: Create and customize trading profiles
+- **Follow Traders**: Follow successful traders and copy their strategies
+- **Investment Sharing**: Share your trading decisions and insights
+- **Community Feed**: Real-time feed of trading activities and discussions
+
+### 📊 Portfolio Management
+- **Real-time Balance**: Live portfolio tracking across spot and futures
+- **P&L Analysis**: Detailed profit/loss calculations
+- **Position Monitoring**: Track open positions and their performance
+- **Historical Reports**: Comprehensive trading history and analytics
+
+### 📈 Market Analysis
+- **Price Charts**: Interactive candlestick charts with technical indicators
+- **Market Data**: Real-time price feeds and market statistics
+- **Top Gainers/Losers**: Track best and worst performing cryptocurrencies
+- **Volume Analysis**: Monitor trading volumes and market trends
+
+## 🎨 User Interface
+
+### Main Page
+The platform features a modern and user-friendly interface. The impressive design that welcomes users on the main page:
+
+![Main Page](main_page_photo.jpeg)
+
+*Market Analysis & Investment Bot platform's main page - Professional interface specially designed for cryptocurrency trading and investment management*
+
+### Features
+- **Modern Design**: Responsive and mobile-friendly interface
+- **Easy Navigation**: Intuitive menu structure and user experience
+- **Real-time Data**: Live charts and market data
+- **Secure Login**: JWT-based secure authentication system
+- **Multi-language Support**: Turkish and English language options
+
+## 🛠️ Technology Stack
+
+### Backend
+- **Java Spring Boot 2.6.3**: Main API server with JWT authentication
+- **Python Flask**: Trading bot and ML prediction engine
+- **PostgreSQL**: Primary database for user data and trading history
+- **Binance API**: Cryptocurrency exchange integration
+
+### Frontend
+- **React 18.2.0**: Modern, responsive user interface
+- **Material-UI & Ant Design**: Beautiful UI components
+- **Chart.js & Recharts**: Interactive trading charts
+- **Axios**: HTTP client for API communication
+
+### Machine Learning
+- **scikit-learn**: K-Nearest Neighbors for price prediction
+- **pandas**: Data manipulation and analysis
+- **Technical Analysis Library (ta)**: Technical indicators calculation
+
+## 📁 Project Structure
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/hasanabbasov/senior.git
-git branch -M main
-git push -uf origin main
+market-analysis-and-investment-bot-project/
+├── src/main/java/com/example/senior/          # Java Spring Boot Backend
+│   ├── controller/                            # REST API Controllers
+│   │   ├── UserController.java               # User management
+│   │   ├── BinanceController.java            # Binance integration
+│   │   ├── BotController.java                # Trading bot control
+│   │   ├── AnalysisController.java           # Market analysis
+│   │   └── ...
+│   ├── entity/                               # JPA Entities
+│   │   ├── UsersEntity.java                  # User data model
+│   │   ├── BinanceEntity.java                # Binance credentials
+│   │   ├── PostEntity.java                   # Social media posts
+│   │   └── ...
+│   ├── service/                              # Business logic
+│   ├── repository/                           # Data access layer
+│   └── security/                             # JWT security config
+├── frontend/                                 # React Frontend
+│   ├── src/
+│   │   ├── page/                            # Main application pages
+│   │   │   ├── dashboard/                   # Trading dashboard
+│   │   │   ├── charts/                      # Chart analysis
+│   │   │   ├── social-media/                # Social trading
+│   │   │   ├── invest-bot/                  # Bot management
+│   │   │   └── analysis/                    # Market analysis
+│   │   ├── component/                       # Reusable components
+│   │   │   ├── header/                      # Navigation header
+│   │   │   ├── binanceModal/                # Binance API setup
+│   │   │   └── ...
+│   │   └── App.js                           # Main application component
+├── flask/                                   # Python Flask Backend
+│   ├── app.py                              # Main Flask application
+│   ├── bot.py                              # Trading bot implementation
+│   ├── ModelingWithMl.py                   # ML prediction models
+│   ├── config.py                           # Configuration settings
+│   └── test.py                             # Testing utilities
+└── pom.xml                                 # Maven dependencies
 ```
 
-## Integrate with your tools
+## 🔧 Prerequisites
 
-- [ ] [Set up project integrations](https://gitlab.com/hasanabbasov/senior/-/settings/integrations)
+Before running this project, make sure you have the following installed:
 
-## Collaborate with your team
+- **Java 17+**: For Spring Boot backend
+- **Node.js 14+**: For React frontend
+- **Python 3.8+**: For Flask backend and ML models
+- **PostgreSQL 12+**: For database
+- **Maven 3.6+**: For Java dependency management
+- **Binance Account**: For trading functionality
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## 📦 Installation
 
-## Test and Deploy
+### 1. Clone the Repository
+```bash
+git clone https://github.com/hasanabbasov/market-analysis-and-investment-bot-project.git
+cd market-analysis-and-investment-bot-project
+```
 
-Use the built-in continuous integration in GitLab.
+### 2. Backend Setup (Java Spring Boot)
+```bash
+# Install Java dependencies
+mvn clean install
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+# Run Spring Boot application
+mvn spring-boot:run
+```
+The Java backend will start on `http://localhost:8080`
 
-***
+### 3. Frontend Setup (React)
+```bash
+cd frontend
+npm install
+npm start
+```
+The React frontend will start on `http://localhost:3000`
 
-# Editing this README
+### 4. Python Flask Setup
+```bash
+cd flask
+pip install -r requirements.txt
+python app.py
+```
+The Flask backend will start on `http://localhost:5000`
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### 5. Database Setup
+```sql
+-- Create PostgreSQL database
+CREATE DATABASE market_analysis_db;
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+-- Update connection string in application.properties and config.py
+-- Spring Boot: src/main/resources/application.properties
+-- Flask: flask/config.py
+```
 
-## Name
-Choose a self-explaining name for your project.
+## ⚙️ Configuration
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### 1. Database Configuration
+Update database credentials in:
+- `src/main/resources/application.properties` (Spring Boot)
+- `flask/config.py` (Flask)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### 2. Binance API Setup
+1. Create a Binance account and generate API keys
+2. Add your API keys through the application's Binance modal
+3. Ensure API keys have futures trading permissions
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### 3. Environment Variables
+Create a `.env` file in the project root:
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=market_analysis_db
+DB_USER=your_username
+DB_PASSWORD=your_password
+JWT_SECRET=your_jwt_secret_key
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## 🚀 Usage
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Starting the Trading Bot
+1. Login to your account
+2. Navigate to the "Investment Bot" page
+3. Configure your trading parameters
+4. Click "Start Bot" to begin automated trading
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Using Machine Learning Predictions
+1. Go to the "Analysis" page
+2. Select a cryptocurrency pair
+3. View real-time predictions and historical accuracy
+4. Use predictions to inform your trading decisions
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### Social Trading
+1. Create your trader profile
+2. Follow other successful traders
+3. Copy their trading strategies automatically
+4. Share your own trading insights
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### Portfolio Monitoring
+1. Access the "Dashboard" for real-time portfolio overview
+2. Monitor your positions, P&L, and trading history
+3. View detailed charts and market analysis
+4. Set up alerts for price movements
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## 🔌 API Endpoints
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### Spring Boot Backend (Port 8080)
+- `POST /auth/login` - User authentication
+- `POST /auth/register` - User registration
+- `GET /user/profile` - Get user profile
+- `POST /binance/save` - Save Binance API credentials
+- `GET /bot/status` - Get trading bot status
+- `POST /bot/start` - Start trading bot
+- `POST /bot/stop` - Stop trading bot
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Flask Backend (Port 5000)
+- `GET /futures_positions` - Get futures positions
+- `GET /active_invest` - Get active investments
+- `GET /btc_price_last_24_hours` - Get BTC price history
+- `GET /top_change` - Get top gainers/losers
+- `POST /buy` - Execute buy order
+- `POST /sell` - Execute sell order
+- `GET /predicted_close` - Get ML price predictions
 
-## License
-For open source projects, say how it is licensed.
+## 🤝 Contributing
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Development Guidelines
+- Follow Java Spring Boot best practices
+- Use React functional components with hooks
+- Write clean, documented Python code
+- Include unit tests for new features
+- Update documentation for API changes
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ⚠️ Disclaimer
+
+**IMPORTANT**: This software is for educational and research purposes only. Cryptocurrency trading involves substantial risk of loss. The developers are not responsible for any financial losses incurred through the use of this software. Always trade responsibly and never invest more than you can afford to lose.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the documentation
+- Review existing issues and discussions
+
+## 🔮 Roadmap
+
+- [ ] Advanced ML models (LSTM, Transformer)
+- [ ] Mobile application
+- [ ] Multiple exchange support
+- [ ] Advanced portfolio analytics
+- [ ] Backtesting capabilities
+- [ ] Paper trading mode
+- [ ] Advanced risk management tools
+- [ ] Real-time notifications
+
+---
+
+**Happy Trading! 📈💰**

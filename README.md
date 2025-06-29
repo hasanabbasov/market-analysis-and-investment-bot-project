@@ -29,6 +29,16 @@ A comprehensive cryptocurrency trading and investment platform that combines aut
 - [Contributing](#contributing)
 - [License](#license)
 
+## 🎨 User Interface
+
+### Main Page
+The platform features a modern and user-friendly interface. The impressive design that welcomes users on the main page:
+
+![Main Page](main_page_photo.jpeg)
+
+*Market Analysis & Investment Bot platform's main page - Professional interface specially designed for cryptocurrency trading and investment management*
+
+
 ## ✨ Features
 
 ### 🤖 Automated Trading Bot
@@ -60,15 +70,6 @@ A comprehensive cryptocurrency trading and investment platform that combines aut
 - **Market Data**: Real-time price feeds and market statistics
 - **Top Gainers/Losers**: Track best and worst performing cryptocurrencies
 - **Volume Analysis**: Monitor trading volumes and market trends
-
-## 🎨 User Interface
-
-### Main Page
-The platform features a modern and user-friendly interface. The impressive design that welcomes users on the main page:
-
-![Main Page](main_page_photo.jpeg)
-
-*Market Analysis & Investment Bot platform's main page - Professional interface specially designed for cryptocurrency trading and investment management*
 
 ### Features
 - **Modern Design**: Responsive and mobile-friendly interface
